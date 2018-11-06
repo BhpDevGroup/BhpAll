@@ -1,0 +1,21 @@
+﻿{
+  "ApplicationConfiguration": {
+    "AppConfigs": {
+      "Development": 0
+    },
+    "Paths": {
+      "Chain": "Chain_{0}",
+      "Index": "Index_{0}",
+      "CertCache": "Certs"
+    },
+    "P2P": {
+      "Port": 20555,
+      "WsPort": 20556
+    },
+    "Urls": {
+      "AddressUrl": "https://exp.bhpa.io/address?address={0}",
+      "AssetUrl": "https://exp.bhpa.io/asset?id={0}",
+      "TransactionUrl": "https://exp.bhpa.io/txContent?txHash={0}"
+    }
+  }
+}
