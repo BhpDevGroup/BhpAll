@@ -1,0 +1,30 @@
+﻿#忽略所有文
+*
+# 不忽略目
+!*/
+# 不忽略gitignore
+!.gitignore
+!*.sln
+!*.cs
+!*.csproj
+!*.resx
+!*.json
+!*.config
+!*.settings
+!*.ico
+!*.png
+!*.bat
+
+!*.cpp
+!*.h
+!*.hpp
+
+!*.vcxproj
+!*.filters
+
+bin/
+/bin
+obj/
+/obj
+packages/
+/packages
