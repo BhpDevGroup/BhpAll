@@ -10,13 +10,13 @@ namespace Bhp.UI
         public OptionsDialog()
         {
             InitializeComponent();
-            textBox1.Lines = Settings.Default.NEP5Watched.OfType<string>().ToArray();
+            textBox1.Lines = Settings.Default.BRC20Watched.OfType<string>().ToArray();
         }
 
         private void Apply_Click(object sender, EventArgs e)
         {
-            Settings.Default.NEP5Watched.Clear();
-            Settings.Default.NEP5Watched.AddRange(textBox1.Lines.Where(p => !string.IsNullOrWhiteSpace(p) && UInt160.TryParse(p, out _)).ToArray());
+            Settings.Default.BRC20Watched.Clear();
+            Settings.Default.BRC20Watched.AddRange(textBox1.Lines.Where(p => !string.IsNullOrWhiteSpace(p) && UInt160.TryParse(p, out _)).ToArray());
             Settings.Default.Save();
         }
     }

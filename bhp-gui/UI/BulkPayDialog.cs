@@ -17,7 +17,7 @@ namespace Bhp.UI
                 {
                     comboBox1.Items.Add(new AssetDescriptor(asset_id));
                 }
-                foreach (string s in Settings.Default.NEP5Watched)
+                foreach (string s in Settings.Default.BRC20Watched)
                 {
                     UInt160 asset_id = UInt160.Parse(s);
                     try
