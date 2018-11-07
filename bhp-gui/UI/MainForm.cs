@@ -136,6 +136,13 @@ namespace Bhp.UI
                     Name = txid,
                     Tag = height
                 });
+
+                if (listView3.Items.Count > 100)
+                {
+                    listView3.Items.RemoveAt(listView3.Items.Count-1);
+                }
+
+                Application.DoEvents();
             }
         }
 
@@ -236,9 +243,16 @@ namespace Bhp.UI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (actor != null)
-                Program.BhpSystem.ActorSystem.Stop(actor);
-            ChangeWallet(null);
+            if (MessageBox.Show("Are you sure exit?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (actor != null)
+                    Program.BhpSystem.ActorSystem.Stop(actor);
+                ChangeWallet(null);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
