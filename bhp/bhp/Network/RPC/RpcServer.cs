@@ -15,7 +15,7 @@ using Bhp.Plugins;
 using Bhp.SmartContract;
 using Bhp.VM;
 using Bhp.Wallets;
-using Bhp.Wallets.NEP6;
+using Bhp.Wallets.BRC6;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -272,8 +272,8 @@ namespace Bhp.Network.RPC
                     else
                     {
                         WalletAccount account = wallet.CreateAccount();
-                        if (wallet is NEP6Wallet nep6)
-                            nep6.Save();
+                        if (wallet is BRC6Wallet BRC6)
+                            BRC6.Save();
                         return account.Address;
                     }
                 case "getpeers":

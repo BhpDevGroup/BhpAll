@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Bhp.Wallets.NEP6
+namespace Bhp.Wallets.BRC6
 {
     internal class WalletLocker : IDisposable
     {
-        private NEP6Wallet wallet;
+        private BRC6Wallet wallet;
 
-        public WalletLocker(NEP6Wallet wallet)
+        public WalletLocker(BRC6Wallet wallet)
         {
             this.wallet = wallet;
         }

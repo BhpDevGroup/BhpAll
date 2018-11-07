@@ -9,7 +9,7 @@ using Bhp.Plugins;
 using Bhp.Services;
 using Bhp.SmartContract;
 using Bhp.Wallets;
-using Bhp.Wallets.NEP6;
+using Bhp.Wallets.BRC6;
 using Bhp.Wallets.SQLite;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace Bhp.Shell
         private WalletIndexer indexer;
 
         protected override string Prompt => "bhp";
-        public override string ServiceName => "BHP-CLI";
+        public override string ServiceName => "bhp-cli";
 
         private WalletIndexer GetIndexer()
         {
@@ -242,7 +242,7 @@ namespace Bhp.Shell
                 }
             });
 
-            if (Program.Wallet is NEP6Wallet wallet)
+            if (Program.Wallet is BRC6Wallet wallet)
                 wallet.Save();
             Console.WriteLine();
             string path = "address.txt";
@@ -283,7 +283,7 @@ namespace Bhp.Shell
                     break;
                 case ".json":
                     {
-                        NEP6Wallet wallet = new NEP6Wallet(GetIndexer(), path);
+                        BRC6Wallet wallet = new BRC6Wallet(GetIndexer(), path);
                         wallet.Unlock(password);
                         WalletAccount account = wallet.CreateAccount();
                         wallet.Save();
@@ -432,7 +432,7 @@ namespace Bhp.Shell
             KeyPair keyPair = Program.Wallet.GetAccounts().FirstOrDefault(p => p.HasKey && publicKeys.Contains(p.GetKey().PublicKey))?.GetKey();
 
             WalletAccount account = Program.Wallet.CreateAccount(multiSignContract, keyPair);
-            if (Program.Wallet is NEP6Wallet wallet)
+            if (Program.Wallet is BRC6Wallet wallet)
                 wallet.Save();
 
             Console.WriteLine("Multisig. Addr.: " + multiSignContract.Address);
@@ -476,7 +476,7 @@ namespace Bhp.Shell
                 Console.WriteLine($"address: {account.Address}");
                 Console.WriteLine($" pubkey: {account.GetKey().PublicKey.EncodePoint(true).ToHexString()}");
             }
-            if (Program.Wallet is NEP6Wallet wallet)
+            if (Program.Wallet is BRC6Wallet wallet)
                 wallet.Save();
             return true;
         }
@@ -923,7 +923,7 @@ namespace Bhp.Shell
                 return true;
             }
             string path_new = Path.ChangeExtension(path, ".json");
-            NEP6Wallet.Migrate(GetIndexer(), path_new, path, password).Save();
+            BRC6Wallet.Migrate(GetIndexer(), path_new, path, password).Save();
             Console.WriteLine($"Wallet file upgrade complete. New wallet file has been auto-saved at: {path_new}");
             return true;
         }
@@ -936,7 +936,7 @@ namespace Bhp.Shell
             }
             else
             {
-                NEP6Wallet nep6wallet = new NEP6Wallet(indexer, path);
+                BRC6Wallet nep6wallet = new BRC6Wallet(indexer, path);
                 nep6wallet.Unlock(password);
                 return nep6wallet;
             }

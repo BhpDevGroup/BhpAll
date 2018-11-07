@@ -1,6 +1,6 @@
 ﻿using Bhp.IO.Json;
 
-namespace Bhp.Wallets.NEP6
+namespace Bhp.Wallets.BRC6
 {
     public class ScryptParameters
     {

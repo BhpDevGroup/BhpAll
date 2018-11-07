@@ -10,7 +10,7 @@ using Bhp.Properties;
 using Bhp.SmartContract;
 using Bhp.VM;
 using Bhp.Wallets;
-using Bhp.Wallets.NEP6;
+using Bhp.Wallets.BRC6;
 using Bhp.Wallets.SQLite;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Bhp.UI
     {
         private static readonly UInt160 RecycleScriptHash = new[] { (byte)OpCode.PUSHT }.ToScriptHash();
         private bool balance_changed = false;
-        private bool check_nep5_balance = false;
+        private bool check_brc20_balance = false;
         private DateTime persistence_time = DateTime.MinValue;
         private IActorRef actor;
         private WalletIndexer indexer;
@@ -153,7 +153,7 @@ namespace Bhp.UI
             persistence_time = DateTime.UtcNow;
             if (Program.CurrentWallet != null)
             {
-                check_nep5_balance = true;
+                check_brc20_balance = true;
                 if (Program.CurrentWallet.GetCoins().Any(p => !p.State.HasFlag(CoinState.Spent) && p.Output.AssetId.Equals(Blockchain.GoverningToken.Hash)) == true)
                     balance_changed = true;
             }
@@ -207,7 +207,7 @@ namespace Bhp.UI
                 }
             }
             balance_changed = true;
-            check_nep5_balance = true;
+            check_brc20_balance = true;
         }
          
         private void CurrentWallet_WalletTransaction(object sender, WalletTransactionEventArgs e)
@@ -417,10 +417,10 @@ namespace Bhp.UI
                         }
                     }
                 }
-                if (check_nep5_balance && persistence_span > TimeSpan.FromSeconds(2))
+                if (check_brc20_balance && persistence_span > TimeSpan.FromSeconds(2))
                 {
                     UInt160[] addresses = Program.CurrentWallet.GetAccounts().Select(p => p.ScriptHash).ToArray();
-                    foreach (string s in Settings.Default.NEP5Watched)
+                    foreach (string s in Settings.Default.BRC20Watched)
                     {
                         UInt160 script_hash = UInt160.Parse(s);
                         byte[] script;
@@ -481,7 +481,7 @@ namespace Bhp.UI
                             });
                         }
                     }
-                    check_nep5_balance = false;
+                    check_brc20_balance = false;
                 }
             }
         }
@@ -491,7 +491,7 @@ namespace Bhp.UI
             using (CreateWalletDialog dialog = new CreateWalletDialog())
             {
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                NEP6Wallet wallet = new NEP6Wallet(GetIndexer(), dialog.WalletPath);
+                BRC6Wallet wallet = new BRC6Wallet(GetIndexer(), dialog.WalletPath);
                 wallet.Unlock(dialog.Password);
                 wallet.CreateAccount();
                 wallet.Save();
@@ -514,10 +514,10 @@ namespace Bhp.UI
                     {
                         string path_old = path;
                         path = Path.ChangeExtension(path_old, ".json");
-                        NEP6Wallet nep6wallet;
+                        BRC6Wallet nep6wallet;
                         try
                         {
-                            nep6wallet = NEP6Wallet.Migrate(GetIndexer(), path, path_old, dialog.Password);
+                            nep6wallet = BRC6Wallet.Migrate(GetIndexer(), path, path_old, dialog.Password);
                         }
                         catch (CryptographicException)
                         {
@@ -544,7 +544,7 @@ namespace Bhp.UI
                 }
                 else
                 {
-                    NEP6Wallet nep6wallet = new NEP6Wallet(GetIndexer(), path);
+                    BRC6Wallet nep6wallet = new BRC6Wallet(GetIndexer(), path);
                     try
                     {
                         nep6wallet.Unlock(dialog.Password);
@@ -751,7 +751,7 @@ namespace Bhp.UI
             listView1.SelectedIndices.Clear();
             WalletAccount account = Program.CurrentWallet.CreateAccount();
             AddAccount(account, true);
-            if (Program.CurrentWallet is NEP6Wallet wallet)
+            if (Program.CurrentWallet is BRC6Wallet wallet)
                 wallet.Save();
         }
 
@@ -774,7 +774,7 @@ namespace Bhp.UI
                     }
                     AddAccount(account, true);
                 }
-                if (Program.CurrentWallet is NEP6Wallet wallet)
+                if (Program.CurrentWallet is BRC6Wallet wallet)
                     wallet.Save();
             }
         }
@@ -787,7 +787,7 @@ namespace Bhp.UI
                 listView1.SelectedIndices.Clear();
                 WalletAccount account = Program.CurrentWallet.Import(dialog.SelectedCertificate);
                 AddAccount(account, true);
-                if (Program.CurrentWallet is NEP6Wallet wallet)
+                if (Program.CurrentWallet is BRC6Wallet wallet)
                     wallet.Save();
             }
         }
@@ -817,7 +817,7 @@ namespace Bhp.UI
                     AddAccount(account, true);
                 }
             }
-            if (Program.CurrentWallet is NEP6Wallet wallet)
+            if (Program.CurrentWallet is BRC6Wallet wallet)
                 wallet.Save();
         }
 
@@ -833,7 +833,7 @@ namespace Bhp.UI
                     return;
                 }
                 WalletAccount account = Program.CurrentWallet.CreateAccount(contract, dialog.GetKey());
-                if (Program.CurrentWallet is NEP6Wallet wallet)
+                if (Program.CurrentWallet is BRC6Wallet wallet)
                     wallet.Save();
                 listView1.SelectedIndices.Clear();
                 AddAccount(account, true);
@@ -852,7 +852,7 @@ namespace Bhp.UI
                     return;
                 }
                 WalletAccount account = Program.CurrentWallet.CreateAccount(contract, dialog.GetKey());
-                if (Program.CurrentWallet is NEP6Wallet wallet)
+                if (Program.CurrentWallet is BRC6Wallet wallet)
                     wallet.Save();
                 listView1.SelectedIndices.Clear();
                 AddAccount(account, true);
@@ -866,7 +866,7 @@ namespace Bhp.UI
                 if (dialog.ShowDialog() != DialogResult.OK) return;
                 Contract contract = dialog.GetContract();
                 WalletAccount account = Program.CurrentWallet.CreateAccount(contract, dialog.GetKey());
-                if (Program.CurrentWallet is NEP6Wallet wallet)
+                if (Program.CurrentWallet is BRC6Wallet wallet)
                     wallet.Save();
                 listView1.SelectedIndices.Clear();
                 AddAccount(account, true);
@@ -920,10 +920,10 @@ namespace Bhp.UI
                 listView1.Items.RemoveByKey(account.Address);
                 Program.CurrentWallet.DeleteAccount(account.ScriptHash);
             }
-            if (Program.CurrentWallet is NEP6Wallet wallet)
+            if (Program.CurrentWallet is BRC6Wallet wallet)
                 wallet.Save();
             balance_changed = true;
-            check_nep5_balance = true;
+            check_brc20_balance = true;
         }
 
         private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
