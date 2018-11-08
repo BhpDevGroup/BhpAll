@@ -11,17 +11,16 @@
       "02cfce51880b622d41a28ff04ed06c0e0ba9cc8a33627b948af436fe01f4943f7b"
     ],
     "SeedList": [
-      "tseed1.bhpa.io:20555",
-      "tseed2.bhpa.io:20555",
-      "tseed3.bhpa.io:20555",
-      "tseed4.bhpa.io:20555"
+      "tseed11.bhpa.io:20555",
+      "tseed21.bhpa.io:20555",
+      "tseed31.bhpa.io:20555",
+      "tseed41.bhpa.io:20555"
     ],
     "SystemFee": {
       "EnrollmentTransaction": 1000,
       "IssueTransaction": 500,
       "PublishTransaction": 500,
-      "RegisterTransaction": 10000,
-      "ContractTransaction": 0.0001
+      "RegisterTransaction": 10000      
     }
   }
 }

@@ -51,7 +51,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template.CSharp", "bhp-devp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CAD2B325-FDFA-4082-B858-43BECA07AC58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "test\ConsoleApp1\ConsoleApp1.csproj", "{BE5FCF0A-C79E-4E06-AD66-09B0FB034080}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "test\ConsoleApp1\ConsoleApp1.csproj", "{BE5FCF0A-C79E-4E06-AD66-09B0FB034080}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleLogger", "bhp-plugins\ConsoleLogger\ConsoleLogger.csproj", "{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,10 @@ Global
 		{BE5FCF0A-C79E-4E06-AD66-09B0FB034080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE5FCF0A-C79E-4E06-AD66-09B0FB034080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE5FCF0A-C79E-4E06-AD66-09B0FB034080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +163,7 @@ Global
 		{EDE374C3-2600-460C-B852-8AA3956988BB} = {B99702BA-5BB6-4122-B575-DE1DF46F1139}
 		{6F0591A9-B218-49BB-B666-CE6D1FA8F990} = {B99702BA-5BB6-4122-B575-DE1DF46F1139}
 		{BE5FCF0A-C79E-4E06-AD66-09B0FB034080} = {CAD2B325-FDFA-4082-B858-43BECA07AC58}
+		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC} = {747DA9B0-8681-473F-BC85-20206241A619}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85BE7F98-1D99-49B3-B392-67124C7B90AE}
