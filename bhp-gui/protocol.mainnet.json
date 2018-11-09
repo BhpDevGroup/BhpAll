@@ -24,8 +24,7 @@
       "EnrollmentTransaction": 1000,
       "IssueTransaction": 500,
       "PublishTransaction": 500,
-      "RegisterTransaction": 10000,
-      "ContractTransaction": 0.0001
+      "RegisterTransaction": 10000
     }
   }
 }

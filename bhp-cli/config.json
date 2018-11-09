@@ -15,10 +15,10 @@
       "SslCertPassword": ""
     },
     "UnlockWallet": {
-      "Path": "",
-      "Password": "",
+      "Path": "1.json",
+      "Password": "123456",
       "StartConsensus": false,
-      "IsActive": false,
+      "IsActive": true,
       "AutoLock": false
     }
   }

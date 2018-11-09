@@ -213,6 +213,7 @@ namespace Bhp.SmartContract
         public Witness[] GetWitnesses()
         {
             if (!Completed) throw new InvalidOperationException();
+            // 脚本哈希数量== 见证人数量
             Witness[] witnesses = new Witness[ScriptHashes.Count];
             for (int i = 0; i < ScriptHashes.Count; i++)
             {
@@ -223,6 +224,7 @@ namespace Bhp.SmartContract
                     {
                         sb.EmitPush(parameter);
                     }
+                    //添加新的见证人
                     witnesses[i] = new Witness
                     {
                         InvocationScript = sb.ToArray(),

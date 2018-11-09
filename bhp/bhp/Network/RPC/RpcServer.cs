@@ -556,6 +556,55 @@ namespace Bhp.Network.RPC
                         json["isvalid"] = scriptHash != null;
                         return json;
                     }
+                case "getutxos":
+                    {
+                        if (wallet == null)
+                            throw new RpcException(-400, "Access denied");
+                        else
+                        {
+                            JObject json = new JObject();
+
+                            //address,assetid
+                            UInt160 scriptHash = _params[0].AsString().ToScriptHash();
+                            IEnumerable<Coin> coins = wallet.FindUnspentCoins();
+                            UInt256 assetId;
+                            if (_params.Count >= 2)
+                            {                                
+                                switch (_params[1].AsString())
+                                {
+                                    case "bhp":
+                                        assetId = Blockchain.GoverningToken.Hash;
+                                        break;
+                                    case "gas":
+                                        assetId = Blockchain.UtilityToken.Hash;
+                                        break;
+                                    default:
+                                        assetId = UInt256.Parse(_params[1].AsString());
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                assetId = Blockchain.GoverningToken.Hash;
+                            }
+                            coins = coins.Where(p => p.Output.AssetId.Equals(assetId) && p.Output.ScriptHash.Equals(scriptHash));
+
+                            //json["utxos"] = new JObject();
+                            Coin[] coins_array = coins.ToArray();
+                            //const int MAX_SHOW = 100;
+
+                            json["utxos"] = new JArray(coins_array.Select(p =>
+                            {                     
+                                return p.Reference.ToJson();
+                            }));
+                           
+                                //Console.WriteLine($"{coins_array[i].Reference.PrevHash}:{coins_array[i].Reference.PrevIndex}");
+                            //if (coins_array.Length > MAX_SHOW)
+                            //    Console.WriteLine($"({coins_array.Length - MAX_SHOW} more)");
+                            //Console.WriteLine($"total: {coins_array.Length} UTXOs");
+                            return json;
+                        }
+                    }
                 default:
                     throw new RpcException(-32601, "Method not found");
             }
