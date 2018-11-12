@@ -622,6 +622,7 @@ namespace Bhp.Shell
             try
             {
                 Program.Wallet = OpenWallet(GetIndexer(), path, password);
+                system.OpenWallet(Program.Wallet, password, Settings.Default.UnlockWallet.AutoLock);
             }
             catch (CryptographicException)
             {

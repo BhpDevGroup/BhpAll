@@ -36,11 +36,15 @@ namespace Bhp.Network.RPC
         private IWebHost host;
         private Fixed8 maxGasInvoke;
 
-        public RpcServer(BhpSystem system, Wallet wallet = null, Fixed8 maxGasInvoke = default(Fixed8))
+        private WalletTimeLock walletTimeLock;
+
+        public RpcServer(BhpSystem system, Wallet wallet = null, string password = null, bool isAutoLock = false, Fixed8 maxGasInvoke = default(Fixed8))
         {
             this.system = system;
             this.wallet = wallet;
             this.maxGasInvoke = maxGasInvoke;
+
+            walletTimeLock = new WalletTimeLock(password, isAutoLock);
         }
 
         private static JObject CreateErrorResponse(JObject id, int code, string message, JObject data = null)
@@ -69,6 +73,16 @@ namespace Bhp.Network.RPC
                 host.Dispose();
                 host = null;
             }
+        }
+
+        public void SetWallet(Wallet wallet, string password, bool isAutoLock)
+        {
+            if (this.wallet != null)
+            {
+                this.wallet.Dispose();
+            }
+            this.wallet = wallet;
+            this.walletTimeLock.SetPassword(password, isAutoLock);
         }
 
         private JObject GetInvokeResult(byte[] script)
@@ -140,9 +154,20 @@ namespace Bhp.Network.RPC
         {
             switch (method)
             {
+                case "unlock":
+                    if (wallet == null) return "wallet is null.";
+
+                    if (_params.Count < 2) return "parameter is error.";
+                    string password = _params[0].AsString();
+                    int duration = (int)_params[1].AsNumber();
+
+                    bool ok = walletTimeLock.UnLock(password, duration);
+                    string result = ok ? "successfully" : "failed";
+                    return $"Wallet unlocked  {result}.";
+
                 case "dumpprivkey":
-                    if (wallet == null)
-                        throw new RpcException(-400, "Access denied");
+                    if (wallet == null || walletTimeLock.IsLocked())
+                        throw new RpcException(-400, "wallet is null or locked.");
                     else
                     {
                         UInt160 scriptHash = _params[0].AsString().ToScriptHash();
@@ -162,7 +187,7 @@ namespace Bhp.Network.RPC
                         return asset?.ToJson() ?? throw new RpcException(-100, "Unknown asset");
                     }
                 case "getbalance":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied.");
                     else
                     {
@@ -267,7 +292,7 @@ namespace Bhp.Network.RPC
                         return contract?.ToJson() ?? throw new RpcException(-100, "Unknown contract");
                     }
                 case "getnewaddress":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied");
                     else
                     {
@@ -359,7 +384,7 @@ namespace Bhp.Network.RPC
                         return json;
                     }
                 case "getwalletheight":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied.");
                     else
                         return (wallet.WalletHeight > 0) ? wallet.WalletHeight - 1 : 0;
@@ -392,7 +417,7 @@ namespace Bhp.Network.RPC
                         return GetInvokeResult(script);
                     }
                 case "listaddress":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied.");
                     else
                         return wallet.GetAccounts().Select(p =>
@@ -405,7 +430,7 @@ namespace Bhp.Network.RPC
                             return account;
                         }).ToArray();
                 case "sendfrom":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied");
                     else
                     {
@@ -446,7 +471,7 @@ namespace Bhp.Network.RPC
                         }
                     }
                 case "sendmany":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied");
                     else
                     {
@@ -495,7 +520,7 @@ namespace Bhp.Network.RPC
                         return GetRelayResult(reason);
                     }
                 case "sendtoaddress":
-                    if (wallet == null)
+                    if (wallet == null || walletTimeLock.IsLocked())
                         throw new RpcException(-400, "Access denied");
                     else
                     {
@@ -558,7 +583,7 @@ namespace Bhp.Network.RPC
                     }
                 case "getutxos":
                     {
-                        if (wallet == null)
+                        if (wallet == null || walletTimeLock.IsLocked())
                             throw new RpcException(-400, "Access denied");
                         else
                         {
@@ -604,6 +629,17 @@ namespace Bhp.Network.RPC
                             //Console.WriteLine($"total: {coins_array.Length} UTXOs");
                             return json;
                         }
+                    }
+
+                case "verifytx":
+                    {
+                        JObject json = new JObject();
+                        Transaction tx = Transaction.DeserializeFrom(_params[0].AsString().HexToBytes());
+                        string res = tx.VerifyTx(Blockchain.Singleton.GetSnapshot(), new List<Transaction> { tx });
+
+                        json["result"] = res;
+                        json["tx"] = tx.ToJson();
+                        return json;
                     }
                 default:
                     throw new RpcException(-32601, "Method not found");

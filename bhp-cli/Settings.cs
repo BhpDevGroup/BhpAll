@@ -74,6 +74,7 @@ namespace Bhp
         public string Password { get; }
         public bool StartConsensus { get; }
         public bool IsActive { get; }
+        public bool AutoLock { get; }
 
         public UnlockWalletSettings(IConfigurationSection section)
         {
@@ -83,6 +84,7 @@ namespace Bhp
                 this.Password = section.GetSection("Password").Value;
                 this.StartConsensus = bool.Parse(section.GetSection("StartConsensus").Value);
                 this.IsActive = bool.Parse(section.GetSection("IsActive").Value);
+                this.AutoLock = bool.Parse(section.GetSection("AutoLock").Value);
             }
         }
     }
