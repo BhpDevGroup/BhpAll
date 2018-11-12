@@ -572,7 +572,7 @@ namespace Bhp.Compiler.MSIL
                         //    code.srcaddrswitch[i] = src.tokenAddr_Switch[i];
                         //}
                     }
-                    break;
+                  
                 case CodeEx.Brtrue:
                 case CodeEx.Brtrue_S:
                     {

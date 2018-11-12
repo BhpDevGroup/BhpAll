@@ -1075,11 +1075,7 @@ namespace Bhp.Compiler.MSIL
                     this._ConvertPush(outbyte, src, to);
                     return skip;
                 }
-            }
-
-
-
-            return 0;
+            }  
 
         }
         private int _ConvertInitObj(OpCode src, BhpMethod to)

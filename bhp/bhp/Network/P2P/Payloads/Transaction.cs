@@ -318,6 +318,7 @@ namespace Bhp.Network.P2P.Payloads
         /// <returns></returns>
         private bool VerifyMinerTransaction()
         {
+            Console.WriteLine("VerifyMinerTransaction");
             //No transaction output
             if (Outputs.Count() < 1)
             {
@@ -353,13 +354,13 @@ namespace Bhp.Network.P2P.Payloads
                         byte[] message = ledger.GetHashData();
                         if (Crypto.Default.VerifySignature(message, Attributes[0].Data, publicKey.ToArray()))
                         {
-                            //Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
+                            Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
                             return true;
                         }
                     }
                 }
             }
-            //Console.WriteLine($"******MinerTransaction VerifySignature Fail.******");
+            Console.WriteLine($"******MinerTransaction VerifySignature Fail.******");
             return false;
         }
 
