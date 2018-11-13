@@ -621,12 +621,8 @@ namespace Bhp.Network.RPC
                             json["utxos"] = new JArray(coins_array.Select(p =>
                             {                     
                                 return p.Reference.ToJson();
-                            }));
-                           
-                                //Console.WriteLine($"{coins_array[i].Reference.PrevHash}:{coins_array[i].Reference.PrevIndex}");
-                            //if (coins_array.Length > MAX_SHOW)
-                            //    Console.WriteLine($"({coins_array.Length - MAX_SHOW} more)");
-                            //Console.WriteLine($"total: {coins_array.Length} UTXOs");
+                            })); 
+                               
                             return json;
                         }
                     }
@@ -636,9 +632,11 @@ namespace Bhp.Network.RPC
                         JObject json = new JObject();
                         Transaction tx = Transaction.DeserializeFrom(_params[0].AsString().HexToBytes());
                         string res = tx.VerifyTx(Blockchain.Singleton.GetSnapshot(), new List<Transaction> { tx });
-
                         json["result"] = res;
-                        json["tx"] = tx.ToJson();
+                        if ("success".Equals(res))
+                        {
+                            json["tx"] = tx.ToJson();
+                        }
                         return json;
                     }
                 default:

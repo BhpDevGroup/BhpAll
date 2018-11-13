@@ -326,8 +326,13 @@ namespace Bhp.Network.P2P.Payloads
                         return "The transaction input is repeated.";
             if (mempool.Where(p => p != this).SelectMany(p => p.Inputs).Intersect(Inputs).Count() > 0)
                 return "Transaction input already exists.";
-            if (snapshot.IsDoubleSpend(this))
-                return "Transaction is double spend.";
+
+            string res = snapshot.IsDoubleSpendByBhp(this);
+            if ("success".Equals(res) == false)
+            {
+                return res;
+            }
+
             foreach (var group in Outputs.GroupBy(p => p.AssetId))
             {
                 AssetState asset = snapshot.Assets.TryGet(group.Key);

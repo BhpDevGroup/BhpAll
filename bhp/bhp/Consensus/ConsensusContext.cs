@@ -191,8 +191,7 @@ namespace Bhp.Consensus
         */
 
         public void Fill(Wallet wallet)
-        {
-            
+        {            
             IEnumerable <Transaction> mem_pool = Blockchain.Singleton.GetMemoryPool();
             foreach (IPolicyPlugin plugin in Plugin.Policies)
                 mem_pool = plugin.FilterForBlock(mem_pool);
