@@ -57,7 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "smartcontractapp", "smartco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockContract", "SmartContractApp\LockContract\LockContract.csproj", "{51D32A88-B8C1-4ED0-A3B5-6EC867598861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "test\ConsoleApp2\ConsoleApp2.csproj", "{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "test\ConsoleApp2\Test.csproj", "{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

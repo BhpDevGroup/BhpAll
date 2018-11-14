@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Bhp;
 using Bhp.Cryptography;
 
-namespace ConsoleApp2
+namespace Test
 {
     class Program
     {
@@ -20,6 +20,7 @@ namespace ConsoleApp2
             byte[] publickey = spublickey.HexToBytes();
             byte[] privatekey = sprivatekey.HexToBytes();
 
+           
             byte[] signature = Crypto.Default.Sign(message, privatekey, publickey);
             string str = signature.ToHexString();
 
