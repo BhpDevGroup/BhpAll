@@ -26,6 +26,9 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Bhp.Network.RPC
 {
@@ -35,14 +38,16 @@ namespace Bhp.Network.RPC
         private Wallet wallet;
         private IWebHost host;
         private Fixed8 maxGasInvoke;
+        private string getutxourl;
 
         private WalletTimeLock walletTimeLock;
 
-        public RpcServer(BhpSystem system, Wallet wallet = null, string password = null, bool isAutoLock = false, Fixed8 maxGasInvoke = default(Fixed8))
+        public RpcServer(BhpSystem system, Wallet wallet = null, string password = null, bool isAutoLock = false, Fixed8 maxGasInvoke = default(Fixed8),string getutxourl=null)
         {
             this.system = system;
             this.wallet = wallet;
             this.maxGasInvoke = maxGasInvoke;
+            this.getutxourl = getutxourl;
 
             walletTimeLock = new WalletTimeLock(password, isAutoLock);
         }
@@ -638,6 +643,34 @@ namespace Bhp.Network.RPC
                             json["tx"] = tx.ToJson();
                         }
                         return json;
+                    }
+                case "getutxoofaddress":
+                 {
+                        string from = _params[0].AsString(); 
+                        HttpClient client = new HttpClient();
+                        string uri = string.Format(getutxourl, from);
+                        client.BaseAddress = new Uri(uri);
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        var response = client.GetAsync(uri).Result;
+                        Task<System.IO.Stream> task = response.Content.ReadAsStreamAsync();                        
+                        System.IO.Stream backStream = task.Result;
+                        System.IO.StreamReader reader = new System.IO.StreamReader(backStream);
+                        string str = reader.ReadToEnd();
+                        reader.Close();
+                        Newtonsoft.Json.Linq.JArray json_1 = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(str);
+                        //return str;
+                        JObject json = new JObject();
+                        json["utxo"] = new JArray(json_1.Select(p =>
+                        {
+                            JObject peerJson = new JObject();
+                            peerJson["txid"] = p["txid"].ToString();
+                            peerJson["n"] =(int)p["n"];
+                            peerJson["value"] = (double)p["value"];
+                            peerJson["address"] = p["address"].ToString();
+                            peerJson["blockHeight"] = (int)p["blockHeight"];
+                            return peerJson;
+                        }));
+                        return json;                     
                     }
                 default:
                     throw new RpcException(-32601, "Method not found");

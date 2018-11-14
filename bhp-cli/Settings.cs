@@ -58,6 +58,7 @@ namespace Bhp
         public ushort Port { get; }
         public string SslCert { get; }
         public string SslCertPassword { get; }
+        public string GetUtxoUrl { get; }
 
         public RPCSettings(IConfigurationSection section)
         {
@@ -65,6 +66,7 @@ namespace Bhp
             this.Port = ushort.Parse(section.GetSection("Port").Value);
             this.SslCert = section.GetSection("SslCert").Value;
             this.SslCertPassword = section.GetSection("SslCertPassword").Value;
+            this.GetUtxoUrl = section.GetSection("GetUtxoUrl").Value;
         }
     }
 
