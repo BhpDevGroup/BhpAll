@@ -12,7 +12,8 @@
       "BindAddress": "127.0.0.1",
       "Port": 10557,
       "SslCert": "",
-      "SslCertPassword": ""
+      "SslCertPassword": "",
+      "GetUtxoUrl": "http://192.168.1.132:6060//getUtxo?address={0}"
     },
     "UnlockWallet": {
       "Path": "1.json",

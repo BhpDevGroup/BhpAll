@@ -622,7 +622,7 @@ namespace Bhp.Shell
             try
             {
                 Program.Wallet = OpenWallet(GetIndexer(), path, password);
-                system.OpenWallet(Program.Wallet, password, Settings.Default.UnlockWallet.AutoLock);
+                system.OpenWallet(Program.Wallet, password, Settings.Default.UnlockWallet.AutoLock,Settings.Default.RPC.GetUtxoUrl);
             }
             catch (CryptographicException)
             {
@@ -881,7 +881,8 @@ namespace Bhp.Shell
                     Settings.Default.RPC.Port,
                     wallet: Program.Wallet,
                     sslCert: Settings.Default.RPC.SslCert,
-                    password: Settings.Default.RPC.SslCertPassword);
+                    password: Settings.Default.RPC.SslCertPassword,
+                    getutxourl: Settings.Default.RPC.GetUtxoUrl);
 
             }
         }
