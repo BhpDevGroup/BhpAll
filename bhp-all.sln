@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockContract", "SmartContra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "test\ConsoleApp2\Test.csproj", "{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTransaction", "test\TestTransaction\TestTransaction.csproj", "{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +179,7 @@ Global
 		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC} = {747DA9B0-8681-473F-BC85-20206241A619}
 		{51D32A88-B8C1-4ED0-A3B5-6EC867598861} = {743C4D77-08CE-406D-92D3-D13277B8DAAB}
 		{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3} = {CAD2B325-FDFA-4082-B858-43BECA07AC58}
+		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435} = {CAD2B325-FDFA-4082-B858-43BECA07AC58}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85BE7F98-1D99-49B3-B392-67124C7B90AE}
