@@ -49,7 +49,7 @@ namespace Bhp.Plugins
         void ILogPlugin.Log(string source, LogLevel level, string message)
         {
             if (source != nameof(ConsensusService)) return;
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             string line = $"[{now.TimeOfDay:hh\\:mm\\:ss\\.fff}] {message}";
             Console.WriteLine(line);
             if (string.IsNullOrEmpty(log_dictionary)) return;
