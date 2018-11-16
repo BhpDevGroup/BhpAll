@@ -8,6 +8,7 @@ using Bhp.Persistence.LevelDB;
 using Bhp.SmartContract;
 using Bhp.Wallets.BRC6;
 using System;
+ 
 
 namespace TestTransaction
 {
@@ -47,6 +48,8 @@ namespace TestTransaction
             Console.WriteLine($"  Block Height: {Blockchain.Singleton.Height}, Wallet Height: {e.Height}");
         }
 
+
+
         static void Main(string[] args)
         {
             BhpSystem system = new BhpSystem(new LevelDBStore(@"db"));            
@@ -59,7 +62,10 @@ namespace TestTransaction
 
             Console.WriteLine(" Please press any key starting...");
             Console.ReadLine();
-            Console.WriteLine(" Start Mining...\n"); 
+            Console.WriteLine(" Start Mining...\n");
+
+             
+
             Mining(system); 
             Console.WriteLine("\n The end of Mining.");
             string line = Console.ReadLine();
