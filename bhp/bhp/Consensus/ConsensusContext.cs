@@ -6,6 +6,7 @@ using Bhp.Mining;
 using Bhp.Network.P2P.Payloads;
 using Bhp.Persistence;
 using Bhp.Plugins;
+using Bhp.SmartContract;
 using Bhp.Wallets;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,15 @@ namespace Bhp.Consensus
         public Dictionary<UInt256, Transaction> Transactions;
         public byte[][] Signatures;
         public byte[] ExpectedView;
-        public KeyPair KeyPair;
+        private KeyPair KeyPair;
+        private readonly Wallet wallet;
 
         public int M => Validators.Length - (Validators.Length - 1) / 3;
+
+        public ConsensusContext(Wallet wallet)
+        {
+            this.wallet = wallet;
+        }
 
         public void ChangeView(byte view_number)
         {
@@ -50,6 +57,23 @@ namespace Bhp.Consensus
             _header = null;
         }
 
+        public Block CreateBlock()
+        {
+            Block block = MakeHeader();
+            if (block == null) return null;
+            Contract contract = Contract.CreateMultiSigContract(M, Validators);
+            ContractParametersContext sc = new ContractParametersContext(block);
+            for (int i = 0, j = 0; i < Validators.Length && j < M; i++)
+                if (Signatures[i] != null)
+                {
+                    sc.AddSignature(contract, Validators[i], Signatures[i]);
+                    j++;
+                }
+            sc.Verifiable.Witnesses = sc.GetWitnesses();
+            block.Transactions = TransactionHashes.Select(p => Transactions[p]).ToArray();
+            return block;
+        }
+
         public void Dispose()
         {
             Snapshot?.Dispose();
@@ -63,7 +87,7 @@ namespace Bhp.Consensus
 
         public ConsensusPayload MakeChangeView()
         {
-            return MakePayload(new ChangeView
+            return MakeSignedPayload(new ChangeView
             {
                 NewViewNumber = ExpectedView[MyIndex]
             });
@@ -90,10 +114,10 @@ namespace Bhp.Consensus
             return _header;
         }
 
-        private ConsensusPayload MakePayload(ConsensusMessage message)
+        private ConsensusPayload MakeSignedPayload(ConsensusMessage message)
         {
             message.ViewNumber = ViewNumber;
-            return new ConsensusPayload
+            ConsensusPayload payload = new ConsensusPayload
             {
                 Version = Version,
                 PrevHash = PrevHash,
@@ -102,11 +126,33 @@ namespace Bhp.Consensus
                 Timestamp = Timestamp,
                 Data = message.ToArray()
             };
+            SignPayload(payload);
+            return payload;
+        }
+
+        public void SignHeader()
+        {
+            Signatures[MyIndex] = MakeHeader()?.Sign(KeyPair);
+        }
+
+        private void SignPayload(ConsensusPayload payload)
+        {
+            ContractParametersContext sc;
+            try
+            {
+                sc = new ContractParametersContext(payload);
+                wallet.Sign(sc);
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            sc.Verifiable.Witnesses = sc.GetWitnesses();
         }
 
         public ConsensusPayload MakePrepareRequest()
         {
-            return MakePayload(new PrepareRequest
+            return MakeSignedPayload(new PrepareRequest
             {
                 Nonce = Nonce,
                 NextConsensus = NextConsensus,
@@ -118,13 +164,13 @@ namespace Bhp.Consensus
 
         public ConsensusPayload MakePrepareResponse(byte[] signature)
         {
-            return MakePayload(new PrepareResponse
+            return MakeSignedPayload(new PrepareResponse
             {
                 Signature = signature
             });
         }
 
-        public void Reset(Wallet wallet)
+        public void Reset()
         {
             Snapshot?.Dispose();
             Snapshot = Blockchain.Singleton.GetSnapshot();
@@ -153,7 +199,7 @@ namespace Bhp.Consensus
         }
 
         /*
-        public void Fill(Wallet wallet)
+        public void Fill()
         {
             IEnumerable<Transaction> mem_pool = Blockchain.Singleton.GetMemoryPool();
             foreach (IPolicyPlugin plugin in Plugin.Policies)
@@ -187,10 +233,11 @@ namespace Bhp.Consensus
             TransactionHashes = transactions.Select(p => p.Hash).ToArray();
             Transactions = transactions.ToDictionary(p => p.Hash);
             NextConsensus = Blockchain.GetConsensusAddress(Snapshot.GetValidators(transactions).ToArray());
-        }
+            Timestamp = Math.Max(DateTime.UtcNow.ToTimestamp(), Snapshot.GetHeader(PrevHash).Timestamp + 1);
+         }
         */
 
-        public void Fill(Wallet wallet)
+        public void Fill()
         {
             Console.WriteLine("ConsusensuContext Fill.");
             IEnumerable <Transaction> mem_pool = Blockchain.Singleton.GetMemoryPool();
@@ -217,6 +264,7 @@ namespace Bhp.Consensus
             TransactionHashes = transactions.Select(p => p.Hash).ToArray();
             Transactions = transactions.ToDictionary(p => p.Hash);
             NextConsensus = Blockchain.GetConsensusAddress(Snapshot.GetValidators(transactions).ToArray());
+            Timestamp = Math.Max(DateTime.UtcNow.ToTimestamp(), Snapshot.GetHeader(PrevHash).Timestamp + 1);
         }
 
         private static ulong GetNonce()

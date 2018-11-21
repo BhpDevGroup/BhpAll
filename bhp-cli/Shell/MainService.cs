@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Bhp.Consensus;
 using Bhp.IO;
 using Bhp.Ledger;
 using Bhp.Network.P2P;
@@ -62,6 +63,8 @@ namespace Bhp.Shell
                     return OnSignCommand(args);
                 case "create":
                     return OnCreateCommand(args);
+                case "change":
+                    return OnChangeCommand(args);
                 case "export":
                     return OnExportCommand(args);
                 case "help":
@@ -209,6 +212,25 @@ namespace Bhp.Shell
                 default:
                     return base.OnCommand(args);
             }
+        }
+
+        private bool OnChangeCommand(string[] args)
+        {
+            switch (args[1].ToLower())
+            {
+                case "view":
+                    return OnChangeViewCommand(args);
+                default:
+                    return base.OnCommand(args);
+            }
+        }
+
+        private bool OnChangeViewCommand(string[] args)
+        {
+            if (args.Length != 3) return false;
+            if (!byte.TryParse(args[2], out byte viewnumber)) return false;
+            system.Consensus?.Tell(new ConsensusService.SetViewNumber { ViewNumber = viewnumber });
+            return true;
         }
 
         private bool OnCreateAddressCommand(string[] args)

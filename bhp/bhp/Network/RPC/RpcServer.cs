@@ -739,7 +739,7 @@ namespace Bhp.Network.RPC
             }
             if (response == null || (response as JArray)?.Count == 0) return;
             context.Response.ContentType = "application/json-rpc";
-            await context.Response.WriteAsync(response.ToString(), Encoding.UTF8);
+            await context.Response.WriteAsync(response.ToString(), Encoding.UTF8); 
         }
 
         private JObject ProcessRequest(HttpContext context, JObject request)

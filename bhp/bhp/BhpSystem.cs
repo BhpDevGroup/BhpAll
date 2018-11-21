@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Bhp.Consensus;
+using Bhp.Cryptography.ECC;
 using Bhp.Ledger;
 using Bhp.Network.P2P;
 using Bhp.Network.RPC;
@@ -43,8 +44,27 @@ namespace Bhp
 
         public void StartConsensus(Wallet wallet)
         {
-            Consensus = ActorSystem.ActorOf(ConsensusService.Props(this, wallet));
-            Consensus.Tell(new ConsensusService.Start());
+            bool found = false;
+            foreach (WalletAccount account in wallet.GetAccounts())
+            {
+                string publicKey = account.GetKey().PublicKey.EncodePoint(true).ToHexString();
+                foreach(ECPoint point in Ledger.Blockchain.StandbyValidators)
+                {
+                    string validator=point.EncodePoint(true).ToHexString();
+                    if (validator.Equals(publicKey))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) { break; }
+            }
+            //只有共识节点才能开启共识
+            if (found)
+            {
+                Consensus = ActorSystem.ActorOf(ConsensusService.Props(this, wallet));
+                Consensus.Tell(new ConsensusService.Start());
+            }
         }
 
         public void StartNode(int port = 0, int ws_port = 0)
