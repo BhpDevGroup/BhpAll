@@ -239,7 +239,7 @@ namespace Bhp.Consensus
 
         public void Fill()
         {
-            Console.WriteLine("ConsusensuContext Fill.");
+            //Console.WriteLine("ConsusensuContext Fill.");
             IEnumerable <Transaction> mem_pool = Blockchain.Singleton.GetMemoryPool();
             foreach (IPolicyPlugin plugin in Plugin.Policies)
                 mem_pool = plugin.FilterForBlock(mem_pool);

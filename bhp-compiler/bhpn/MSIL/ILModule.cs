@@ -145,7 +145,7 @@ namespace Bhp.Compiler.MSIL
                                         }
                                     }
                                 }
-                                catch (Exception err)
+                                catch (Exception )
                                 {
 
                                 }
@@ -170,7 +170,7 @@ namespace Bhp.Compiler.MSIL
                                                 }
                                             }
                                         }
-                                        catch (Exception err)
+                                        catch (Exception)
                                         {
 
                                         }
@@ -223,7 +223,7 @@ namespace Bhp.Compiler.MSIL
                                 }
                             }
                         }
-                        catch (Exception err)
+                        catch (Exception)
                         {
 
                         }

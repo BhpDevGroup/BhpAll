@@ -256,7 +256,7 @@ namespace Bhp.Network.P2P.Payloads
 
         public virtual bool Verify(Snapshot snapshot, IEnumerable<Transaction> mempool)
         {
-            Console.WriteLine("Transaction Verify");
+            //Console.WriteLine("Transaction Verify");
             if (Size > MaxTransactionSize) return false;
             for (int i = 1; i < Inputs.Length; i++)
                 for (int j = 0; j < i; j++)
@@ -426,7 +426,7 @@ namespace Bhp.Network.P2P.Payloads
                         byte[] message = ledger.GetHashData();
                         if (Crypto.Default.VerifySignature(message, Attributes[0].Data, publicKey.ToArray()))
                         {
-                            Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
+                            //Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
                             return true;
                         }
                     }

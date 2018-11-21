@@ -1,25 +1,26 @@
-﻿using System;
+﻿using Bhp.Wallets;
+using System;
+using System.Threading;
 
 namespace Bhp.Network.RPC
 {
     public class WalletTimeLock
     {
         private int Duration = 0; // minutes 
-        private DateTime UnLockTime;
-        private string Password;
+        private DateTime UnLockTime;        
         private bool IsAutoLock;
+        private ReaderWriterLockSlim rwlock;
 
-        public WalletTimeLock(string password, bool isAutoLock)
+        public WalletTimeLock(bool isAutoLock)
         {
             UnLockTime = DateTime.Now;
-            Duration = 0;
-            Password = password;
+            Duration = 0; 
             IsAutoLock = isAutoLock;
+            rwlock = new ReaderWriterLockSlim();
         }
 
-        public void SetPassword(string password, bool isAutoLock)
+        public void SetAutoLock(bool isAutoLock)
         {
-            Password = password;
             IsAutoLock = isAutoLock;
         }
 
@@ -27,21 +28,24 @@ namespace Bhp.Network.RPC
         /// Unlock wallet
         /// </summary>
         /// <param name="Duration">Unlock duration</param>
-        public bool UnLock(string password, int duration)
+        public bool UnLock(Wallet wallet, string password, int duration)
         {
-            lock (this)
+            bool unlock = false;
+            try
             {
-                if (Password.Length > 0 && Password.Equals(password))
+                rwlock.EnterWriteLock();
+                if (wallet.VerifyPassword(password))
                 {
                     Duration = duration > 1 ? duration : 1;
                     UnLockTime = DateTime.Now;
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    unlock = true;
                 }
             }
+            finally
+            {
+                rwlock.ExitWriteLock();
+            }
+            return unlock;
         }
 
         public bool IsLocked()
@@ -51,11 +55,19 @@ namespace Bhp.Network.RPC
                 return false;
             }
 
-            lock (this)
+            //wallet is locked by default.
+            bool locked = true;
+            try
             {
+                rwlock.EnterReadLock();
                 TimeSpan span = new TimeSpan(DateTime.Now.Ticks) - new TimeSpan(UnLockTime.Ticks);
-                return ((int)span.TotalMinutes >= Duration);
+                locked = ((int)span.TotalMinutes >= Duration);
             }
+            finally
+            {
+                rwlock.ExitReadLock();
+            }
+            return locked;
         }
     }
 }

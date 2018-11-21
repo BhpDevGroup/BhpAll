@@ -5,20 +5,21 @@
       "Index": "Index_{0}"
     },
     "P2P": {
-      "Port": 20555,
-      "WsPort": 20556
+      "Port": 10555,
+      "WsPort": 10556
     },
     "RPC": {
       "BindAddress": "127.0.0.1",
-      "Port": 20557,
+      "Port": 10557,
       "SslCert": "",
-      "SslCertPassword": ""
+      "SslCertPassword": "",
+      "GetUtxoUrl": "http://192.168.1.132:6060//getUtxo?address={0}"
     },
     "UnlockWallet": {
-      "Path": "",
-      "Password": "",
-      "StartConsensus": false,
-      "IsActive": false,
+      "Path": "1.json",
+      "Password": "123456",
+      "StartConsensus": true,
+      "IsActive": true,
       "AutoLock": false
     }
   }

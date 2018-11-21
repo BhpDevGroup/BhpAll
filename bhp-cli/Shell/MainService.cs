@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
 using ECCurve = Bhp.Cryptography.ECC.ECCurve;
 using ECPoint = Bhp.Cryptography.ECC.ECPoint;
@@ -644,7 +643,7 @@ namespace Bhp.Shell
             try
             {
                 Program.Wallet = OpenWallet(GetIndexer(), path, password);
-                system.OpenWallet(Program.Wallet, password, Settings.Default.UnlockWallet.AutoLock,Settings.Default.RPC.GetUtxoUrl);
+                system.OpenWallet(Program.Wallet, Settings.Default.UnlockWallet.AutoLock,Settings.Default.RPC.GetUtxoUrl);
             }
             catch (CryptographicException)
             {

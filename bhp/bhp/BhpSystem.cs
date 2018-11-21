@@ -76,20 +76,20 @@ namespace Bhp
             });
         }
 
-        public void StartRpc(IPAddress bindAddress, int port, Wallet wallet = null, string walletPassword = null, bool isAutoLock = false, string sslCert = null, string password = null,
+        public void StartRpc(IPAddress bindAddress, int port, Wallet wallet = null, bool isAutoLock = false, string sslCert = null, string password = null,
             string getutxourl = null, string[] trustedAuthorities = null, Fixed8 maxGasInvoke = default(Fixed8))
         {
-            rpcServer = new RpcServer(this, wallet, walletPassword, isAutoLock, maxGasInvoke, getutxourl);
+            rpcServer = new RpcServer(this, wallet, isAutoLock, maxGasInvoke, getutxourl);
             rpcServer.Start(bindAddress, port, sslCert, password, trustedAuthorities);
         }
 
-        public void OpenWallet(Wallet wallet, string password, bool isAutoLock,string getutxourl)
+        public void OpenWallet(Wallet wallet, bool isAutoLock,string getutxourl)
         {
             if (rpcServer == null)
             {
-                rpcServer = new RpcServer(this, wallet, password, isAutoLock, Fixed8.Zero, getutxourl);
+                rpcServer = new RpcServer(this, wallet, isAutoLock, Fixed8.Zero, getutxourl);
             }
-            rpcServer.SetWallet(wallet, password, isAutoLock);
+            rpcServer.SetWallet(wallet, isAutoLock);
         }
     }
 }

@@ -42,14 +42,14 @@ namespace Bhp.Network.RPC
 
         private WalletTimeLock walletTimeLock;
 
-        public RpcServer(BhpSystem system, Wallet wallet = null, string password = null, bool isAutoLock = false, Fixed8 maxGasInvoke = default(Fixed8),string getutxourl=null)
+        public RpcServer(BhpSystem system, Wallet wallet = null, bool isAutoLock = false, Fixed8 maxGasInvoke = default(Fixed8),string getutxourl=null)
         {
             this.system = system;
             this.wallet = wallet;
             this.maxGasInvoke = maxGasInvoke;
             this.getutxourl = getutxourl;
 
-            walletTimeLock = new WalletTimeLock(password, isAutoLock);
+            walletTimeLock = new WalletTimeLock(isAutoLock);
         }
 
         private static JObject CreateErrorResponse(JObject id, int code, string message, JObject data = null)
@@ -80,14 +80,14 @@ namespace Bhp.Network.RPC
             }
         }
 
-        public void SetWallet(Wallet wallet, string password, bool isAutoLock)
+        public void SetWallet(Wallet wallet, bool isAutoLock)
         {
             if (this.wallet != null)
             {
                 this.wallet.Dispose();
             }
             this.wallet = wallet;
-            this.walletTimeLock.SetPassword(password, isAutoLock);
+            walletTimeLock.SetAutoLock(isAutoLock);
         }
 
         private JObject GetInvokeResult(byte[] script)
@@ -166,7 +166,7 @@ namespace Bhp.Network.RPC
                     string password = _params[0].AsString();
                     int duration = (int)_params[1].AsNumber();
 
-                    bool ok = walletTimeLock.UnLock(password, duration);
+                    bool ok = walletTimeLock.UnLock(wallet, password, duration);
                     string result = ok ? "successfully" : "failed";
                     return $"Wallet unlocked  {result}.";
 
