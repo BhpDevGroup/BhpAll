@@ -95,7 +95,7 @@ namespace Bhp.UI
 
         private void AddTransaction(Transaction tx, uint? height, uint time)
         {
-           
+            return;
             int? confirmations = (int)Blockchain.Singleton.Height - (int?)height + 1;
             if (confirmations <= 0) confirmations = null;
             string confirmations_str = confirmations?.ToString() ?? Strings.Unconfirmed;
