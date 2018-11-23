@@ -95,6 +95,7 @@ namespace Bhp.UI
 
         private void AddTransaction(Transaction tx, uint? height, uint time)
         {
+           
             int? confirmations = (int)Blockchain.Singleton.Height - (int?)height + 1;
             if (confirmations <= 0) confirmations = null;
             string confirmations_str = confirmations?.ToString() ?? Strings.Unconfirmed;
@@ -158,7 +159,7 @@ namespace Bhp.UI
                     balance_changed = true;
             }
 
-            BeginInvoke(new Action(RefreshConfirmations));
+            //BeginInvoke(new Action(RefreshConfirmations));
         }
 
         private void ChangeWallet(Wallet wallet)
@@ -173,6 +174,7 @@ namespace Bhp.UI
             listView3.Items.Clear();
             if (Program.CurrentWallet != null)
             {
+               
                 using (Snapshot snapshot = Blockchain.Singleton.GetSnapshot())
                     foreach (var i in Program.CurrentWallet.GetTransactions().Select(p => snapshot.Transactions.TryGet(p)).Where(p => p.Transaction != null).Select(p => new
                     {
@@ -181,8 +183,9 @@ namespace Bhp.UI
                         Time = snapshot.GetHeader(p.BlockIndex).Timestamp
                     }).OrderBy(p => p.Time))
                     {
-                        AddTransaction(i.Transaction, i.BlockIndex, i.Time);
+                        //AddTransaction(i.Transaction, i.BlockIndex, i.Time);
                     }
+                    
                 Program.CurrentWallet.WalletTransaction += CurrentWallet_WalletTransaction;
             }
             修改密码CToolStripMenuItem.Enabled = Program.CurrentWallet is UserWallet;
@@ -1008,6 +1011,11 @@ namespace Bhp.UI
             {
                 dialog.ShowDialog();
             }
+        }
+
+        private void refreshTransactionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BeginInvoke(new Action(RefreshConfirmations));
         }
     }
 }

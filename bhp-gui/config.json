@@ -1,7 +1,7 @@
 ﻿{
   "ApplicationConfiguration": {
     "AppConfigs": {
-      "Development": 0
+      "Development": 1
     },
     "Paths": {
       "Chain": "Chain_{0}",
