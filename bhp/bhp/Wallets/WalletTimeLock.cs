@@ -14,7 +14,7 @@ namespace Bhp.Network.RPC
         public WalletTimeLock(bool isAutoLock)
         {
             UnLockTime = DateTime.Now;
-            Duration = 0; 
+            Duration = 10;
             IsAutoLock = isAutoLock;
             rwlock = new ReaderWriterLockSlim();
         }
@@ -22,6 +22,19 @@ namespace Bhp.Network.RPC
         public void SetAutoLock(bool isAutoLock)
         {
             IsAutoLock = isAutoLock;
+        }
+
+        public void SetDuration(int Duration)
+        {
+            try
+            {
+                rwlock.EnterWriteLock();
+                this.Duration = Duration >= 1 ? Duration : 1;
+            }
+            finally
+            {
+                rwlock.ExitWriteLock();
+            }
         }
 
         /// <summary>
@@ -39,6 +52,10 @@ namespace Bhp.Network.RPC
                     Duration = duration > 1 ? duration : 1;
                     UnLockTime = DateTime.Now;
                     unlock = true;
+                }
+                else
+                {
+                    Duration = 0;
                 }
             }
             finally

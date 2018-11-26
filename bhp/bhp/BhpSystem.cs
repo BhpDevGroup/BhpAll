@@ -91,5 +91,13 @@ namespace Bhp
             }
             rpcServer.SetWallet(wallet, isAutoLock);
         }
+
+        public void SetWalletConfig(string Path, string Index, WalletIndexer indexer, bool IsAutoLock)
+        {
+            if (rpcServer != null)
+            {
+                rpcServer.SetWalletConfig(Path, Index, indexer, IsAutoLock);
+            }
+        }
     }
 }

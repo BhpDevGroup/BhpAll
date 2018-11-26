@@ -121,6 +121,92 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="钱包WToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 21</value>
+  </data>
+  <data name="钱包WToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Wallet</value>
+  </data>
+  <data name="转账TToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="转账TToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Transfer...</value>
+  </data>
+  <data name="交易TToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="交易TToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Transactions(&amp;X)...</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 6</value>
+  </data>
+  <data name="签名SToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="签名SToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Signature...</value>
+  </data>
+  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 6</value>
+  </data>
+  <data name="claimBHPGasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="claimBHPGasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Claim BHPGas</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="交易TToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="交易TToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 21</value>
+  </data>
+  <data name="交易TToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Transaction</value>
+  </data>
+  <data name="高级AToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 21</value>
+  </data>
+  <data name="高级AToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Advanced</value>
+  </data>
+  <data name="帮助HToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
+  </data>
+  <data name="帮助HToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="menuStrip1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 3, 0, 3</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>903, 27</value>
+  </data>
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="创建钱包数据库NToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 22</value>
   </data>
@@ -136,7 +222,6 @@
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>213, 6</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="修改密码CToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -160,42 +245,6 @@
   </data>
   <data name="退出XToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
-  </data>
-  <data name="钱包WToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 21</value>
-  </data>
-  <data name="钱包WToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Wallet</value>
-  </data>
-  <data name="转账TToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="转账TToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Transfer...</value>
-  </data>
-  <data name="交易TToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="交易TToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Transactions(&amp;X)...</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 6</value>
-  </data>
-  <data name="签名SToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="签名SToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Signature...</value>
-  </data>
-  <data name="交易TToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="交易TToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 21</value>
-  </data>
-  <data name="交易TToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Transaction</value>
   </data>
   <data name="提取BHPCToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -287,12 +336,6 @@
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Options...</value>
   </data>
-  <data name="高级AToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 21</value>
-  </data>
-  <data name="高级AToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Advanced</value>
-  </data>
   <data name="查看帮助VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 22</value>
   </data>
@@ -308,7 +351,6 @@
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 6</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="开发人员工具TToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F12</value>
   </data>
@@ -326,39 +368,6 @@
   </data>
   <data name="关于BHPToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;About BHP</value>
-  </data>
-  <data name="帮助HToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 21</value>
-  </data>
-  <data name="帮助HToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menuStrip1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 3, 0, 3</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>903, 27</value>
-  </data>
-  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="columnHeader1.Text" xml:space="preserve">
     <value>Address</value>
@@ -381,129 +390,6 @@
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>348, 17</value>
   </metadata>
-  <data name="创建新地址NToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="创建新地址NToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="创建新地址NToolStripMenuItem.Text" xml:space="preserve">
-    <value>Create &amp;New Add.</value>
-  </data>
-  <data name="importWIFToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
-  <data name="importWIFToolStripMenuItem.Text" xml:space="preserve">
-    <value>Import from &amp;WIF...</value>
-  </data>
-  <data name="importCertificateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
-  <data name="importCertificateToolStripMenuItem.Text" xml:space="preserve">
-    <value>Import from &amp;Certificate...</value>
-  </data>
-  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="importWatchOnlyAddressToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
-  <data name="importWatchOnlyAddressToolStripMenuItem.Text" xml:space="preserve">
-    <value>Import Watch-Only &amp;Address...</value>
-  </data>
-  <data name="导入私钥IToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="导入私钥IToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="导入私钥IToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Import</value>
-  </data>
-  <data name="多方签名MToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="多方签名MToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Multi-Signature...</value>
-  </data>
-  <data name="lockToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="lockToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Lock...</value>
-  </data>
-  <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 6</value>
-  </data>
-  <data name="自定义CToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="自定义CToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Custom...</value>
-  </data>
-  <data name="创建智能合约SToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="创建智能合约SToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="创建智能合约SToolStripMenuItem.Text" xml:space="preserve">
-    <value>Create Contract &amp;Add.</value>
-  </data>
-  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 6</value>
-  </data>
-  <data name="查看私钥VToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="查看私钥VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="查看私钥VToolStripMenuItem.Text" xml:space="preserve">
-    <value>View &amp;Private Key</value>
-  </data>
-  <data name="viewContractToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="viewContractToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="viewContractToolStripMenuItem.Text" xml:space="preserve">
-    <value>View C&amp;ontract</value>
-  </data>
-  <data name="voteToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="voteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="voteToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Vote...</value>
-  </data>
-  <data name="复制到剪贴板CToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="复制到剪贴板CToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+C</value>
-  </data>
-  <data name="复制到剪贴板CToolStripMenuItem.ShowShortcutKeys" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="复制到剪贴板CToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="复制到剪贴板CToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Copy to Clipboard</value>
-  </data>
-  <data name="删除DToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="删除DToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="删除DToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete...</value>
-  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>199, 186</value>
   </data>
@@ -568,9 +454,156 @@
   <data name="&gt;&gt;listView1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="创建新地址NToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="创建新地址NToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="创建新地址NToolStripMenuItem.Text" xml:space="preserve">
+    <value>Create &amp;New Add.</value>
+  </data>
+  <data name="导入私钥IToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="导入私钥IToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="导入私钥IToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Import</value>
+  </data>
+  <data name="importWIFToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 22</value>
+  </data>
+  <data name="importWIFToolStripMenuItem.Text" xml:space="preserve">
+    <value>Import from &amp;WIF...</value>
+  </data>
+  <data name="importCertificateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 22</value>
+  </data>
+  <data name="importCertificateToolStripMenuItem.Text" xml:space="preserve">
+    <value>Import from &amp;Certificate...</value>
+  </data>
+  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 6</value>
+  </data>
+  <data name="importWatchOnlyAddressToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 22</value>
+  </data>
+  <data name="importWatchOnlyAddressToolStripMenuItem.Text" xml:space="preserve">
+    <value>Import Watch-Only &amp;Address...</value>
+  </data>
+  <data name="创建智能合约SToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="创建智能合约SToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="创建智能合约SToolStripMenuItem.Text" xml:space="preserve">
+    <value>Create Contract &amp;Add.</value>
+  </data>
+  <data name="多方签名MToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 22</value>
+  </data>
+  <data name="多方签名MToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Multi-Signature...</value>
+  </data>
+  <data name="lockToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 22</value>
+  </data>
+  <data name="lockToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Lock...</value>
+  </data>
+  <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 6</value>
+  </data>
+  <data name="自定义CToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 22</value>
+  </data>
+  <data name="自定义CToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Custom...</value>
+  </data>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 6</value>
+  </data>
+  <data name="查看私钥VToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="查看私钥VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="查看私钥VToolStripMenuItem.Text" xml:space="preserve">
+    <value>View &amp;Private Key</value>
+  </data>
+  <data name="viewContractToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="viewContractToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="viewContractToolStripMenuItem.Text" xml:space="preserve">
+    <value>View C&amp;ontract</value>
+  </data>
+  <data name="voteToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="voteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="voteToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Vote...</value>
+  </data>
+  <data name="复制到剪贴板CToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="复制到剪贴板CToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+C</value>
+  </data>
+  <data name="复制到剪贴板CToolStripMenuItem.ShowShortcutKeys" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="复制到剪贴板CToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="复制到剪贴板CToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Copy to Clipboard</value>
+  </data>
+  <data name="删除DToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="删除DToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="删除DToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Delete...</value>
+  </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>137, 17</value>
   </metadata>
+  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 584</value>
+  </data>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>903, 22</value>
+  </data>
+  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="statusStrip1.Text" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 17</value>
   </data>
@@ -613,33 +646,69 @@
   <data name="toolStripStatusLabel3.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 584</value>
-  </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>903, 22</value>
-  </data>
-  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>258, 17</value>
   </metadata>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Name" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 27</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>903, 557</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 26</value>
   </data>
@@ -666,6 +735,45 @@
   </data>
   <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;listView2.Name" xml:space="preserve">
+    <value>listView2</value>
+  </data>
+  <data name="&gt;&gt;listView2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;listView2.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;listView2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>895, 527</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Asset</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="columnHeader2.Text" xml:space="preserve">
     <value>Asset</value>
@@ -694,18 +802,6 @@
   <metadata name="contextMenuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>513, 17</value>
   </metadata>
-  <data name="viewCertificateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="viewCertificateToolStripMenuItem.Text" xml:space="preserve">
-    <value>View &amp;Certificate</value>
-  </data>
-  <data name="删除DToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="删除DToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Delete...</value>
-  </data>
   <data name="contextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 48</value>
   </data>
@@ -759,95 +855,17 @@
   <data name="&gt;&gt;listView2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+  <data name="viewCertificateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
   </data>
-  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="viewCertificateToolStripMenuItem.Text" xml:space="preserve">
+    <value>View &amp;Certificate</value>
   </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>895, 527</value>
+  <data name="删除DToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
   </data>
-  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>Asset</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="columnHeader7.Text" xml:space="preserve">
-    <value>Time</value>
-  </data>
-  <data name="columnHeader7.Width" type="System.Int32, mscorlib">
-    <value>132</value>
-  </data>
-  <data name="columnHeader8.Text" xml:space="preserve">
-    <value>Transaction ID</value>
-  </data>
-  <data name="columnHeader8.Width" type="System.Int32, mscorlib">
-    <value>482</value>
-  </data>
-  <data name="columnHeader9.Text" xml:space="preserve">
-    <value>confirm</value>
-  </data>
-  <data name="columnHeader9.Width" type="System.Int32, mscorlib">
-    <value>78</value>
-  </data>
-  <data name="columnHeader10.Text" xml:space="preserve">
-    <value>Transaction Type</value>
-  </data>
-  <data name="columnHeader10.Width" type="System.Int32, mscorlib">
-    <value>163</value>
-  </data>
-  <metadata name="contextMenuStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>678, 17</value>
-  </metadata>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="toolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Copy TXID</value>
-  </data>
-  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 6</value>
-  </data>
-  <data name="refreshTransactionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="refreshTransactionToolStripMenuItem.Text" xml:space="preserve">
-    <value>Refresh Transaction</value>
-  </data>
-  <data name="contextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 76</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip3.Name" xml:space="preserve">
-    <value>contextMenuStrip3</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="listView3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="listView3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="listView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>889, 521</value>
-  </data>
-  <data name="listView3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="删除DToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Delete...</value>
   </data>
   <data name="&gt;&gt;listView3.Name" xml:space="preserve">
     <value>listView3</value>
@@ -888,30 +906,78 @@
   <data name="&gt;&gt;tabPage3.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="columnHeader7.Text" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="columnHeader7.Width" type="System.Int32, mscorlib">
+    <value>132</value>
+  </data>
+  <data name="columnHeader8.Text" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
+  <data name="columnHeader8.Width" type="System.Int32, mscorlib">
+    <value>482</value>
+  </data>
+  <data name="columnHeader9.Text" xml:space="preserve">
+    <value>confirm</value>
+  </data>
+  <data name="columnHeader9.Width" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="columnHeader10.Text" xml:space="preserve">
+    <value>Transaction Type</value>
+  </data>
+  <data name="columnHeader10.Width" type="System.Int32, mscorlib">
+    <value>163</value>
+  </data>
+  <metadata name="contextMenuStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>678, 17</value>
+  </metadata>
+  <data name="contextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 26</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip3.Name" xml:space="preserve">
+    <value>contextMenuStrip3</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="listView3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 27</value>
+  <data name="listView3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
   </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>903, 557</value>
+  <data name="listView3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>889, 521</value>
   </data>
-  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="listView3.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
-    <value>tabControl1</value>
+  <data name="&gt;&gt;listView3.Name" xml:space="preserve">
+    <value>listView3</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;listView3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;listView3.Parent" xml:space="preserve">
+    <value>tabPage3</value>
   </data>
-  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;listView3.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 22</value>
+  </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Copy TXID</value>
+  </data>
+  <metadata name="timer2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>843, 17</value>
+  </metadata>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 55</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -2802,16 +2868,28 @@
   <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;timer2.Name" xml:space="preserve">
+    <value>timer2</value>
+  </data>
+  <data name="&gt;&gt;timer2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorker1.Name" xml:space="preserve">
+    <value>backgroundWorker1</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorker1.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator13.Name" xml:space="preserve">
     <value>toolStripSeparator13</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator13.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;refreshTransactionToolStripMenuItem.Name" xml:space="preserve">
-    <value>refreshTransactionToolStripMenuItem</value>
+  <data name="&gt;&gt;claimBHPGasToolStripMenuItem.Name" xml:space="preserve">
+    <value>claimBHPGasToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;refreshTransactionToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;claimBHPGasToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

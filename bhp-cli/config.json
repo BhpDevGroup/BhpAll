@@ -20,7 +20,7 @@
       "Password": "123456",
       "StartConsensus": false,
       "IsActive": true,
-      "AutoLock": false
+      "AutoLock": true
     }
   }
 }

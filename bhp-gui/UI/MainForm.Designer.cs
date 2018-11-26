@@ -115,8 +115,10 @@
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.refreshTransactionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.claimBHPGasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -197,7 +199,9 @@
             this.转账TToolStripMenuItem,
             this.交易TToolStripMenuItem1,
             this.toolStripSeparator5,
-            this.签名SToolStripMenuItem});
+            this.签名SToolStripMenuItem,
+            this.toolStripSeparator13,
+            this.claimBHPGasToolStripMenuItem});
             resources.ApplyResources(this.交易TToolStripMenuItem, "交易TToolStripMenuItem");
             this.交易TToolStripMenuItem.Name = "交易TToolStripMenuItem";
             // 
@@ -577,7 +581,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 500;
+            this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // tabControl1
@@ -707,9 +711,7 @@
             // contextMenuStrip3
             // 
             this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripSeparator13,
-            this.refreshTransactionToolStripMenuItem});
+            this.toolStripMenuItem1});
             this.contextMenuStrip3.Name = "contextMenuStrip3";
             resources.ApplyResources(this.contextMenuStrip3, "contextMenuStrip3");
             // 
@@ -719,16 +721,27 @@
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
             resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
             // 
-            // refreshTransactionToolStripMenuItem
+            // claimBHPGasToolStripMenuItem
             // 
-            this.refreshTransactionToolStripMenuItem.Name = "refreshTransactionToolStripMenuItem";
-            resources.ApplyResources(this.refreshTransactionToolStripMenuItem, "refreshTransactionToolStripMenuItem");
-            this.refreshTransactionToolStripMenuItem.Click += new System.EventHandler(this.refreshTransactionToolStripMenuItem_Click);
+            this.claimBHPGasToolStripMenuItem.Name = "claimBHPGasToolStripMenuItem";
+            resources.ApplyResources(this.claimBHPGasToolStripMenuItem, "claimBHPGasToolStripMenuItem");
+            this.claimBHPGasToolStripMenuItem.Click += new System.EventHandler(this.claimBHPGasToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -741,6 +754,7 @@
             this.Name = "MainForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -844,8 +858,10 @@
         private System.Windows.Forms.ToolStripMenuItem lockToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem signDataToolStripMenuItem;
+        private System.Windows.Forms.Timer timer2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripMenuItem refreshTransactionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem claimBHPGasToolStripMenuItem;
     }
 }
 

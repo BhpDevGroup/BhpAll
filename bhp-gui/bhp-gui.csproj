@@ -540,6 +540,8 @@
     <Compile Include="UI\Wrappers\TransactionWrapper.cs" />
     <Compile Include="UI\Wrappers\UIntBaseConverter.cs" />
     <Compile Include="UI\Wrappers\WitnessWrapper.cs" />
+    <Compile Include="WalletTx.cs" />
+    <Compile Include="WalletTxQueue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

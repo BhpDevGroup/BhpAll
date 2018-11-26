@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Bhp.Wallets.SQLite;
 
 namespace Bhp.Network.RPC
 {
@@ -155,20 +156,61 @@ namespace Bhp.Network.RPC
             this.wallet = wallet;
         }
 
+        public void SetWalletConfig(string Path, string Index, WalletIndexer indexer, bool IsAutoLock)
+        {
+            WalletConfig.Path = Path;
+            WalletConfig.Index = Index;
+            WalletConfig.Indexer = indexer;
+            WalletConfig.IsAutoLock = IsAutoLock;
+        }
+
+        private Wallet OpenWallet(WalletIndexer indexer, string path, string password)
+        {
+            if (Path.GetExtension(path) == ".db3")
+            {
+                return UserWallet.Open(indexer, path, password);
+            }
+            else
+            {
+                BRC6Wallet nep6wallet = new BRC6Wallet(indexer, path);
+                nep6wallet.Unlock(password);
+                return nep6wallet;
+            }
+        }
+
+        bool Unlocking = false;
+
         private JObject Process(string method, JArray _params)
         {
             switch (method)
             {
                 case "unlock":
-                    if (wallet == null) return "wallet is null.";
+                    //if (wallet == null) return "wallet is null.";
+                    if (Unlocking) throw new RpcException(-500, "Wallet Unlocking..."); 
 
-                    if (_params.Count < 2) return "parameter is error.";
+                    if (_params.Count < 2) throw new RpcException(-501, "parameter is error.");
                     string password = _params[0].AsString();
                     int duration = (int)_params[1].AsNumber();
 
-                    bool ok = walletTimeLock.UnLock(wallet, password, duration);
-                    string result = ok ? "successfully" : "failed";
-                    return $"Wallet unlocked  {result}.";
+                    Unlocking = true;
+                    try
+                    {
+                        if (wallet == null)
+                        {
+                            wallet = OpenWallet(WalletConfig.Indexer , WalletConfig.Path, password);
+                            walletTimeLock.SetDuration(wallet == null ? 0 : duration); 
+                            return $"success";
+                        }
+                        else
+                        {
+                            bool ok = walletTimeLock.UnLock(wallet, password, duration); 
+                            return ok ? "success" : "failure";
+                        }
+                    }
+                    finally
+                    {
+                        Unlocking = false;
+                    }
 
                 case "dumpprivkey":
                     if (wallet == null || walletTimeLock.IsLocked())
