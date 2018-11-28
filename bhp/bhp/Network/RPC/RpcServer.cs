@@ -186,6 +186,7 @@ namespace Bhp.Network.RPC
             {
                 case "unlock":
                     //if (wallet == null) return "wallet is null.";
+                    if(WalletConfig.Path.Trim().Length<1) throw new RpcException(-500, "Wallet file is exists.");
                     if (Unlocking) throw new RpcException(-500, "Wallet Unlocking..."); 
 
                     if (_params.Count < 2) throw new RpcException(-501, "parameter is error.");

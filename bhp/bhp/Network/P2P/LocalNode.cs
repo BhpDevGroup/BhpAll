@@ -19,9 +19,7 @@ namespace Bhp.Network.P2P
         internal class RelayDirectly { public IInventory Inventory; }
         internal class SendDirectly { public IInventory Inventory; }
 
-        public const uint ProtocolVersion = 0;
-        protected override int ConnectedMax => 10;
-        protected override int UnconnectedMax => 1000;
+        public const uint ProtocolVersion = 0; 
 
         private readonly BhpSystem system;
         internal readonly ConcurrentDictionary<IActorRef, RemoteNode> RemoteNodes = new ConcurrentDictionary<IActorRef, RemoteNode>();

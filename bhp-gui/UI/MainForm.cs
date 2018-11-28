@@ -182,8 +182,11 @@ namespace Bhp.UI
             listView3.Items.Clear();
             if (Program.CurrentWallet != null)
             {
-                backgroundWorker1.RunWorkerAsync();
-                timer2.Enabled = true;
+                if (backgroundWorker1.IsBusy == false)
+                {
+                    backgroundWorker1.RunWorkerAsync();
+                    timer2.Enabled = true;
+                }
                 using (Snapshot snapshot = Blockchain.Singleton.GetSnapshot())
                 {
                     int txCount = Program.CurrentWallet.GetTransactions().Count();
@@ -1129,6 +1132,7 @@ namespace Bhp.UI
         private void MainForm_Shown(object sender, EventArgs e)
         {
             ShowWalletInfo();
+            高级AToolStripMenuItem.Visible = "1".Equals(Settings.Default.Configs.Development);
         }
 
         private void toolStripTextBox1_Click(object sender, EventArgs e)
