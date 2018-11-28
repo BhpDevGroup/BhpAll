@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bhp.Ledger
 {
-    public abstract class StateBase : IInteropInterface, ISerializable
+    public abstract class StateBase :  ISerializable
     {
         public const byte StateVersion = 0;
 

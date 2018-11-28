@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Bhp.SmartContract
 {
-    internal class WitnessWrapper : IInteropInterface
+    internal class WitnessWrapper
     {
         public byte[] VerificationScript;
 

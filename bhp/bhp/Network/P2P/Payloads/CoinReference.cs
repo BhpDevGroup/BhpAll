@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bhp.Network.P2P.Payloads
 {
-    public class CoinReference : IEquatable<CoinReference>, IInteropInterface, ISerializable
+    public class CoinReference : IEquatable<CoinReference>, ISerializable
     {
         public UInt256 PrevHash;
         public ushort PrevIndex;
