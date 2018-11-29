@@ -6,7 +6,7 @@ namespace Bhp.Network.RPC
 {
     public class WalletTimeLock
     {
-        private int Duration = 0; // minutes 
+        private int Duration = 10; // seconds 
         private DateTime UnLockTime;        
         private bool IsAutoLock;
         private ReaderWriterLockSlim rwlock;
@@ -78,7 +78,7 @@ namespace Bhp.Network.RPC
             {
                 rwlock.EnterReadLock();
                 TimeSpan span = new TimeSpan(DateTime.Now.Ticks) - new TimeSpan(UnLockTime.Ticks);
-                locked = ((int)span.TotalMinutes >= Duration);
+                locked = ((int)span.TotalSeconds >= Duration);
             }
             finally
             {
