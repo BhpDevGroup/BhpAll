@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Cryptography;
 
 namespace Bhp.Compiler.MSIL
 {
@@ -293,11 +292,11 @@ namespace Bhp.Compiler.MSIL
             }
             return false;
         }
-        public bool IsOpCall(Mono.Cecil.MethodDefinition defs, out string name)
+        public bool IsOpCall(Mono.Cecil.MethodDefinition defs, out VM.OpCode[] opcodes)
         {
+            opcodes = null;
             if (defs == null)
             {
-                name = "";
                 return false;
             }
 
@@ -305,32 +304,24 @@ namespace Bhp.Compiler.MSIL
             {
                 if (attr.AttributeType.Name == "OpCodeAttribute")
                 {
+
                     var type = attr.ConstructorArguments[0].Type;
-                    var value = (byte)attr.ConstructorArguments[0].Value;
 
-                    foreach (var t in type.Resolve().Fields)
+                    Mono.Cecil.CustomAttributeArgument[] val = (Mono.Cecil.CustomAttributeArgument[])attr.ConstructorArguments[0].Value;
+
+                    opcodes = new VM.OpCode[val.Length];
+                    for (var j = 0; j < val.Length; j++)
                     {
-                        if (t.Constant != null)
-                        {
-                            if ((byte)t.Constant == value)
-                            {
-
-                                //dosth
-                                name = t.Name;
-                                return true;
-
-                            }
-                        }
+                        opcodes[j] = ((VM.OpCode)(byte)val[j].Value);
                     }
 
-
+                    return true;
                 }
                 //if(attr.t)
             }
-            name = "";
             return false;
-
         }
+
         public bool IsNotifyCall(Mono.Cecil.MethodDefinition defs, Mono.Cecil.MethodReference refs, BhpMethod to, out string name)
         {
 
@@ -383,6 +374,7 @@ namespace Bhp.Compiler.MSIL
             int callpcount = 0;
             byte[] callhash = null;
             VM.OpCode callcode = VM.OpCode.NOP;
+            VM.OpCode[] callcodes = null;
 
             Mono.Cecil.MethodDefinition defs = null;
             try
@@ -408,17 +400,23 @@ namespace Bhp.Compiler.MSIL
                 calltype = 6;
                 to.lastparam = -1;
             }
-            else if (IsOpCall(defs, out callname))
+            else if (IsOpCall(defs, out callcodes))
             {
-                if (System.Enum.TryParse<VM.OpCode>(callname, out callcode))
-                {
-                    calltype = 2;
-                }
-                else
-                {
-                    throw new Exception("Can not find OpCall:" + callname);
-                }
+                calltype = 2;
+
+                //if (System.Enum.TryParse<VM.OpCode>(callname, out callcode))
+                //{
+                //    calltype = 2;
+                //}
+                //else
+                //{
+                //    throw new Exception("Can not find OpCall:" + callname);
+                //}
             }
+            //else if (IsOpCodesCall(defs, out callcodes))
+            //{
+            //    calltype = 7;
+            //}
             else if (IsSysCall(defs, out callname))
             {
                 calltype = 3;
@@ -638,7 +636,7 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.String System.String::Substring(System.Int32)")
                 {
-                    throw new Exception("bhpmachine cant use this call,please use  .SubString(1,2) with 2 params.");
+                    throw new Exception("neomachine cant use this call,please use  .SubString(1,2) with 2 params.");
                 }
                 else if (src.tokenMethod == "System.String System.Char::ToString()")
                 {
@@ -660,8 +658,8 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.UInt32 <PrivateImplementationDetails>::ComputeStringHash(System.String)")
                 {
-                    throw new Exception("not supported on bhpvm now.");
-                    // 需要bhp.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
+                    throw new Exception("not supported on neovm now.");
+                    // 需要neo.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
 
                     //_Convert1by1(VM.OpCode.CSHARPSTRHASH32, src, to);
                     //return 0;
@@ -691,7 +689,7 @@ namespace Bhp.Compiler.MSIL
             bool havethis = md.HasThis;
             if (calltype == 2)
             {
-                //opcode call 
+                //opcode call
             }
             else
             {//翻转参数顺序
@@ -758,15 +756,16 @@ namespace Bhp.Compiler.MSIL
             }
             else if (calltype == 2)
             {
-                _Convert1by1(callcode, src, to);
-                return 0;
+                //contains (0 opcode= nonemit, 1 opcode= old opcode  , >=2 opcodes = new multi opcode
+                for (var j = 0; j < callcodes.Length; j++)
+                    _Convert1by1(callcodes[j], src, to);
             }
             else if (calltype == 3)
             {
                 byte[] bytes = null;
                 if (this.outModule.option.useSysCallInteropHash)
                 {
-                    //now bhpvm use ineropMethod hash for syscall.
+                    //now neovm use ineropMethod hash for syscall.
                     bytes = BitConverter.GetBytes(callname.ToInteropMethodHash());
                 }
                 else
@@ -820,7 +819,7 @@ namespace Bhp.Compiler.MSIL
 
                 //a syscall
                 {
-                    var bytes = Encoding.UTF8.GetBytes("Bhp.Runtime.Notify");
+                    var bytes = Encoding.UTF8.GetBytes("Neo.Runtime.Notify");
                     byte[] outbytes = new byte[bytes.Length + 1];
                     outbytes[0] = (byte)bytes.Length;
                     Array.Copy(bytes, 0, outbytes, 1, bytes.Length);
@@ -915,7 +914,7 @@ namespace Bhp.Compiler.MSIL
                 this.addrconv.Clear();
                 foreach (int k in oldaddrconv.Keys)
                 {
-                    addrconv[k]=oldaddrconv[k];
+                    addrconv[k] = oldaddrconv[k];
                 }
             }
         }
@@ -942,7 +941,7 @@ namespace Bhp.Compiler.MSIL
                             _Convert1by1(VM.OpCode.SETITEM, null, to);
                         }
                         return 3;
-                    } 
+                    }
                     throw new Exception($"not support this type's init array. type: {type}");
 
                 }
@@ -971,6 +970,7 @@ namespace Bhp.Compiler.MSIL
                 int n2 = method.GetNextCodeAddr(n);
                 int n3 = method.GetNextCodeAddr(n2);
                 int n4 = method.GetNextCodeAddr(n3);
+
                 if (n >= 0 && n2 >= 0 && n3 >= 0 && method.body_Codes[n].code == CodeEx.Dup && method.body_Codes[n2].code == CodeEx.Ldtoken && method.body_Codes[n3].code == CodeEx.Call)
                 {
                     // 這是在初始化數組
@@ -1078,7 +1078,11 @@ namespace Bhp.Compiler.MSIL
                     this._ConvertPush(outbyte, src, to);
                     return skip;
                 }
-            }  
+            }
+
+
+
+            return 0;
 
         }
         private int _ConvertInitObj(OpCode src, BhpMethod to)
@@ -1165,10 +1169,16 @@ namespace Bhp.Compiler.MSIL
                     {
                         if (attr.AttributeType.Name == "OpCodeAttribute")
                         {
+                            //object[] op = method.method.Annotations[0] as object[];
+                            var values = attr.ConstructorArguments[0].Value as Mono.Cecil.CustomAttributeArgument[];
+                            for (var j = 0; j < values.Length; j++)
+                            {
+                                var value = (byte)values[j].Value;
+                                VM.OpCode v = (VM.OpCode)value;
+                                _Insert1(v, null, to);
+                            }
                             //var _type = attr.ConstructorArguments[0].Type;
-                            var value = (byte)attr.ConstructorArguments[0].Value;
-                            VM.OpCode v = (VM.OpCode)value;
-                            _Insert1(v, null, to);
+
                             return 0;
                         }
 
@@ -1199,7 +1209,7 @@ namespace Bhp.Compiler.MSIL
             //_Convert1by1(VM.OpCode.CLONESTRUCTONLY, src, to);
 
             _ConvertPush(id, null, to);//index
-            _Convert1by1(VM.OpCode.SWAP, null, to);//把item 拿上来
+            _Convert1by1(VM.OpCode.SWAP, null, to);//把item 拿上來
 
             _Convert1by1(VM.OpCode.SETITEM, null, to);//修改值 //item //index //array
             return 0;
@@ -1218,4 +1228,5 @@ namespace Bhp.Compiler.MSIL
             return 0;
         }
     }
+
 }

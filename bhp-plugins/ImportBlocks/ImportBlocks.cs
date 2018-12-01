@@ -166,5 +166,10 @@ namespace Bhp.Plugins
             Console.WriteLine();
             return true;
         }
+
+        public override void Configure()
+        {
+           
+        }
     }
 }

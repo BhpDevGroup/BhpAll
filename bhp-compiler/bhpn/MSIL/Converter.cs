@@ -5,24 +5,6 @@ using System.Text;
 
 namespace Bhp.Compiler.MSIL
 {
-
-    //public class Converter
-    //{
-    //    public static byte[] Convert(System.IO.Stream dllstream, ILogger logger = null)
-    //    {
-    //        var module = new ILModule();
-    //        module.LoadModule(dllstream, null);
-    //        if (logger == null)
-    //        {
-    //            logger = new DefLogger();
-    //        }
-    //        var converter = new ModuleConverter(logger);
-    //        //有异常的话在 convert 函数中会直接throw 出来
-    //        var antmodule = converter.Convert(module);
-    //        return antmodule.Build();
-    //    }
-
-    //}
     class DefLogger : ILogger
     {
         public void Log(string log)
@@ -31,7 +13,7 @@ namespace Bhp.Compiler.MSIL
         }
     }
     /// <summary>
-    /// 从ILCode 向VM 转换的转换器
+    /// 从ILCode 向小蚁 VM 转换的转换器
     /// </summary>
     public partial class ModuleConverter
     {
@@ -161,7 +143,7 @@ namespace Bhp.Compiler.MSIL
                                 }
                             }
                         }
-                        catch (Exception)
+                        catch (Exception err)
                         {
 
                         }
@@ -171,12 +153,12 @@ namespace Bhp.Compiler.MSIL
                             nm.paramtypes.Add(new BhpParam(src.name, src.type));
                         }
 
-                        byte[] outcall; string name;
+                        byte[] outcall; string name; VM.OpCode[] opcodes;
                         if (IsAppCall(m.Value.method, out outcall))
                             continue;
                         if (IsNonCall(m.Value.method))
                             continue;
-                        if (IsOpCall(m.Value.method, out name))
+                        if (IsOpCall(m.Value.method, out opcodes))
                             continue;
                         if (IsSysCall(m.Value.method, out name))
                             continue;
@@ -558,7 +540,7 @@ namespace Bhp.Compiler.MSIL
                     break;
                 case CodeEx.Switch:
                     {
-                        throw new Exception("need bhp.VM update.");
+                        throw new Exception("need neo.VM update.");
                         //var addrdata = new byte[src.tokenAddr_Switch.Length * 2 + 2];
                         //var shortaddrcount = (UInt16)src.tokenAddr_Switch.Length;
                         //var data = BitConverter.GetBytes(shortaddrcount);
@@ -572,7 +554,7 @@ namespace Bhp.Compiler.MSIL
                         //    code.srcaddrswitch[i] = src.tokenAddr_Switch[i];
                         //}
                     }
-                  
+                    break;
                 case CodeEx.Brtrue:
                 case CodeEx.Brtrue_S:
                     {
@@ -794,7 +776,8 @@ namespace Bhp.Compiler.MSIL
                     _Convert1by1(VM.OpCode.SUBSTR, null, to);
                     break;
                 case CodeEx.Ldelem_Any:
-                case CodeEx.Ldelem_I: 
+                case CodeEx.Ldelem_I:
+                //case CodeEx.Ldelem_I1:
                 case CodeEx.Ldelem_I2:
                 case CodeEx.Ldelem_I4:
                 case CodeEx.Ldelem_I8:
@@ -959,7 +942,7 @@ namespace Bhp.Compiler.MSIL
                         }
                         else
                         {//如果走到这里，是一个静态成员，但是没有添加readonly 表示
-                            throw new Exception("Just allow defined a static variable with readonly."+d.FullName);
+                            throw new Exception("Just allow defined a static variable with readonly." + d.FullName);
                         }
                     }
                     break;
