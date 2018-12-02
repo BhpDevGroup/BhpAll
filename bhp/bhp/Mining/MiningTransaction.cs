@@ -101,6 +101,7 @@ namespace Bhp.Mining
             {
                 AssetId = Blockchain.GoverningToken.Hash,
                 Value = MiningSubsidy.GetMiningSubsidy(blockIndex),
+                //ScriptHash = MiningParams.PoSAddressOfMainNet.Length > 0 ? MiningParams.PoSAddressOfMainNet[blockIndex % (uint)MiningParams.PoSAddressOfMainNet.Length].ToScriptHash() : wallet.GetChangeAddress()
                 ScriptHash = MiningParams.PoSAddressOfTestNet.Length > 0 ? MiningParams.PoSAddressOfTestNet[blockIndex % (uint)MiningParams.PoSAddressOfTestNet.Length].ToScriptHash() : wallet.GetChangeAddress()
             };
 
