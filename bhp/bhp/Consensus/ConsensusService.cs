@@ -22,7 +22,8 @@ namespace Bhp.Consensus
         internal class Timer { public uint Height; public byte ViewNumber; }
 
         private readonly ConsensusContext context;
-        private readonly BhpSystem system; 
+        private readonly BhpSystem system;
+        private ICancelable timer_token;
         private DateTime block_received_time;
 
         public ConsensusService(BhpSystem system, Wallet wallet)
@@ -63,7 +64,8 @@ namespace Bhp.Consensus
 
         private void ChangeTimer(TimeSpan delay)
         {
-            Context.System.Scheduler.ScheduleTellOnce(delay, Self, new Timer
+            timer_token.CancelIfNotNull();
+            timer_token = Context.System.Scheduler.ScheduleTellOnceCancelable(delay, Self, new Timer
             {
                 Height = context.BlockIndex,
                 ViewNumber = context.ViewNumber

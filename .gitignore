@@ -26,6 +26,8 @@
 !*.vcxproj
 !*.filters
 
+!*.md
+
 bin/
 /bin
 obj/

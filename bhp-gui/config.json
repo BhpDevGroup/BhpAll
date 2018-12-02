@@ -13,9 +13,9 @@
       "WsPort": 20556
     },
     "Urls": {
-      "AddressUrl": "https://texp.bhpa.io/address?address={0}",
-      "AssetUrl": "https://texp.bhpa.io/asset?id={0}",
-      "TransactionUrl": "https://texp.bhpa.io/txContent?txHash={0}"
+      "AddressUrl": "https://exp.bhpa.io/address?address={0}",
+      "AssetUrl": "https://exp.bhpa.io/asset?id={0}",
+      "TransactionUrl": "https://exp.bhpa.io/txContent?txHash={0}"
     }
   }
 }

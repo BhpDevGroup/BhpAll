@@ -99,13 +99,13 @@ namespace Bhp.Compiler.MSIL
                         break;
                     case CodeEx.Newarr:
                         {
-                            if (src.tokenType == "System.Byte")
+                            if ((src.tokenType == "System.Byte") || (src.tokenType == "System.SByte"))
                             {
                                 var count = (int)calcStack.Pop();
                                 byte[] data = new byte[count];
                                 calcStack.Push(data);
                             }
-                            else
+                            else 
                             {
                                 throw new Exception("only byte[] can be defined in here.");
                             }

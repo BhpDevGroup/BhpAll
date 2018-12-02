@@ -6,6 +6,7 @@ namespace Bhp.Properties
 {
     internal sealed partial class Settings
     {
+        public AppConfigs Configs { get; }
         public PathsSettings Paths { get; }
         public P2PSettings P2P { get; }
         public BrowserSettings Urls { get; }
@@ -20,10 +21,20 @@ namespace Bhp.Properties
                 Save();
             }
             IConfigurationSection section = new ConfigurationBuilder().AddJsonFile("config.json").Build().GetSection("ApplicationConfiguration");
+            this.Configs = new AppConfigs(section.GetSection("AppConfigs"));
             this.Paths = new PathsSettings(section.GetSection("Paths"));
             this.P2P = new P2PSettings(section.GetSection("P2P"));
             this.Urls = new BrowserSettings(section.GetSection("Urls"));
             this.Contracts = new ContractSettings(section.GetSection("Contracts"));
+        }
+    }
+
+    internal class AppConfigs
+    {
+        public string Development { get; }
+        public AppConfigs(IConfigurationSection section)
+        {
+            Development = section.GetSection("Development").Value;
         }
     }
 
