@@ -59,7 +59,7 @@ namespace Bhp.Mining
                         {
                                 new TransactionAttribute
                                 {
-                                    Usage = TransactionAttributeUsage.Description,
+                                    Usage = TransactionAttributeUsage.MinerSignature,
                                     Data = signatureOfMining
                                 }
                         },

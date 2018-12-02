@@ -900,7 +900,7 @@ namespace Bhp.Shell
                     sslCert: Settings.Default.RPC.SslCert,
                     password: Settings.Default.RPC.SslCertPassword);
                 */
-                system.StartRpc(IPAddress.Any,
+                system.StartRpc(Settings.Default.RPC.BindAddress,//IPAddress.Any,
                     Settings.Default.RPC.Port,
                     wallet: Program.Wallet,
                     isAutoLock: Settings.Default.UnlockWallet.AutoLock,

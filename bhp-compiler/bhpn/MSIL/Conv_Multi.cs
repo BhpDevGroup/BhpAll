@@ -373,7 +373,7 @@ namespace Bhp.Compiler.MSIL
             string callname = "";
             int callpcount = 0;
             byte[] callhash = null;
-            VM.OpCode callcode = VM.OpCode.NOP;
+            //VM.OpCode callcode = VM.OpCode.NOP;
             VM.OpCode[] callcodes = null;
 
             Mono.Cecil.MethodDefinition defs = null;
@@ -636,7 +636,7 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.String System.String::Substring(System.Int32)")
                 {
-                    throw new Exception("neomachine cant use this call,please use  .SubString(1,2) with 2 params.");
+                    throw new Exception("bhpmachine cant use this call,please use  .SubString(1,2) with 2 params.");
                 }
                 else if (src.tokenMethod == "System.String System.Char::ToString()")
                 {
@@ -658,8 +658,8 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.UInt32 <PrivateImplementationDetails>::ComputeStringHash(System.String)")
                 {
-                    throw new Exception("not supported on neovm now.");
-                    // 需要neo.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
+                    throw new Exception("not supported on bhpvm now.");
+                    // 需要bhp.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
 
                     //_Convert1by1(VM.OpCode.CSHARPSTRHASH32, src, to);
                     //return 0;
@@ -765,7 +765,7 @@ namespace Bhp.Compiler.MSIL
                 byte[] bytes = null;
                 if (this.outModule.option.useSysCallInteropHash)
                 {
-                    //now neovm use ineropMethod hash for syscall.
+                    //now bhpvm use ineropMethod hash for syscall.
                     bytes = BitConverter.GetBytes(callname.ToInteropMethodHash());
                 }
                 else
@@ -819,7 +819,7 @@ namespace Bhp.Compiler.MSIL
 
                 //a syscall
                 {
-                    var bytes = Encoding.UTF8.GetBytes("Neo.Runtime.Notify");
+                    var bytes = Encoding.UTF8.GetBytes("Bhp.Runtime.Notify");
                     byte[] outbytes = new byte[bytes.Length + 1];
                     outbytes[0] = (byte)bytes.Length;
                     Array.Copy(bytes, 0, outbytes, 1, bytes.Length);
@@ -865,7 +865,7 @@ namespace Bhp.Compiler.MSIL
             ILType type;
             if (inModule.mapType.TryGetValue(typename, out type) == false)
             {
-                type = new ILType(null, method.DeclaringType);
+                type = new ILType(null, method.DeclaringType, logger);
                 inModule.mapType[typename] = type;
             }
 
@@ -1078,11 +1078,7 @@ namespace Bhp.Compiler.MSIL
                     this._ConvertPush(outbyte, src, to);
                     return skip;
                 }
-            }
-
-
-
-            return 0;
+            } 
 
         }
         private int _ConvertInitObj(OpCode src, BhpMethod to)

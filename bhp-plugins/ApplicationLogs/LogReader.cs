@@ -24,6 +24,6 @@ namespace Bhp.Plugins
             if (!db.TryGet(ReadOptions.Default, hash.ToArray(), out Slice value))
                 throw new RpcException(-100, "Unknown transaction");
             return JObject.Parse(value.ToString());
-        }
+        } 
     }
 }

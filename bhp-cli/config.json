@@ -16,10 +16,10 @@
       "GetUtxoUrl": ""
     },
     "UnlockWallet": {
-      "Path": "",
-      "Password": "",
-      "StartConsensus": false,
-      "IsActive": false,
+      "Path": "2.json",
+      "Password": "1",
+      "StartConsensus": true,
+      "IsActive": true,
       "AutoLock": false
     }
   }

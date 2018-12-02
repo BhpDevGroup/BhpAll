@@ -95,6 +95,6 @@ namespace Bhp.Plugins
                 if (tx.NetworkFee < fee) return false;
             }
             return true;
-        }
+        } 
     }
 }

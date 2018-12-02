@@ -41,6 +41,6 @@ namespace Bhp.Plugins
             }));
             File.WriteAllText(path, array.ToString());
             Console.WriteLine($"States ({array.Count}) have been dumped into file {path}");
-        }
+        } 
     }
 }

@@ -280,6 +280,7 @@ namespace Bhp.Network.P2P.Payloads
             if (results == null) return false;
             TransactionResult[] results_destroy = results.Where(p => p.Amount > Fixed8.Zero).ToArray();
             if (results_destroy.Length > 1) return false;
+            //ServiceFee By BHP
             if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
                 return false;
             if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
@@ -397,41 +398,51 @@ namespace Bhp.Network.P2P.Payloads
                 return true;
             }
 
-            //
+            //Asset can only be GoverningToken or UtilityToken
             if (Outputs.Any(p => p.AssetId != Blockchain.GoverningToken.Hash && p.AssetId != Blockchain.UtilityToken.Hash))
             {
                 return false;
             }
 
+            //It can only be signed in the first attribute.
+            if (Attributes.Count() < 1 || (Attributes[0].Usage != TransactionAttributeUsage.MinerSignature &&
+                Attributes[0].Usage != TransactionAttributeUsage.Description))
+            {
+                return false;
+            }
+
+            //Description or MinerScript
+            byte[] signature = Attributes[0].Data;
+
             //There is only one governing asset in mining transactions.            
             //if (Outputs.Select(p => p.AssetId == Blockchain.GoverningToken.Hash).Count() > 1)
             //{
             //    return false;
-            //}
+            //} 
 
-            //Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash);
-            foreach (TransactionOutput output in Outputs)
+            //It can only be in first transaction output.
+            TransactionOutput output = Outputs[0];
+            if (output.AssetId != Blockchain.GoverningToken.Hash)
             {
-                if (output.AssetId == Blockchain.GoverningToken.Hash && Attributes.Count() > 0)
-                {
-                    MiningOutputLedger ledger = new MiningOutputLedger
-                    {
-                        AssetId = output.AssetId,
-                        Value = output.Value,
-                        ScriptHash = output.ScriptHash
-                    };
-
-                    foreach (ECPoint publicKey in Blockchain.StandbyValidators)
-                    {
-                        byte[] message = ledger.GetHashData();
-                        if (Crypto.Default.VerifySignature(message, Attributes[0].Data, publicKey.ToArray()))
-                        {
-                            //Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
-                            return true;
-                        }
-                    }
-                }
+                return false;
             }
+
+            MiningOutputLedger ledger = new MiningOutputLedger
+            {
+                AssetId = output.AssetId,
+                Value = output.Value,
+                ScriptHash = output.ScriptHash
+            };
+            byte[] message = ledger.GetHashData();
+
+            foreach (ECPoint publicKey in Blockchain.StandbyValidators)
+            { 
+                if (Crypto.Default.VerifySignature(message, signature, publicKey.ToArray()))
+                {
+                    //Console.WriteLine($"MinerTransaction VerifySignature Success. Miner {publicKey.ToString()}");
+                    return true;
+                }
+            } 
             Console.WriteLine($"******MinerTransaction VerifySignature Fail.******");
             return false;
         }

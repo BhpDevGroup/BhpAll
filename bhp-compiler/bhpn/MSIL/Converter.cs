@@ -13,7 +13,7 @@ namespace Bhp.Compiler.MSIL
         }
     }
     /// <summary>
-    /// 从ILCode 向小蚁 VM 转换的转换器
+    /// 从ILCode 向 VM 转换的转换器
     /// </summary>
     public partial class ModuleConverter
     {
@@ -143,7 +143,7 @@ namespace Bhp.Compiler.MSIL
                                 }
                             }
                         }
-                        catch (Exception err)
+                        catch (Exception)
                         {
 
                         }
@@ -540,7 +540,7 @@ namespace Bhp.Compiler.MSIL
                     break;
                 case CodeEx.Switch:
                     {
-                        throw new Exception("need neo.VM update.");
+                        throw new Exception("need bhp.VM update.");
                         //var addrdata = new byte[src.tokenAddr_Switch.Length * 2 + 2];
                         //var shortaddrcount = (UInt16)src.tokenAddr_Switch.Length;
                         //var data = BitConverter.GetBytes(shortaddrcount);
@@ -553,8 +553,7 @@ namespace Bhp.Compiler.MSIL
                         //{
                         //    code.srcaddrswitch[i] = src.tokenAddr_Switch[i];
                         //}
-                    }
-                    break;
+                    } 
                 case CodeEx.Brtrue:
                 case CodeEx.Brtrue_S:
                     {

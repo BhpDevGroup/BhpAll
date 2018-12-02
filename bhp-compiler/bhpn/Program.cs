@@ -69,7 +69,7 @@ namespace Bhp.Compiler
                 }
             }
 
-            ILModule mod = new ILModule();
+            ILModule mod = new ILModule(log);
             System.IO.Stream fs = null;
             System.IO.Stream fspdb = null;
 

@@ -11,6 +11,6 @@ namespace Bhp.Plugins
         { 
             string line = $"[{DateTime.UtcNow.TimeOfDay:hh\\:mm\\:ss\\:fff}] [{source}][{level}]{message}";
             Console.WriteLine(line);
-        }
+        } 
     }
 }

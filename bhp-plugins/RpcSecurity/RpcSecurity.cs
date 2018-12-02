@@ -41,6 +41,6 @@ namespace Bhp.Plugins
                 return false;
 
             return authvalues[0] == Settings.Default.RpcUser && authvalues[1] == Settings.Default.RpcPass;
-        }
+        } 
     }
 }

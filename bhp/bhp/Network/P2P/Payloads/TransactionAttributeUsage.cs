@@ -30,6 +30,8 @@
         Hash14 = 0xae,
         Hash15 = 0xaf,
 
+        MinerSignature = 0xc1,
+
         Remark = 0xf0,
         Remark1 = 0xf1,
         Remark2 = 0xf2,
