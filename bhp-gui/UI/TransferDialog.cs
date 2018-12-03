@@ -154,7 +154,7 @@ namespace Bhp.UI
                     using (ScriptBuilder sb = new ScriptBuilder())
                     {
                         sb.EmitPush(timestamp);
-                        sb.EmitAppCall(UInt160.Parse("0xa82a13fa0c999b826d881bdca94035ef75e6b668"));// utxo time lock hash
+                        sb.EmitAppCall(UInt160.Parse("0xc3f09bca040d40714130795121ff7e8477a42690"));// utxo time lock hash
                         LockAttribute = new TransactionAttribute
                         {
                             Usage = TransactionAttributeUsage.SmartContractScript,

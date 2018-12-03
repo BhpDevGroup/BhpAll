@@ -84,6 +84,7 @@
             this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "LockUTXODialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LockUTXODialog";
             this.ResumeLayout(false);
             this.PerformLayout();
