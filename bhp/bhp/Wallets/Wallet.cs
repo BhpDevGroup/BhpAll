@@ -301,6 +301,7 @@ namespace Bhp.Wallets
             tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
             tx.Outputs = outputs_new.ToArray();
 
+            decimal Rate = 0.0001m;
             if (tx.Type == TransactionType.ContractTransaction)
             {
                 foreach (TransactionOutput txo in tx.Outputs)
@@ -311,7 +312,7 @@ namespace Bhp.Wallets
                     }
                     else
                     {
-                        txo.Value = txo.Value - (txo.Value * (1 / 10000));
+                        txo.Value = Fixed8.FromDecimal((decimal)txo.Value - ((decimal)txo.Value * Rate));
                     }
                 }
             }
