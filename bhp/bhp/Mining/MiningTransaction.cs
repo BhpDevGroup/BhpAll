@@ -160,7 +160,7 @@ namespace Bhp.Mining
             {
                 AssetId = Blockchain.GoverningToken.Hash,
                 Value = transaction_fee,
-                ScriptHash = MiningParams.TransactionFeeAddressOfTestNet.Length > 0 ? MiningParams.TransactionFeeAddressOfTestNet[blockIndex % (uint)MiningParams.TransactionFeeAddressOfTestNet.Length].ToScriptHash() : wallet.GetChangeAddress()
+                ScriptHash = MiningParams.ServiceChargeAddressOfMainNet.ToScriptHash()
             };
         }
 

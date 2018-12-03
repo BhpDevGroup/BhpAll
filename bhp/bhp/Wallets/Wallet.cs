@@ -277,6 +277,8 @@ namespace Bhp.Wallets
                         ScriptHash = change_address
                     });
                 }
+
+                //By BHP
                 if (tx.Attributes.Length > 0)
                 {
                     for (int i = 0; i < tx.Attributes.Length; i++)

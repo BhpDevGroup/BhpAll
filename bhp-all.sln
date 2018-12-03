@@ -59,8 +59,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "test\ConsoleApp2\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTransaction", "test\TestTransaction\TestTransaction.csproj", "{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bhp-daemon", "daemon\bhp-daemon\bhp-daemon.csproj", "{7186F155-4E4E-4C87-95FA-90B5F9848F02}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockUTXOContract", "smartcontractapp\LockUTXOContract\LockUTXOContract.csproj", "{6322116A-6232-4AD3-BBAA-9F9144A01CF4}"
 EndProject
 Global
@@ -153,10 +151,6 @@ Global
 		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU

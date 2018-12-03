@@ -38,9 +38,9 @@ namespace Bhp.Network.P2P.Payloads
                 Data = reader.ReadBytes(20);
             else if (Usage == TransactionAttributeUsage.DescriptionUrl)
                 Data = reader.ReadBytes(reader.ReadByte());
-            else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark || Usage == TransactionAttributeUsage.SmartContractScript)//by bhp smart contarct
+            else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark)
                 Data = reader.ReadVarBytes(ushort.MaxValue);
-            else if (Usage == TransactionAttributeUsage.MinerSignature) //By BHP
+            else if (Usage >= TransactionAttributeUsage.MinerSignature && Usage <= TransactionAttributeUsage.SmartContractScript) //By BHP
                 Data = reader.ReadVarBytes(ushort.MaxValue);
             else
                 throw new FormatException();
@@ -51,9 +51,9 @@ namespace Bhp.Network.P2P.Payloads
             writer.Write((byte)Usage);
             if (Usage == TransactionAttributeUsage.DescriptionUrl)
                 writer.Write((byte)Data.Length);
-            else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark || Usage == TransactionAttributeUsage.SmartContractScript)//by bhp smart contarct
+            else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark)
                 writer.WriteVarInt(Data.Length);
-            else if(Usage== TransactionAttributeUsage.MinerSignature)//By BHP
+            else if(Usage >= TransactionAttributeUsage.MinerSignature && Usage <= TransactionAttributeUsage.SmartContractScript)//By BHP
                 writer.WriteVarInt(Data.Length);
             if (Usage == TransactionAttributeUsage.ECDH02 || Usage == TransactionAttributeUsage.ECDH03)
                 writer.Write(Data, 1, 32);
