@@ -388,6 +388,12 @@
     <Compile Include="UI\IssueDialog.Designer.cs">
       <DependentUpon>IssueDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\LockUTXODialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LockUTXODialog.Designer.cs">
+      <DependentUpon>LockUTXODialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -731,6 +737,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\IssueDialog.zh-Hans.resx">
       <DependentUpon>IssueDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LockUTXODialog.resx">
+      <DependentUpon>LockUTXODialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.es-ES.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

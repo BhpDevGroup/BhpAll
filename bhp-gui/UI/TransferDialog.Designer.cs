@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_lock = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -47,6 +48,7 @@
             // groupBox3
             // 
             resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.btn_lock);
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.txOutListBox1);
             this.groupBox3.Name = "groupBox3";
@@ -121,6 +123,13 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // btn_lock
+            // 
+            resources.ApplyResources(this.btn_lock, "btn_lock");
+            this.btn_lock.Name = "btn_lock";
+            this.btn_lock.UseVisualStyleBackColor = true;
+            this.btn_lock.Click += new System.EventHandler(this.btn_lock_Click);
+            // 
             // TransferDialog
             // 
             resources.ApplyResources(this, "$this");
@@ -153,5 +162,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btn_lock;
     }
 }

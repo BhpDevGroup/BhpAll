@@ -42,6 +42,10 @@ namespace Bhp.UI
             }).ToArray();
             Transaction tx;
             List<TransactionAttribute> attributes = new List<TransactionAttribute>();
+
+            if (LockAttribute != null)//by bhp lock utxo
+                attributes.Add(LockAttribute);
+
             if (cOutputs.Length == 0)
             {
                 tx = new ContractTransaction();
@@ -137,6 +141,28 @@ namespace Bhp.UI
             button2.Visible = false;
             groupBox1.Visible = true;
             this.Height = 510;
+        }
+
+        TransactionAttribute LockAttribute = null;
+        private void btn_lock_Click(object sender, EventArgs e)
+        {
+            using (LockUTXODialog dialog = new LockUTXODialog())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    uint timestamp = dialog.GetUXTOLockTime;
+                    using (ScriptBuilder sb = new ScriptBuilder())
+                    {
+                        sb.EmitPush(timestamp);
+                        sb.EmitAppCall(UInt160.Parse("0xc3f09bca040d40714130795121ff7e8477a42690"));// utxo time lock hash
+                        LockAttribute = new TransactionAttribute
+                        {
+                            Usage = TransactionAttributeUsage.SmartContractScript,
+                            Data = sb.ToArray()
+                        };
+                    }
+                }
+            }
         }
     }
 }

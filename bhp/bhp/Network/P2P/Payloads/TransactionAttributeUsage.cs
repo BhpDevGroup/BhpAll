@@ -8,6 +8,7 @@
         ECDH03 = 0x03,
 
         Script = 0x20,
+        SmartContractScript = 0x21,//by bhp smart contract
 
         Vote = 0x30,
 

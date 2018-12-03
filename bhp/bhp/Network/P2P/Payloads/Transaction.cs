@@ -278,11 +278,24 @@ namespace Bhp.Network.P2P.Payloads
             }
             TransactionResult[] results = GetTransactionResults()?.ToArray();
             if (results == null) return false;
+            //输入大于输出
             TransactionResult[] results_destroy = results.Where(p => p.Amount > Fixed8.Zero).ToArray();
-            if (results_destroy.Length > 1) return false;
+            
             //ServiceFee By BHP
-            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                return false;
+            if (Type != TransactionType.ContractTransaction)
+            {
+                if (results_destroy.Length > 1) return false;
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                    return false;
+            }
+            else
+            {
+                if (results_destroy.Length > 2) return false;
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash && 
+                    results_destroy[0].AssetId != Blockchain.GoverningToken.Hash)
+                    return false;
+            }
+            
             if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
                 return false;
             TransactionResult[] results_issue = results.Where(p => p.Amount < Fixed8.Zero).ToArray();
@@ -310,6 +323,7 @@ namespace Bhp.Network.P2P.Payloads
             if (Attributes.Count(p => p.Usage == TransactionAttributeUsage.ECDH02 || p.Usage == TransactionAttributeUsage.ECDH03) > 1)
                 return false;
             if (!VerifyReceivingScripts()) return false;
+            if (!VerifyAttributes(snapshot)) return false;//by bhp contract script in attribute
             return this.VerifyWitnesses(snapshot);
         }
 
@@ -472,5 +486,72 @@ namespace Bhp.Network.P2P.Payloads
             //}
             return true;
         }
+
+        /// <summary>
+        /// verify contract script in attribute
+        /// </summary>
+        /// <param name="snapshot"></param>
+        /// <returns></returns>
+        private bool VerifyAttributes(Snapshot snapshot)
+        {
+            foreach (CoinReference item in Inputs)
+            {
+                Transaction preTx = Blockchain.Singleton.GetTransaction(item.PrevHash);
+                TransactionAttribute[] attribute = preTx.Attributes;
+                foreach (TransactionAttribute att in attribute)
+                {
+                    if (att.Usage == TransactionAttributeUsage.SmartContractScript)
+                    {
+                        int n = -1;
+                        BinaryReader OpReader = new BinaryReader(new MemoryStream(att.Data, false));
+                        OpCode opcode = (OpCode)OpReader.ReadByte();
+                        switch (opcode)
+                        {
+                            case OpCode.PUSH0:
+                                break;
+                            case OpCode.PUSHDATA1:
+                                n = BitConverter.ToInt16(OpReader.ReadBytes(OpReader.ReadByte()), 0);
+                                break;
+                            case OpCode.PUSHDATA2:
+                                n = BitConverter.ToInt16(OpReader.ReadBytes(OpReader.ReadUInt16()), 0);
+                                break;
+                            case OpCode.PUSHDATA4:
+                                n = BitConverter.ToInt32(OpReader.ReadBytes((int)OpReader.ReadUInt32()), 0);
+                                break;
+                            case OpCode.PUSHM1:
+                            case OpCode.PUSH1:
+                            case OpCode.PUSH2:
+                            case OpCode.PUSH3:
+                            case OpCode.PUSH4:
+                            case OpCode.PUSH5:
+                            case OpCode.PUSH6:
+                            case OpCode.PUSH7:
+                            case OpCode.PUSH8:
+                            case OpCode.PUSH9:
+                            case OpCode.PUSH10:
+                            case OpCode.PUSH11:
+                            case OpCode.PUSH12:
+                            case OpCode.PUSH13:
+                            case OpCode.PUSH14:
+                            case OpCode.PUSH15:
+                            case OpCode.PUSH16:
+                                n = (int)opcode - (int)OpCode.PUSH1 + 1;
+                                break;
+                        }
+                        if (item.PrevIndex != n)
+                        {
+                            using (ApplicationEngine engine = new ApplicationEngine(TriggerType.Verification, null, snapshot, Fixed8.Zero))
+                            {
+                                engine.LoadScript(OpReader.ReadBytes(OpReader.ReadByte()));
+                                if (!engine.Execute()) return false;
+                                if (engine.ResultStack.Count != 1 || !engine.ResultStack.Pop().GetBoolean()) return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
     }
 }
