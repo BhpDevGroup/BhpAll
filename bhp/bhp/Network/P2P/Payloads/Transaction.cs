@@ -278,11 +278,24 @@ namespace Bhp.Network.P2P.Payloads
             }
             TransactionResult[] results = GetTransactionResults()?.ToArray();
             if (results == null) return false;
+            //输入大于输出
             TransactionResult[] results_destroy = results.Where(p => p.Amount > Fixed8.Zero).ToArray();
-            if (results_destroy.Length > 1) return false;
+            
             //ServiceFee By BHP
-            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                return false;
+            if (Type != TransactionType.ContractTransaction)
+            {
+                if (results_destroy.Length > 1) return false;
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                    return false;
+            }
+            else
+            {
+                if (results_destroy.Length > 2) return false;
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash && 
+                    results_destroy[0].AssetId != Blockchain.GoverningToken.Hash)
+                    return false;
+            }
+            
             if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
                 return false;
             TransactionResult[] results_issue = results.Where(p => p.Amount < Fixed8.Zero).ToArray();

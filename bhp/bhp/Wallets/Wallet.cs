@@ -205,7 +205,7 @@ namespace Bhp.Wallets
             Array.Clear(privateKey, 0, privateKey.Length);
             return account;
         }
-
+         
         public virtual WalletAccount Import(string wif)
         {
             byte[] privateKey = GetPrivateKeyFromWIF(wif);
@@ -222,7 +222,7 @@ namespace Bhp.Wallets
             return account;
         }
 
-        public T MakeTransaction<T>(T tx, UInt160 from = null, UInt160 change_address = null, Fixed8 fee = default(Fixed8)) where T : Transaction
+        public T MakeTransaction<T>(T tx, UInt160 from = null, UInt160 change_address = null, Fixed8 fee = default(Fixed8), Fixed8 transaction_fee = default(Fixed8)) where T : Transaction
         {
             if (tx.Outputs == null) tx.Outputs = new TransactionOutput[0];
             if (tx.Attributes == null) tx.Attributes = new TransactionAttribute[0];
@@ -300,6 +300,21 @@ namespace Bhp.Wallets
             }
             tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
             tx.Outputs = outputs_new.ToArray();
+
+            if (tx.Type == TransactionType.ContractTransaction)
+            {
+                foreach (TransactionOutput txo in tx.Outputs)
+                {
+                    if ((decimal)txo.Value < 0.0001m)
+                    {
+                        throw new Exception("-500, TransactionFee not Enough");
+                    }
+                    else
+                    {
+                        txo.Value = txo.Value - (txo.Value * (1 / 10000));
+                    }
+                }
+            }
             return tx;
         }
 

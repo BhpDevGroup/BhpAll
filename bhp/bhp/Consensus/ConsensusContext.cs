@@ -245,8 +245,11 @@ namespace Bhp.Consensus
                 mem_pool = plugin.FilterForBlock(mem_pool);
             List<Transaction> transactions = mem_pool.ToList();
             Fixed8 amount_netfee = Block.CalculateNetFee(transactions);
+            Fixed8 transaction_fee = Block.CalculateTransactionFee(transactions);
 
-            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee);
+            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee, transaction_fee);
+
+            //MiningTransaction miningTransaction = new MiningTransaction(amount_netfee);
 
             while (true)
             {

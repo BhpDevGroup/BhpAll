@@ -17,7 +17,8 @@ namespace TestTransaction
         static void Mining(BhpSystem system)
         {
             Fixed8 amount_netfee = Fixed8.Zero;
-            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee);
+            Fixed8 transaction_fee = Fixed8.Zero;
+            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee, transaction_fee);
 
             ulong nonce = 100156895;
 

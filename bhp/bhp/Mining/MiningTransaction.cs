@@ -15,11 +15,18 @@ namespace Bhp.Mining
         private byte[] signatureOfMining = null;
         private MiningOutputLedger miningOutput = null;
         private Fixed8 amount_netfee = Fixed8.Zero;
+        private Fixed8 transaction_fee = Fixed8.Zero;
 
-        public MiningTransaction(Fixed8 amount_netfee)
+        public MiningTransaction(Fixed8 amount_netfee, Fixed8 transaction_fee)
         {
             this.amount_netfee = amount_netfee;
+            this.transaction_fee = transaction_fee;
         }
+
+        //public MiningTransaction(Fixed8 amount_netfee)
+        //{
+        //    this.amount_netfee = amount_netfee;
+        //}
 
         public MinerTransaction GetMinerTransaction(ulong nonce, uint blockIndex, Wallet wallet)
         {
@@ -37,7 +44,7 @@ namespace Bhp.Mining
 
             if (outputs == null)
             {
-                MakeTransactionOutputs(blockIndex, wallet, amount_netfee);
+                MakeTransactionOutputs(blockIndex, wallet, amount_netfee, transaction_fee);
                 byte[] hashDataOfMining = GetHashData();
                 if (hashDataOfMining != null)
                 {
@@ -75,22 +82,33 @@ namespace Bhp.Mining
             return miningOutput == null ? null : miningOutput.GetHashData();
         }
 
-        private TransactionOutput[] MakeTransactionOutputs(uint blockIndex, Wallet wallet, Fixed8 amount_netfee)
-        {      
-            if (amount_netfee == Fixed8.Zero)
+        //by BHP
+        private TransactionOutput[] MakeTransactionOutputs(uint blockIndex, Wallet wallet, Fixed8 amount_netfee, Fixed8 transaction_fee)
+        {
+            if (amount_netfee == Fixed8.Zero && transaction_fee == Fixed8.Zero)
             {
                 //If the network fee is 0, only a mining transaction will be constructed
                 outputs = new TransactionOutput[] { MiningOutput(blockIndex, wallet) };
             }
             else
             {
-                //First, construct a mining transaction, then construct a network fee transaction
-                outputs = new TransactionOutput[] { MiningOutput(blockIndex, wallet), NetFeeOutput(wallet, amount_netfee) };
+                if (amount_netfee == Fixed8.Zero)
+                {
+                    outputs = new TransactionOutput[] { MiningOutput(blockIndex, wallet), TransactionFeeOutput(wallet, blockIndex, transaction_fee) };
+                }
+                else if (transaction_fee == Fixed8.Zero)
+                {
+                    //First, construct a mining transaction, then construct a network fee transaction
+                    outputs = new TransactionOutput[] { MiningOutput(blockIndex, wallet), NetFeeOutput(wallet, amount_netfee) };
+                }
+                else
+                {
+                    outputs = new TransactionOutput[] { MiningOutput(blockIndex, wallet), NetFeeOutput(wallet, amount_netfee), TransactionFeeOutput(wallet, blockIndex, transaction_fee) };
+                }
             }
             return outputs;
         }
-         
-
+        
         /// <summary>
         /// 挖矿产出
         /// </summary>
@@ -128,5 +146,23 @@ namespace Bhp.Mining
                 ScriptHash = wallet.GetChangeAddress()
             };
         }
+
+        /// <summary>
+        /// 交易费
+        /// </summary>
+        /// <param name="wallet"></param>
+        /// <param name="blockIndex"></param>
+        /// <param name="transaction_fee"></param>
+        /// <returns></returns>
+        private TransactionOutput TransactionFeeOutput(Wallet wallet, uint blockIndex, Fixed8 transaction_fee)
+        {
+            return new TransactionOutput
+            {
+                AssetId = Blockchain.GoverningToken.Hash,
+                Value = transaction_fee,
+                ScriptHash = MiningParams.TransactionFeeAddressOfTestNet.Length > 0 ? MiningParams.TransactionFeeAddressOfTestNet[blockIndex % (uint)MiningParams.TransactionFeeAddressOfTestNet.Length].ToScriptHash() : wallet.GetChangeAddress()
+            };
+        }
+
     }
 }
