@@ -72,6 +72,7 @@ namespace Bhp.Wallets
         protected static Coin[] FindUnspentCoins(IEnumerable<Coin> unspents, UInt256 asset_id, Fixed8 amount)
         {
             Coin[] unspents_asset = unspents.Where(p => p.Output.AssetId == asset_id).ToArray();
+            unspents_asset = VerifyAttribute(unspents_asset);//by bhp smart contract verify
             Fixed8 sum = unspents_asset.Sum(p => p.Output.Value);
             if (sum < amount) return null;
             if (sum == amount) return unspents_asset;
@@ -265,8 +266,10 @@ namespace Bhp.Wallets
             List<TransactionOutput> outputs_new = new List<TransactionOutput>(tx.Outputs);
             foreach (UInt256 asset_id in input_sum.Keys)
             {
+                bool isChange = false;
                 if (input_sum[asset_id].Value > pay_total[asset_id].Value)
                 {
+                    isChange = true;
                     outputs_new.Add(new TransactionOutput
                     {
                         AssetId = asset_id,
@@ -274,11 +277,90 @@ namespace Bhp.Wallets
                         ScriptHash = change_address
                     });
                 }
+                if (tx.Attributes.Length > 0)
+                {
+                    for (int i = 0; i < tx.Attributes.Length; i++)
+                    {
+                        if (tx.Attributes[i].Usage == TransactionAttributeUsage.SmartContractScript)
+                        {
+                            int n = -1;
+                            if (isChange)
+                            {
+                                n = outputs_new.Count - 1;
+                            }
+                            using (ScriptBuilder sb = new ScriptBuilder())
+                            {
+                                sb.EmitPush(n);
+                                sb.EmitPush(tx.Attributes[i].Data);
+                                tx.Attributes[i].Data = sb.ToArray();
+                            }
+                        }
+                    }
+                }
             }
             tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
             tx.Outputs = outputs_new.ToArray();
             return tx;
         }
+
+        //public T MakeTransaction<T>(T tx, UInt160 from = null, UInt160 change_address = null, Fixed8 fee = default(Fixed8)) where T : Transaction
+        //{
+        //    if (tx.Outputs == null) tx.Outputs = new TransactionOutput[0];
+        //    if (tx.Attributes == null) tx.Attributes = new TransactionAttribute[0];
+        //    fee += tx.SystemFee;
+        //    var pay_total = (typeof(T) == typeof(IssueTransaction) ? new TransactionOutput[0] : tx.Outputs).GroupBy(p => p.AssetId, (k, g) => new
+        //    {
+        //        AssetId = k,
+        //        Value = g.Sum(p => p.Value)
+        //    }).ToDictionary(p => p.AssetId);
+        //    if (fee > Fixed8.Zero)
+        //    {
+        //        if (pay_total.ContainsKey(Blockchain.UtilityToken.Hash))
+        //        {
+        //            pay_total[Blockchain.UtilityToken.Hash] = new
+        //            {
+        //                AssetId = Blockchain.UtilityToken.Hash,
+        //                Value = pay_total[Blockchain.UtilityToken.Hash].Value + fee
+        //            };
+        //        }
+        //        else
+        //        {
+        //            pay_total.Add(Blockchain.UtilityToken.Hash, new
+        //            {
+        //                AssetId = Blockchain.UtilityToken.Hash,
+        //                Value = fee
+        //            });
+        //        }
+        //    }
+        //    var pay_coins = pay_total.Select(p => new
+        //    {
+        //        AssetId = p.Key,
+        //        Unspents = from == null ? FindUnspentCoins(p.Key, p.Value.Value) : FindUnspentCoins(p.Key, p.Value.Value, from)
+        //    }).ToDictionary(p => p.AssetId);
+        //    if (pay_coins.Any(p => p.Value.Unspents == null)) return null;
+        //    var input_sum = pay_coins.Values.ToDictionary(p => p.AssetId, p => new
+        //    {
+        //        p.AssetId,
+        //        Value = p.Unspents.Sum(q => q.Output.Value)
+        //    });
+        //    if (change_address == null) change_address = GetChangeAddress();
+        //    List<TransactionOutput> outputs_new = new List<TransactionOutput>(tx.Outputs);
+        //    foreach (UInt256 asset_id in input_sum.Keys)
+        //    {
+        //        if (input_sum[asset_id].Value > pay_total[asset_id].Value)
+        //        {
+        //            outputs_new.Add(new TransactionOutput
+        //            {
+        //                AssetId = asset_id,
+        //                Value = input_sum[asset_id].Value - pay_total[asset_id].Value,
+        //                ScriptHash = change_address
+        //            });
+        //        }
+        //    }
+        //    tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
+        //    tx.Outputs = outputs_new.ToArray();
+        //    return tx;
+        //}
 
         public Transaction MakeTransaction(List<TransactionAttribute> attributes, IEnumerable<TransferOutput> outputs, UInt160 from = null, UInt160 change_address = null, Fixed8 fee = default(Fixed8))
         {
@@ -405,5 +487,78 @@ namespace Bhp.Wallets
             if (x.Length != y.Length) throw new ArgumentException();
             return x.Zip(y, (a, b) => (byte)(a ^ b)).ToArray();
         }
+
+        /// <summary>
+        /// Verify inputs are available
+        /// </summary>
+        /// <param name="unspentsAsset"></param>
+        /// <returns></returns>
+        private static Coin[] VerifyAttribute(Coin[] unspentsAsset)
+        {
+            List<Coin> unspents = unspentsAsset.ToList();
+            foreach (var item in unspentsAsset)
+            {
+                Transaction preTx = Blockchain.Singleton.GetTransaction(item.Reference.PrevHash);
+                TransactionAttribute[] attribute = preTx.Attributes;
+                using (Persistence.Snapshot snapshot = Blockchain.Singleton.GetSnapshot())
+                {
+                    foreach (TransactionAttribute att in attribute)
+                    {
+                        if (att.Usage == TransactionAttributeUsage.SmartContractScript)
+                        {
+                            int n = -1;
+                            System.IO.BinaryReader OpReader = new System.IO.BinaryReader(new System.IO.MemoryStream(att.Data, false));
+                            OpCode opcode = (OpCode)OpReader.ReadByte();
+                            switch (opcode)
+                            {
+                                case OpCode.PUSH0:
+                                    break;
+                                case OpCode.PUSHDATA1:
+                                    n = BitConverter.ToInt16(OpReader.ReadBytes(OpReader.ReadByte()), 0);
+                                    break;
+                                case OpCode.PUSHDATA2:
+                                    n = BitConverter.ToInt16(OpReader.ReadBytes(OpReader.ReadUInt16()), 0);
+                                    break;
+                                case OpCode.PUSHDATA4:
+                                    n = BitConverter.ToInt32(OpReader.ReadBytes((int)OpReader.ReadUInt32()), 0);
+                                    break;
+                                case OpCode.PUSHM1:
+                                case OpCode.PUSH1:
+                                case OpCode.PUSH2:
+                                case OpCode.PUSH3:
+                                case OpCode.PUSH4:
+                                case OpCode.PUSH5:
+                                case OpCode.PUSH6:
+                                case OpCode.PUSH7:
+                                case OpCode.PUSH8:
+                                case OpCode.PUSH9:
+                                case OpCode.PUSH10:
+                                case OpCode.PUSH11:
+                                case OpCode.PUSH12:
+                                case OpCode.PUSH13:
+                                case OpCode.PUSH14:
+                                case OpCode.PUSH15:
+                                case OpCode.PUSH16:
+                                    n = (int)opcode - (int)OpCode.PUSH1 + 1;
+                                    break;
+                            }
+                            if (item.Reference.PrevIndex != n)
+                            {
+                                using (ApplicationEngine engine = new ApplicationEngine(TriggerType.Verification, null, snapshot, Fixed8.Zero))
+                                {
+                                    engine.LoadScript(OpReader.ReadBytes(OpReader.ReadByte()));
+                                    if (!engine.Execute() || engine.ResultStack.Count != 1 || !engine.ResultStack.Pop().GetBoolean())
+                                    {
+                                        unspents.Remove(item);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return unspents.ToArray();
+        }
+
     }
 }

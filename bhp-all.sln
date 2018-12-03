@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTransaction", "test\Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bhp-daemon", "daemon\bhp-daemon\bhp-daemon.csproj", "{7186F155-4E4E-4C87-95FA-90B5F9848F02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockUTXOContract", "smartcontractapp\LockUTXOContract\LockUTXOContract.csproj", "{6322116A-6232-4AD3-BBAA-9F9144A01CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7186F155-4E4E-4C87-95FA-90B5F9848F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6322116A-6232-4AD3-BBAA-9F9144A01CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{4F7A3B44-E224-4CBD-8A52-8AE54763B5FC} = {747DA9B0-8681-473F-BC85-20206241A619}
 		{79CC415B-FE5C-4A4F-BDD4-66ECE52CD8A3} = {CAD2B325-FDFA-4082-B858-43BECA07AC58}
 		{BC89B426-5E8B-4C22-B4A4-D8D6F6290435} = {CAD2B325-FDFA-4082-B858-43BECA07AC58}
+		{6322116A-6232-4AD3-BBAA-9F9144A01CF4} = {743C4D77-08CE-406D-92D3-D13277B8DAAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85BE7F98-1D99-49B3-B392-67124C7B90AE}
