@@ -1,20 +1,24 @@
 ﻿{
   "ProtocolConfiguration": {
-    "Magic": 48876898,
+    "Magic": 58876898,
     "AddressVersion": 23,
     "SecondsPerBlock": 15,
     "LowPriorityThreshold": 0.0001,
     "StandbyValidators": [
-      "024f91e47be7dc18968c3fe8aa5b85d6a469611d0a3a157cd78610253ad3086026",
-      "0244970dc2be200f02cd8acd42b70a371db5ac169f60eb58eda6e653340432dc68",
-      "03690273117e8d5e28060f1f2c4300fd64bfa432bbccb17033504bb775c1c47345",
-      "036f4730e5ff75e5c829c3e4a13339dfbd36f3e392cf20be38080174a6d30891b8"
+      "02157613cd65a61f58ebebc04bc6a11ae4f2de511daf7dccd7ee40edf01991a58f",
+      "021136458df8961500f044a09005eb6aa9cd8356959f2335e8c6738a3d642353a0",
+      "02e35ce0f41194200b2fb3a3f7c382d5e612933fad436b41202b9e741ae3eb4624",
+      "0354d24daa4eaa187a4ad55789936e5a1f3a28977f0a71d114ce274dd161ceec74"
     ],
     "SeedList": [
-      "127.0.0.1:10555",
-      "127.0.0.1:20555",
-      "127.0.0.1:30555",
-      "127.0.0.1:40555"
+      "seed01.bhpa.io:20555",
+      "seed02.bhpa.io:20555",
+      "seed03.bhpa.io:20555",
+      "seed04.bhpa.io:20555",
+      "seed05.bhpa.io:20555",
+      "seed06.bhpa.io:20555",
+      "seed07.bhpa.io:20555",
+      "seed08.bhpa.io:20555"
     ],
     "SystemFee": {
       "EnrollmentTransaction": 1000,
