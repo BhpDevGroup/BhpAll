@@ -687,6 +687,23 @@ namespace Bhp.Network.RPC
                         }
                         return json;
                     }
+
+                case "claimgas":
+                    {
+                        if (wallet == null || walletTimeLock.IsLocked())
+                            throw new RpcException(-400, "Access denied");
+                        else
+                        {
+                            JObject json = new JObject();
+                            RPCCoins coins = new RPCCoins(wallet, system);
+                            ClaimTransaction[] txs = coins.ClaimAll();
+                            json["txs"] = new JArray(txs.Select(p => 
+                            {
+                                return p.ToJson();
+                            }));
+                            return json;
+                        }
+                    }
                 case "getutxoofaddress":
                  {
                         string from = _params[0].AsString(); 

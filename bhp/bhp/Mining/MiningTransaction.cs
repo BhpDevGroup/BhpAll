@@ -163,6 +163,5 @@ namespace Bhp.Mining
                 ScriptHash = MiningParams.ServiceChargeAddressOfMainNet.ToScriptHash()
             };
         }
-
     }
 }
