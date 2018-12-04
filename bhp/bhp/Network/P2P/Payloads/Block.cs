@@ -47,7 +47,8 @@ namespace Bhp.Network.P2P.Payloads
             Fixed8 amount_sysfee = ts.Sum(p => p.SystemFee);
             return amount_in - amount_out - amount_sysfee;
         }
-
+        
+        /*
         public static Fixed8 CalculateTransactionFee(IEnumerable<Transaction> transactions)
         {
             Transaction[] ts = transactions.Where(p => p.Type == TransactionType.ContractTransaction).ToArray();
@@ -66,6 +67,7 @@ namespace Bhp.Network.P2P.Payloads
             }
             return inputsum - outputsum;
         }
+        */
 
         public override void Deserialize(BinaryReader reader)
         {

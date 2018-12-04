@@ -697,10 +697,16 @@ namespace Bhp.Network.RPC
                             JObject json = new JObject();
                             RPCCoins coins = new RPCCoins(wallet, system);
                             ClaimTransaction[] txs = coins.ClaimAll();
-                            json["txs"] = new JArray(txs.Select(p => 
+                            if (txs == null) {
+                                json["txs"] = new JArray();
+                            }
+                            else
                             {
-                                return p.ToJson();
-                            }));
+                                json["txs"] = new JArray(txs.Select(p =>
+                                {
+                                    return p.ToJson();
+                                }));
+                            }
                             return json;
                         }
                     }

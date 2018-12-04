@@ -18,7 +18,7 @@ namespace TestTransaction
         {
             Fixed8 amount_netfee = Fixed8.Zero;
             Fixed8 transaction_fee = Fixed8.Zero;
-            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee, transaction_fee);
+            MiningTransaction miningTransaction = new MiningTransaction(amount_netfee);
 
             ulong nonce = 100156895;
 

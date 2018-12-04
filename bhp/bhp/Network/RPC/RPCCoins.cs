@@ -90,8 +90,7 @@ namespace Bhp.Network.RPC
 
         public ClaimTransaction[] ClaimAll()
         {
-
-            if (this.AvailableBonus() == Fixed8.Zero)
+            if (AvailableBonus() == Fixed8.Zero)
             {
                 Console.WriteLine($"no gas to claim");
                 return null;
