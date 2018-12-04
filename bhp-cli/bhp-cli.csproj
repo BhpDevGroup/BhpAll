@@ -13,6 +13,8 @@
     <Company>The Bhp Project</Company>
     <Product>Bhp.CLI</Product>
     <Description>Bhp.CLI</Description>
+    <AssemblyVersion>1.0.2.2</AssemblyVersion>
+    <FileVersion>1.0.2.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
