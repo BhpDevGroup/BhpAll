@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace Bhp.Compiler.MSIL
 {
@@ -14,9 +15,11 @@ namespace Bhp.Compiler.MSIL
         {
 
             //get array
-            _Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
-            _Convert1by1(VM.OpCode.DUP, null, to);
-            _Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            //_Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
+            //_Convert1by1(VM.OpCode.DUP, null, to);
+            //_Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            _Convert1by1(VM.OpCode.DUPFROMALTSTACK, src, to);
+
             //get i
             _ConvertPush(pos + method.paramtypes.Count, null, to);//翻转取参数顺序
 
@@ -60,9 +63,10 @@ namespace Bhp.Compiler.MSIL
         private void _ConvertLdLoc(ILMethod method, OpCode src, BhpMethod to, int pos)
         {
             //get array
-            _Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
-            _Convert1by1(VM.OpCode.DUP, null, to);
-            _Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            //_Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
+            //_Convert1by1(VM.OpCode.DUP, null, to);
+            //_Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            _Convert1by1(VM.OpCode.DUPFROMALTSTACK, src, to);
             //get i
             _ConvertPush(pos + method.paramtypes.Count, null, to);//翻转取参数顺序
             _Convert1by1(VM.OpCode.PICKITEM, null, to);
@@ -137,9 +141,10 @@ namespace Bhp.Compiler.MSIL
             }
             //}
             //get array
-            _Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
-            _Convert1by1(VM.OpCode.DUP, null, to);
-            _Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            //_Convert1by1(VM.OpCode.FROMALTSTACK, src, to);
+            //_Convert1by1(VM.OpCode.DUP, null, to);
+            //_Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            _Convert1by1(VM.OpCode.DUPFROMALTSTACK, src, to);
             //get i
             _ConvertPush(pos, null, to);//翻转取参数顺序
             _Convert1by1(VM.OpCode.PICKITEM, null, to);
@@ -659,7 +664,7 @@ namespace Bhp.Compiler.MSIL
                 else if (src.tokenMethod == "System.UInt32 <PrivateImplementationDetails>::ComputeStringHash(System.String)")
                 {
                     throw new Exception("not supported on bhpvm now.");
-                    // 需要bhp.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
+                    // 需要Bhp.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
 
                     //_Convert1by1(VM.OpCode.CSHARPSTRHASH32, src, to);
                     //return 0;
@@ -914,7 +919,7 @@ namespace Bhp.Compiler.MSIL
                 this.addrconv.Clear();
                 foreach (int k in oldaddrconv.Keys)
                 {
-                    addrconv[k] = oldaddrconv[k];
+                    addrconv[k]=oldaddrconv[k];
                 }
             }
         }
@@ -1078,9 +1083,10 @@ namespace Bhp.Compiler.MSIL
                     this._ConvertPush(outbyte, src, to);
                     return skip;
                 }
-            } 
-
+            }             
+            //return 0;
         }
+
         private int _ConvertInitObj(OpCode src, BhpMethod to)
         {
             var type = (src.tokenUnknown as Mono.Cecil.TypeReference).Resolve();
@@ -1097,9 +1103,10 @@ namespace Bhp.Compiler.MSIL
             //now stack  a index, a value
 
             //getarray
-            _Insert1(VM.OpCode.FROMALTSTACK, null, to);
-            _Insert1(VM.OpCode.DUP, null, to);
-            _Insert1(VM.OpCode.TOALTSTACK, null, to);
+            //_Convert1by1(VM.OpCode.FROMALTSTACK, null, to);
+            //_Convert1by1(VM.OpCode.DUP, null, to);
+            //_Convert1by1(VM.OpCode.TOALTSTACK, null, to);
+            _Convert1by1(VM.OpCode.DUPFROMALTSTACK, null, to);
 
             _InsertPush(2, "", to);//move item
             _Insert1(VM.OpCode.ROLL, null, to);
@@ -1167,11 +1174,12 @@ namespace Bhp.Compiler.MSIL
                         {
                             //object[] op = method.method.Annotations[0] as object[];
                             var values = attr.ConstructorArguments[0].Value as Mono.Cecil.CustomAttributeArgument[];
-                            for (var j = 0; j < values.Length; j++)
+                            for(var j=0;j<values.Length;j++)
                             {
                                 var value = (byte)values[j].Value;
-                                VM.OpCode v = (VM.OpCode)value;
-                                _Insert1(v, null, to);
+                                VM.OpCode v = (VM.OpCode)value; 
+                                //_Insert1(v, src, to); this will miss the address for new xxx();
+                                _Convert1by1(v, src, to);
                             }
                             //var _type = attr.ConstructorArguments[0].Type;
 
@@ -1224,5 +1232,4 @@ namespace Bhp.Compiler.MSIL
             return 0;
         }
     }
-
 }

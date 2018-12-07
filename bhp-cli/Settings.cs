@@ -10,7 +10,7 @@ namespace Bhp
         public P2PSettings P2P { get; }
         public RPCSettings RPC { get; }
         public UnlockWalletSettings UnlockWallet { get; set; }
-
+        public DataRPCSettings DataRPC { get; set; }
         public static Settings Default { get; }
 
         static Settings()
@@ -25,6 +25,7 @@ namespace Bhp
             this.P2P = new P2PSettings(section.GetSection("P2P"));
             this.RPC = new RPCSettings(section.GetSection("RPC"));
             this.UnlockWallet = new UnlockWalletSettings(section.GetSection("UnlockWallet"));
+            DataRPC = new DataRPCSettings(section.GetSection("DataRPC"));
         }
     }
 
@@ -58,15 +59,14 @@ namespace Bhp
         public ushort Port { get; }
         public string SslCert { get; }
         public string SslCertPassword { get; }
-        public string GetUtxoUrl { get; }
+        
 
         public RPCSettings(IConfigurationSection section)
         {
             this.BindAddress = IPAddress.Parse(section.GetSection("BindAddress").Value);
             this.Port = ushort.Parse(section.GetSection("Port").Value);
             this.SslCert = section.GetSection("SslCert").Value;
-            this.SslCertPassword = section.GetSection("SslCertPassword").Value;
-            this.GetUtxoUrl = section.GetSection("GetUtxoUrl").Value;
+            this.SslCertPassword = section.GetSection("SslCertPassword").Value; 
         }
     }
 
@@ -88,6 +88,16 @@ namespace Bhp
                 this.IsActive = bool.Parse(section.GetSection("IsActive").Value);
                 this.AutoLock = bool.Parse(section.GetSection("AutoLock").Value);
             }
+        }
+    }
+
+    internal class DataRPCSettings
+    {
+        public string Host { get; }
+
+        public DataRPCSettings(IConfigurationSection section)
+        {
+            Host = section.GetSection("Host").Value;
         }
     }
 }

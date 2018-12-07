@@ -105,7 +105,7 @@ namespace Bhp.Compiler.MSIL
                                 byte[] data = new byte[count];
                                 calcStack.Push(data);
                             }
-                            else 
+                            else
                             {
                                 throw new Exception("only byte[] can be defined in here.");
                             }
@@ -184,7 +184,7 @@ namespace Bhp.Compiler.MSIL
                                         }
                                         if (attrname == "ToScriptHash")//AddressString2ScriptHashBytes to bytes
                                         {
-                                            var bytes = BHP.AllianceOfThinWallet.Cryptography.Base58.Decode(text);
+                                            var bytes = Bhp.AllianceOfThinWallet.Cryptography.Base58.Decode(text);
                                             var hash = bytes.Skip(1).Take(20).ToArray();
                                             calcStack.Push(hash);
                                         }

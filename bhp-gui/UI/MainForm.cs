@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Settings = Bhp.Properties.Settings;
 using VMArray = Bhp.VM.Types.Array;
+ 
 
 namespace Bhp.UI
 {
@@ -573,7 +574,7 @@ namespace Bhp.UI
             查看私钥VToolStripMenuItem.Enabled =
                 listView1.SelectedIndices.Count == 1 &&
                 !((WalletAccount)listView1.SelectedItems[0].Tag).WatchOnly &&
-                ((WalletAccount)listView1.SelectedItems[0].Tag).Contract.Script.IsStandardContract();
+                ((WalletAccount)listView1.SelectedItems[0].Tag).Contract.Script.IsSignatureContract();
             viewContractToolStripMenuItem.Enabled =
                 listView1.SelectedIndices.Count == 1 &&
                 !((WalletAccount)listView1.SelectedItems[0].Tag).WatchOnly;

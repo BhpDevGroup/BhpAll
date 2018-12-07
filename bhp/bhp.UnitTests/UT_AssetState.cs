@@ -470,7 +470,7 @@ namespace Bhp.UnitTests
             uint expiration;
             bool isFrozen;
             setupAssetStateWithValues(uut, out assetId, out assetType, out name, out amount, out available, out precision, out fee, out feeAddress, out owner, out admin, out issuer, out expiration, out isFrozen);
-            uut.Name = "[{\"lang\":\"zh-CN\",\"name\":\"算力币\"},{\"lang\":\"en\",\"name\":\"BHP\"}]";
+            uut.Name = "[{\"lang\":\"zh-CN\",\"name\":\"算力币\"},{\"lang\":\"en\",\"name\":\"Bhp\"}]";
 
             CultureInfo.CurrentCulture = new CultureInfo("zh-CN");
             uut.GetName().Should().Be("算力币");

@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BHP.AllianceOfThinWallet.Cryptography
+namespace Bhp.AllianceOfThinWallet.Cryptography
 {
     public static class Base58
     {

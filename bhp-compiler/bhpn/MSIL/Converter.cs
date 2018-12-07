@@ -5,6 +5,24 @@ using System.Text;
 
 namespace Bhp.Compiler.MSIL
 {
+
+    //public class Converter
+    //{
+    //    public static byte[] Convert(System.IO.Stream dllstream, ILogger logger = null)
+    //    {
+    //        var module = new ILModule();
+    //        module.LoadModule(dllstream, null);
+    //        if (logger == null)
+    //        {
+    //            logger = new DefLogger();
+    //        }
+    //        var converter = new ModuleConverter(logger);
+    //        //有异常的话在 convert 函数中会直接throw 出来
+    //        var antmodule = converter.Convert(module);
+    //        return antmodule.Build();
+    //    }
+
+    //}
     class DefLogger : ILogger
     {
         public void Log(string log)
@@ -540,7 +558,7 @@ namespace Bhp.Compiler.MSIL
                     break;
                 case CodeEx.Switch:
                     {
-                        throw new Exception("need bhp.VM update.");
+                        throw new Exception("need Bhp.VM update.");
                         //var addrdata = new byte[src.tokenAddr_Switch.Length * 2 + 2];
                         //var shortaddrcount = (UInt16)src.tokenAddr_Switch.Length;
                         //var data = BitConverter.GetBytes(shortaddrcount);
@@ -553,7 +571,8 @@ namespace Bhp.Compiler.MSIL
                         //{
                         //    code.srcaddrswitch[i] = src.tokenAddr_Switch[i];
                         //}
-                    } 
+                    }
+                    //break;
                 case CodeEx.Brtrue:
                 case CodeEx.Brtrue_S:
                     {
@@ -790,9 +809,74 @@ namespace Bhp.Compiler.MSIL
                 case CodeEx.Ldlen:
                     _Convert1by1(VM.OpCode.ARRAYSIZE, src, to);
                     break;
+
+                case CodeEx.Stelem_I1:
+                      {
+                        // WILL TRACE VARIABLE ORIGIN "Z" IN ALTSTACK!
+                        // EXPECTS:  source[index] = b; // index and b must be variables! constants will fail!
+                        /*
+                        9 6a DUPFROMALTSTACK
+                        8 5Z PUSHZ
+                        7 c3 PICKITEM
+                        6 6a DUPFROMALTSTACK
+                        5 5Y PUSHY
+                        4 c3 PICKITEM
+                        3 6a DUPFROMALTSTACK
+                        2 5X PUSHX
+                        1 c3 PICKITEM
+                        */
+
+                        if(  (to.body_Codes[addr-1].code == VM.OpCode.PICKITEM)
+                          && (to.body_Codes[addr-4].code == VM.OpCode.PICKITEM)
+                          && (to.body_Codes[addr-7].code == VM.OpCode.PICKITEM)
+                          && (to.body_Codes[addr-3].code == VM.OpCode.DUPFROMALTSTACK)
+                          && (to.body_Codes[addr-6].code == VM.OpCode.DUPFROMALTSTACK)
+                          && (to.body_Codes[addr-9].code == VM.OpCode.DUPFROMALTSTACK)
+                          && ((to.body_Codes[addr-2].code >= VM.OpCode.PUSH0) && (to.body_Codes[addr-2].code <= VM.OpCode.PUSH16))
+                          && ((to.body_Codes[addr-5].code >= VM.OpCode.PUSH0) && (to.body_Codes[addr-5].code <= VM.OpCode.PUSH16))
+                          && ((to.body_Codes[addr-8].code >= VM.OpCode.PUSH0) && (to.body_Codes[addr-8].code <= VM.OpCode.PUSH16))
+                          )
+                          {
+                              // WILL REQUIRE TO PROCESS INFORMATION AND STORE IT AGAIN ON ALTSTACK CORRECT POSITION
+                              VM.OpCode PushZ = to.body_Codes[addr-8].code;
+
+                              _Convert1by1(VM.OpCode.PUSH2, null, to);
+                              _Convert1by1(VM.OpCode.PICK, null, to);
+                              _Convert1by1(VM.OpCode.PUSH2, null, to);
+                              _Convert1by1(VM.OpCode.PICK, null, to);
+                              _Convert1by1(VM.OpCode.LEFT, null, to);
+                              _Convert1by1(VM.OpCode.SWAP, null, to);
+                              _Convert1by1(VM.OpCode.CAT, null, to);
+                              _Convert1by1(VM.OpCode.ROT, null, to);
+                              _Convert1by1(VM.OpCode.ROT, null, to);
+                              _Convert1by1(VM.OpCode.OVER, null, to);
+                              _Convert1by1(VM.OpCode.ARRAYSIZE, null, to);
+                              _Convert1by1(VM.OpCode.DEC, null, to);
+                              _Convert1by1(VM.OpCode.SWAP, null, to);
+                              _Convert1by1(VM.OpCode.SUB, null, to);
+                              _Convert1by1(VM.OpCode.RIGHT, null, to);
+                              _Convert1by1(VM.OpCode.CAT, null, to);
+
+                              // FINAL RESULT MUST GO BACK TO POSITION Z ON ALTSTACK
+
+                              // FINAL STACK:
+                              // 4 get array (dupfromaltstack)
+                              // 3 PushZ
+                              // 2 result
+                              // 1 setitem
+
+                              _Convert1by1(VM.OpCode.DUPFROMALTSTACK, null, to);  // stack: [ array , result , ... ]
+                              _Convert1by1(PushZ, null, to);                      // stack: [ pushz, array , result , ... ]
+                              _Convert1by1(VM.OpCode.ROT, null, to);              // stack: [ result, pushz, array , ... ]
+                              _Convert1by1(VM.OpCode.SETITEM, null, to);          // stack: [ result, pushz, array , ... ]
+                          }
+                          else
+                              throw new Exception("bhpmachine currently supports only variable indexed bytearray attribution, example: byte[] source; int index = 0; byte b = 1; source[index] = b;");
+                      } // end case
+                      break;
                 case CodeEx.Stelem_Any:
                 case CodeEx.Stelem_I:
-                case CodeEx.Stelem_I1:
+                //case CodeEx.Stelem_I1:
                 case CodeEx.Stelem_I2:
                 case CodeEx.Stelem_I4:
                 case CodeEx.Stelem_I8:
@@ -941,7 +1025,7 @@ namespace Bhp.Compiler.MSIL
                         }
                         else
                         {//如果走到这里，是一个静态成员，但是没有添加readonly 表示
-                            throw new Exception("Just allow defined a static variable with readonly." + d.FullName);
+                            throw new Exception("Just allow defined a static variable with readonly."+d.FullName);
                         }
                     }
                     break;

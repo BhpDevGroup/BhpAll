@@ -7,6 +7,11 @@ namespace Bhp.Plugins
     /// </summary>
     public class ConsoleLogger : Plugin,ILogPlugin
     {
+        public override void Configure()
+        {
+            
+        }
+
         public new void Log(string source, LogLevel level, string message)
         { 
             string line = $"[{DateTime.UtcNow.TimeOfDay:hh\\:mm\\:ss\\:fff}] [{source}][{level}]{message}";

@@ -8,11 +8,15 @@
         ECDH03 = 0x03,
 
         Script = 0x20,
-        
+
         Vote = 0x30,
 
         DescriptionUrl = 0x81,
         Description = 0x90,
+
+        //By BHP
+        MinerSignature = 0xc1,
+        SmartContractScript = 0xc2,//smart contract
 
         Hash1 = 0xa1,
         Hash2 = 0xa2,
@@ -29,10 +33,6 @@
         Hash13 = 0xad,
         Hash14 = 0xae,
         Hash15 = 0xaf,
-
-        //By BHP
-        MinerSignature = 0xc1,
-        SmartContractScript = 0xc2,//smart contract
 
         Remark = 0xf0,
         Remark1 = 0xf1,

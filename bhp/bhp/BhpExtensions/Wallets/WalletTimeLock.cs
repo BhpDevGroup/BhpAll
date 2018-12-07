@@ -1,8 +1,8 @@
-﻿using Bhp.Wallets;
-using System;
+﻿using System;
 using System.Threading;
+using Bhp.Wallets;
 
-namespace Bhp.Network.RPC
+namespace Bhp.BhpExtensions.Wallets
 {
     public class WalletTimeLock
     {

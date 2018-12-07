@@ -1,6 +1,7 @@
 ﻿using Bhp.Cryptography.ECC;
 using Bhp.IO;
 using Bhp.Network.P2P.Payloads;
+using Bhp.SmartContract;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -35,7 +36,7 @@ namespace Bhp.UI
 
         private void ElectionDialog_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.IsStandardContract()).Select(p => p.GetKey().PublicKey).ToArray());
+            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.Script.IsStandardContract()).Select(p => p.GetKey().PublicKey).ToArray());
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

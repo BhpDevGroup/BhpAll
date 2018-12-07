@@ -39,7 +39,7 @@ namespace Bhp.Compiler
             {
                 var path = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
                 path = System.IO.Path.GetDirectoryName(path);
-                module.LoadJar(System.IO.Path.Combine(path, "org.bhp.smartcontract.framework.jar"));
+                module.LoadJar(System.IO.Path.Combine(path, "org.Bhp.smartcontract.framework.jar"));
 
 		if (extension == ".jar")
 		{

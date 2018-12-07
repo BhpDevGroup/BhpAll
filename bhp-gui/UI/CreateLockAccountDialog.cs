@@ -12,7 +12,7 @@ namespace Bhp.UI
         public CreateLockAccountDialog()
         {
             InitializeComponent();
-            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.IsStandardContract()).Select(p => p.GetKey()).ToArray());
+            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.Script.IsStandardContract()).Select(p => p.GetKey()).ToArray());
         }
 
         public Contract GetContract()

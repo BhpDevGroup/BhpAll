@@ -1,4 +1,6 @@
 ﻿using Akka.Actor;
+using Bhp.BhpExtensions;
+using Bhp.BhpExtensions.Wallets;
 using Bhp.Consensus;
 using Bhp.IO;
 using Bhp.Ledger;
@@ -643,9 +645,7 @@ namespace Bhp.Shell
             try
             {
                 Program.Wallet = OpenWallet(GetIndexer(), path, password);
-                system.OpenWallet(Program.Wallet, Settings.Default.UnlockWallet.AutoLock,Settings.Default.RPC.GetUtxoUrl);
-                system.SetWalletConfig(Settings.Default.UnlockWallet.Path, 
-                    Settings.Default.Paths.Index, GetIndexer(), Settings.Default.UnlockWallet.AutoLock);
+                system.RpcServer.OpenWallet(Program.Wallet);  
             }
             catch (CryptographicException)
             {
@@ -891,25 +891,21 @@ namespace Bhp.Shell
                     OnStartConsensusCommand(null);
                 }
             }
+
+            //By BHP
+            ExtensionSettings.Default.DataRPCServer.Host  = Settings.Default.DataRPC.Host;
+            ExtensionSettings.Default.WalletConfig.Index = Settings.Default.Paths.Index;
+            ExtensionSettings.Default.WalletConfig.Path = Settings.Default.UnlockWallet.Path;
+            ExtensionSettings.Default.WalletConfig.AutoLock = Settings.Default.UnlockWallet.AutoLock;
+            ExtensionSettings.Default.WalletConfig.Indexer = GetIndexer();
+
             if (useRPC)
-            {
-                /*
-                system.StartRpc(Settings.Default.RPC.BindAddress,
-                    Settings.Default.RPC.Port,
-                    wallet: Program.Wallet,
-                    sslCert: Settings.Default.RPC.SslCert,
-                    password: Settings.Default.RPC.SslCertPassword);
-                */
+            { 
                 system.StartRpc(Settings.Default.RPC.BindAddress,//IPAddress.Any,
                     Settings.Default.RPC.Port,
                     wallet: Program.Wallet,
-                    isAutoLock: Settings.Default.UnlockWallet.AutoLock,
                     sslCert: Settings.Default.RPC.SslCert,
-                    password: Settings.Default.RPC.SslCertPassword,
-                    getutxourl: Settings.Default.RPC.GetUtxoUrl);
-
-                system.SetWalletConfig(Settings.Default.UnlockWallet.Path, Settings.Default.Paths.Index, 
-                    GetIndexer(), Settings.Default.UnlockWallet.AutoLock);
+                    password: Settings.Default.RPC.SslCertPassword);  
             }
         }
 

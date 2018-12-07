@@ -55,13 +55,13 @@ namespace Bhp.SmartContract.Framework
         public extern static byte[] AsByteArray(this BigInteger source);
 
         /// <summary>
-        /// Converts string to byte[]. Examples: "hello" -> [0x68656c6c6f]; "" -> []; "Bhp" -> [0x4e656f]
+        /// Converts string to byte[]. Examples: "hello" -> [0x68656c6c6f]; "" -> []; "Bhp" -> [0x424850]
         /// </summary>
         [OpCode]
         public extern static byte[] AsByteArray(this string source);
 
         /// <summary>
-        /// Converts byte[] to string. Examples: [0x68656c6c6f] -> "hello"; [] -> ""; [0x4e656f] -> "Bhp"
+        /// Converts byte[] to string. Examples: [0x68656c6c6f] -> "hello"; [] -> ""; [0x424850] -> "Bhp"
         /// </summary>
         [OpCode]
         public extern static string AsString(this byte[] source);
@@ -134,10 +134,10 @@ namespace Bhp.SmartContract.Framework
         /// </summary>
         public static sbyte ToSbyte(this BigInteger source)
         {
-            if (source > 127)
+            if(source > 127)
                 source = source - 256;
             Assert(source.Within(-128, 128));
-            return (sbyte)(source + 0);
+            return (sbyte) (source + 0);
         }
 
         /// <summary>
@@ -146,10 +146,10 @@ namespace Bhp.SmartContract.Framework
         /// </summary>
         public static sbyte ToSbyte(this int source)
         {
-            if (source > 127)
+            if(source > 127)
                 source = source - 256;
             Assert(source.Within(-128, 128));
-            return (sbyte)(source + 0);
+            return (sbyte) (source + 0);
         }
 
         /// <summary>
@@ -159,9 +159,9 @@ namespace Bhp.SmartContract.Framework
         public static byte ToByte(this BigInteger source)
         {
             Assert(source.Within(0, 256));
-            if (source > 127)
+            if(source > 127)
                 source = source - 256;
-            return (byte)(source + 0);
+            return (byte) (source + 0);
         }
 
         /// <summary>
@@ -171,9 +171,9 @@ namespace Bhp.SmartContract.Framework
         public static byte ToByte(this int source)
         {
             Assert(source.Within(0, 256));
-            if (source > 127)
+            if(source > 127)
                 source = source - 256;
-            return (byte)(source + 0);
+            return (byte) (source + 0);
         }
 
         [OpCode(OpCode.CAT)]
@@ -196,6 +196,23 @@ namespace Bhp.SmartContract.Framework
         /// </summary>
         [OpCode(OpCode.RIGHT)]
         public extern static byte[] Last(this byte[] source, int count);
+
+        /// <summary>
+        /// Returns a reversed copy of byte[] parameter 'source' (parameter is not affected because byte[] is copy-based on BhpVM).
+        /// Example: [0a,0b,0c,0d,0e] -> [0e,0d,0c,0b,0a]
+        /// </summary>
+        public static byte[] Reverse(this byte[] source)
+        {
+            for(int k = 0; k< source.Length/2; k++)
+            {
+                int m = source.Length - k - 1;
+                byte bg = source[k]; // must store on variable before next assignment
+                byte ed = source[m]; // must store on variable before next assignment
+                source[k] = ed;
+                source[m] = bg;
+            }
+            return source;
+        }
 
         [OpCode]
         public extern static Delegate ToDelegate(this byte[] source);

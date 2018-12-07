@@ -11,7 +11,7 @@ namespace Bhp.Plugins
         public static Settings Default { get; }
 
         static Settings()
-        { 
+        {
             Default = new Settings(Assembly.GetExecutingAssembly().GetConfiguration());
         }
 

@@ -12,7 +12,7 @@ namespace Bhp.Compiler.JVM
 
     //        var moduleJVMPackage = new JavaModule();
     //        moduleJVMPackage.LoadClass("go.class");
-    //        moduleJVMPackage.LoadJar("org.bhp.smartcontract.framework.jar");
+    //        moduleJVMPackage.LoadJar("org.Bhp.smartcontract.framework.jar");
 
     //        var converter = new ModuleConverter(logger);
     //        //有异常的话在 convert 函数中会直接throw 出来
@@ -102,7 +102,7 @@ namespace Bhp.Compiler.JVM
                         if (l.Value == m)
                         {
                             var srcm = l.Key;
-                            if (srcm.DeclaringType.superClass == "org.bhp.smartcontract.framework.SmartContract")
+                            if (srcm.DeclaringType.superClass == "org.Bhp.smartcontract.framework.SmartContract")
                             {
                                 logger.Log("Find entrypoint:" + key);
                                 if (mainmethod != "")

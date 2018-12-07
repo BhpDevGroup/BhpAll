@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Bhp.SmartContract;
 
 namespace Bhp.UI
 {
@@ -16,7 +17,7 @@ namespace Bhp.UI
 
         private void CertificateRequestWizard_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.IsStandardContract()).Select(p => p.GetKey()).ToArray());
+            comboBox1.Items.AddRange(Program.CurrentWallet.GetAccounts().Where(p => !p.WatchOnly && p.Contract.Script.IsStandardContract()).Select(p => p.GetKey()).ToArray());
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)

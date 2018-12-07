@@ -35,6 +35,7 @@ namespace Bhp.Ledger
         public static readonly TimeSpan TimePerBlock = TimeSpan.FromSeconds(SecondsPerBlock);
         public static readonly ECPoint[] StandbyValidators = Settings.Default.StandbyValidators.OfType<string>().Select(p => ECPoint.DecodePoint(p.HexToBytes(), ECCurve.Secp256r1)).ToArray();
 
+        //By BHP
         public const uint AmountOfGoverningToken = 100000000;//BHP 总量
         public const uint AmountOfCreation = 45000000; //创世区块
         public const uint AmountOfMining = AmountOfGoverningToken - AmountOfCreation; //挖矿总量
@@ -74,7 +75,7 @@ namespace Bhp.Ledger
             PrevHash = UInt256.Zero,
             Timestamp = (new DateTime(2018, 8, 8, 8, 8, 8, DateTimeKind.Utc)).ToTimestamp(),
             Index = 0,
-            ConsensusData = 2083236893, //Bitcoin
+            ConsensusData = 2083236893, //向比特币致敬
             NextConsensus = GetConsensusAddress(StandbyValidators),
             Witness = new Witness
             {
@@ -118,6 +119,7 @@ namespace Bhp.Ledger
             }
         };
 
+        private static readonly object lockObj = new object();
         private readonly BhpSystem system;
         private readonly List<UInt256> header_index = new List<UInt256>();
         private uint stored_header_count = 0;
@@ -154,7 +156,7 @@ namespace Bhp.Ledger
         {
             this.system = system;
             this.Store = store;
-            lock (GetType())
+            lock (lockObj)
             {
                 if (singleton != null)
                     throw new InvalidOperationException();
@@ -264,9 +266,10 @@ namespace Bhp.Ledger
                 blocks = new LinkedList<Block>();
                 block_cache_unverified.Add(block.Index, blocks);
             }
+
             blocks.AddLast(block);
         }
-
+        
         private RelayResultReason OnNewBlock(Block block)
         {
             if (block.Index <= Height)
@@ -274,7 +277,7 @@ namespace Bhp.Ledger
             if (block_cache.ContainsKey(block.Hash))
                 return RelayResultReason.AlreadyExists;
             if (block.Index - 1 >= header_index.Count)
-            { 
+            {
                 AddUnverifiedBlockToCache(block);
                 return RelayResultReason.UnableToVerify;
             }
@@ -292,6 +295,7 @@ namespace Bhp.Ledger
             {
                 Block block_persist = block;
                 List<Block> blocksToPersistList = new List<Block>();
+                
                 while (true)
                 {
                     blocksToPersistList.Add(block_persist);
@@ -308,15 +312,17 @@ namespace Bhp.Ledger
 
                     if (blocksPersisted++ < blocksToPersistList.Count - 2) continue;
                     // Relay most recent 2 blocks persisted
+
                     if (blockToPersist.Index + 100 >= header_index.Count)
                         system.LocalNode.Tell(new LocalNode.RelayDirectly { Inventory = block });
                 }
-
                 SaveHeaderHashList();
+
                 if (block_cache_unverified.TryGetValue(Height + 1, out LinkedList<Block> unverifiedBlocks))
                 {
                     foreach (var unverifiedBlock in unverifiedBlocks)
                         Self.Tell(unverifiedBlock, ActorRefs.NoSender);
+                    block_cache_unverified.Remove(Height + 1);
                 }
             }
             else

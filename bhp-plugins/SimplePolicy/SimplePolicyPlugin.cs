@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("SimplePolicy.UnitTests")]
 
 namespace Bhp.Plugins
 {
@@ -70,7 +73,7 @@ namespace Bhp.Plugins
         void ILogPlugin.Log(string source, LogLevel level, string message)
         {
             if (source != nameof(ConsensusService)) return;
-            DateTime now = DateTime.UtcNow;
+            DateTime now = DateTime.Now;
             string line = $"[{now.TimeOfDay:hh\\:mm\\:ss\\.fff}] {message}";
             Console.WriteLine(line);
             if (string.IsNullOrEmpty(log_dictionary)) return;
@@ -95,6 +98,10 @@ namespace Bhp.Plugins
                 if (tx.NetworkFee < fee) return false;
             }
             return true;
-        } 
+        }
+
+        public override void Configure()
+        { 
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Bhp.Compiler.MSIL;
+using Bhp.Compiler.MSIL;
 using System;
 using System.IO;
 using System.Reflection;

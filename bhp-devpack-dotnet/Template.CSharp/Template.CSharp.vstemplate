@@ -6,7 +6,7 @@
     <Icon>Template.CSharp.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
-    <TemplateID>F49BC09D-91ED-48CB-AA2D-F7FE0314EA43</TemplateID>
+    <TemplateID>612b9e52-32c9-451d-a82f-e541ec759beb</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>BhpContract</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

@@ -12,15 +12,18 @@
       "BindAddress": "127.0.0.1",
       "Port": 20557,
       "SslCert": "",
-      "SslCertPassword": "",
-      "GetUtxoUrl": "http://exp.bhpa.io:6060/getUtxo?address={0}"
+      "SslCertPassword": ""
     },
     "UnlockWallet": {
       "Path": "2.json",
       "Password": "123456",
       "StartConsensus": true,
       "IsActive": true,
-      "AutoLock": true
+      "AutoLock": false
+    },
+
+    "DataRPC": {
+      "Host": "https://exp.bhpa.io"
     }
   }
 }

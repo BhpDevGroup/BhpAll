@@ -24,7 +24,7 @@ namespace Bhp.Compiler.JVM
         {
             string f = System.IO.Path.GetFileName(filename);
             //不该基于文件名，而是类的名字
-            //if (f == "org.bhp.smartcontract.framework.jar")
+            //if (f == "org.Bhp.smartcontract.framework.jar")
             //{
             //    bskip = true;
             //}
@@ -52,7 +52,7 @@ namespace Bhp.Compiler.JVM
                             data = ms.ToArray();
                         }
                         var cc = LoadClassByBytes(data, codepath);
-                        var bskip = cc.classfile.Name.IndexOf("org.bhp.") == 0 || cc.classfile.Name.IndexOf("src.org.bhp.") == 0;
+                        var bskip = cc.classfile.Name.IndexOf("org.Bhp.") == 0 || cc.classfile.Name.IndexOf("src.org.Bhp.") == 0;
                         cc.skip = bskip;
                     }
 

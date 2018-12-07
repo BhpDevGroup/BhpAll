@@ -8,16 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bhp.Network.RPC
+namespace Bhp.BhpExtensions.RPC
 {
-
-    public class RPCCoins
+    public class RpcCoins
     {
         private Wallet current_wallet;
         private BhpSystem system;
         public static int MAX_CLAIMS_AMOUNT = 50;
 
-        public RPCCoins(Wallet wallet, BhpSystem system)
+        public RpcCoins(Wallet wallet, BhpSystem system)
         {
             this.current_wallet = wallet;
             this.system = system;
@@ -90,7 +89,8 @@ namespace Bhp.Network.RPC
 
         public ClaimTransaction[] ClaimAll()
         {
-            if (AvailableBonus() == Fixed8.Zero)
+
+            if (this.AvailableBonus() == Fixed8.Zero)
             {
                 Console.WriteLine($"no gas to claim");
                 return null;
