@@ -23,7 +23,7 @@
     },
 
     "DataRPC": {
-      "Host": "https://exp.bhpa.io"
+      "Host": "http://192.168.1.136:6060/"
     }
   }
 }

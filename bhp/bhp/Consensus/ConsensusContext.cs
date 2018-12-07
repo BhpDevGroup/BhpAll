@@ -256,7 +256,7 @@ namespace Bhp.Consensus
             {
                 ulong nonce = GetNonce();
                 //By BHP
-                MinerTransaction tx = new MiningTransaction().MakeMinerTransaction(wallet, BlockIndex, nonce, amount_netfee, amount_servicefee);
+                MinerTransaction tx = new MiningTransaction().MakeMinerTransaction(wallet, BlockIndex, nonce, amount_servicefee, amount_netfee);
                 if (!snapshot.ContainsTransaction(tx.Hash))
                 {
                     Nonce = nonce;
