@@ -13,7 +13,7 @@
       "Port": 20557,
       "SslCert": "",
       "SslCertPassword": "",
-      "GetUtxoUrl": ""
+      "GetUtxoUrl": "http://exp.bhpa.io:6060/getUtxo?address={0}"
     },
     "UnlockWallet": {
       "Path": "2.json",
