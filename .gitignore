@@ -34,3 +34,5 @@ obj/
 /obj
 packages/
 /packages
+.vs/
+/.vs

@@ -1,7 +1,5 @@
 ﻿using Bhp.SmartContract.Framework;
-using Bhp.SmartContract.Framework.Services.Bhp;
-using System;
-using System.Numerics;
+using Bhp.SmartContract.Framework.Services.Bhp; 
 
 namespace LockUTXOContract
 {
