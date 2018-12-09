@@ -55,7 +55,5 @@ namespace Bhp.Mining
         // ServiceChargeAddress
         public static readonly string ServiceChargeAddressOfMainNet = "AJ1r2aBCMYDr2xmvff2KZb43z7bHnDdHKT";
         public static readonly string ServiceChargeAddressOfTestNet = "AbUAKqt8crJQnhDJWQtFGHT7Pgv9ABnQE6";
-         
-
     }
 }
