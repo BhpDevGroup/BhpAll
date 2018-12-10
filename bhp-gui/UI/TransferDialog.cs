@@ -1,4 +1,5 @@
-﻿using Bhp.Network.P2P.Payloads;
+﻿using Bhp.BhpExtensions.Transactions;
+using Bhp.Network.P2P.Payloads;
 using Bhp.Properties;
 using Bhp.SmartContract;
 using Bhp.VM;
@@ -151,16 +152,8 @@ namespace Bhp.UI
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     uint timestamp = dialog.GetUXTOLockTime;
-                    using (ScriptBuilder sb = new ScriptBuilder())
-                    {
-                        sb.EmitPush(timestamp);
-                        sb.EmitAppCall(UInt160.Parse("0xc3f09bca040d40714130795121ff7e8477a42690"));// utxo time lock hash
-                        LockAttribute = new TransactionAttribute
-                        {
-                            Usage = TransactionAttributeUsage.SmartContractScript,
-                            Data = sb.ToArray()
-                        };
-                    }
+                    TransactionContract transactionContract = new TransactionContract();
+                    LockAttribute = transactionContract.MakeLockTransactionScript(timestamp);                    
                 }
             }
         }

@@ -21,6 +21,9 @@ namespace Bhp.Wallets
 
         private static readonly Random rand = new Random();
 
+        //By BHP
+        TransactionContract transactionContract = new TransactionContract();
+
         public abstract string Name { get; }
         public abstract Version Version { get; }
         public abstract uint WalletHeight { get; }
@@ -381,7 +384,10 @@ namespace Bhp.Wallets
                     Outputs = itx.Outputs
                 };
             }
-            tx = MakeTransaction(tx, from, change_address, fee);
+            //By BHP
+            //tx = MakeTransaction(tx, from, change_address, fee);
+            tx = transactionContract.MakeTransaction(this, tx, from, change_address, fee);
+
             return tx;
         }
 

@@ -68,9 +68,9 @@ namespace Bhp.BhpExtensions.Transactions
             TransactionResult[] results = tx.GetTransactionResults()?.ToArray();
             if (results == null) return "TransactionResult is null.";
             TransactionResult[] results_destroy = results.Where(p => p.Amount > Fixed8.Zero).ToArray();
-            if (results_destroy.Length > 1) return "Transaction input is not equal output than one.";
-            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                return "The first of transaction output is not MinerTransaction.";
+            //if (results_destroy.Length > 1) return "Transaction input is not equal output than one.";
+            //if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+            //    return "The first of transaction output is not MinerTransaction.";
 
             Fixed8 SystemFee = Settings.Default.SystemFee.TryGetValue(tx.Type, out Fixed8 fee) ? fee : Fixed8.Zero;
 
