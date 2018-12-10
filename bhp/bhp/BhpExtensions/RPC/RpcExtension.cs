@@ -213,6 +213,27 @@ namespace Bhp.BhpExtensions.RPC
                         return json;
                     }
 
+                case "gettransaction":
+                    {
+                        string from = _params[0].AsString();
+                        string position = _params[1].AsString();
+                        string offset = _params[2].AsString();
+                        string jsonRes = RequestRpc("findTxVout", $"address={from}&position={position}&offset={offset}");
+                        
+                        Newtonsoft.Json.Linq.JArray jsons = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(jsonRes);
+                        json["transaction"] = new JArray(jsons.Select(p =>
+                        {
+                            JObject peerJson = new JObject();
+                            peerJson["txid"] = p["txid"].ToString();
+                            peerJson["n"] = (int)p["n"];
+                            peerJson["value"] = (double)p["value"];
+                            peerJson["address"] = p["address"].ToString();
+                            peerJson["asset"] = p["asset"].ToString();
+                            return peerJson;
+                        }));
+                        return json;
+                    }
+
                 case "gettxs":
                     {
                         string from = _params[0].AsString();
