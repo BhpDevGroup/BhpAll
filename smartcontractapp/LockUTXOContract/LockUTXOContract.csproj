@@ -50,13 +50,13 @@
     <None Include="build.tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Bhp.ConvertTask.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\bhp-devpack-dotnet\Bhp.SmartContract.Framework\Bhp.SmartContract.Framework.csproj">
       <Project>{443df9a7-61a8-45c2-aba2-233d44ee3970}</Project>
       <Name>Bhp.SmartContract.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bhp.ConvertTask.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="Build.tasks" />

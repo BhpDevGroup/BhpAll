@@ -31,21 +31,17 @@ namespace Bhp.BhpExtensions.Fees
             return inputsum - outputsum;
         }
 
-        //public static bool Verify(Transaction tx, TransactionResult[] results_destroy)
-        //{
-        //    if (results_destroy.Length > 1) return false;
-        //    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-        //        return false;
-        //    return true;
-        //}
-
-
         public static bool Verify(Transaction tx, TransactionResult[] results_destroy)
         {
-            //if (results_destroy.Length > 1) return false;
-            //if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-            //    return false;
+            if (results_destroy.Length > 1) return false;
+            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                return false;
+            return true;
+        }
 
+        /*
+        public static bool Verify(Transaction tx, TransactionResult[] results_destroy)
+        { 
             if (tx.Type == TransactionType.ContractTransaction)
             {
                 if (results_destroy.Length > 2) return false;
@@ -61,6 +57,7 @@ namespace Bhp.BhpExtensions.Fees
             }
             return true;
         }
+        */
 
     }
 }

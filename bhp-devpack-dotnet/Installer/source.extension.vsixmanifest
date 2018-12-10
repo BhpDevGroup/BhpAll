@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="BhpContractPlugin.bhpproject.36259a56-f671-4070-a212-68bdb62fa90f" Version="1.0.0" Language="en-US" Publisher="The Bhp Project" />
+        <Identity Id="BhpContractPlugin.bhpproject.36259a56-f671-4070-a212-68bdb62fa90f" Version="1.0.1" Language="en-US" Publisher="Bhp" />
         <DisplayName>BhpContractPlugin</DisplayName>
         <Description xml:space="preserve">Allow users to create smart contract in Visual Studio.</Description>
         <MoreInfo>https://github.com/BhpAlpha/bhp-devpack-dotnet</MoreInfo>
