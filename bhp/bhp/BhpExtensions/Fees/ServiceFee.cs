@@ -14,6 +14,12 @@ namespace Bhp.BhpExtensions.Fees
     {
         public static Fixed8 CalcuServiceFee(List<Transaction> transactions)
         {
+            return Fixed8.Zero;
+        }
+
+        /*
+        public static Fixed8 CalcuServiceFee(List<Transaction> transactions)
+        {
             Transaction[] ts = transactions.Where(p => p.Type == TransactionType.ContractTransaction).ToArray();
             Fixed8 inputsum = Fixed8.Zero;
             Fixed8 outputsum = Fixed8.Zero;
@@ -30,6 +36,7 @@ namespace Bhp.BhpExtensions.Fees
             }
             return inputsum - outputsum;
         }
+        */
 
         public static bool Verify(Transaction tx, TransactionResult[] results_destroy)
         {

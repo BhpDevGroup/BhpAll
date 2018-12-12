@@ -42,8 +42,8 @@ namespace Bhp.Mining
             {
                 AssetId = Blockchain.GoverningToken.Hash,
                 Value = MiningSubsidy.GetMiningSubsidy(blockIndex),
-                //ScriptHash = MiningParams.PoSAddressOfMainNet.Length > 0 ? MiningParams.PoSAddressOfMainNet[blockIndex % (uint)MiningParams.PoSAddressOfMainNet.Length].ToScriptHash() : wallet.GetChangeAddress()
-                ScriptHash = MiningParams.PoSAddressOfTestNet.Length > 0 ? MiningParams.PoSAddressOfTestNet[blockIndex % (uint)MiningParams.PoSAddressOfTestNet.Length].ToScriptHash() : wallet.GetChangeAddress()
+                ScriptHash = MiningParams.PoSAddressOfMainNet.Length > 0 ? MiningParams.PoSAddressOfMainNet[blockIndex % (uint)MiningParams.PoSAddressOfMainNet.Length].ToScriptHash() : wallet.GetChangeAddress()
+                //ScriptHash = MiningParams.PoSAddressOfTestNet.Length > 0 ? MiningParams.PoSAddressOfTestNet[blockIndex % (uint)MiningParams.PoSAddressOfTestNet.Length].ToScriptHash() : wallet.GetChangeAddress()
             };
 
             TransactionOutput output = new TransactionOutput
@@ -114,8 +114,8 @@ namespace Bhp.Mining
             {
                 AssetId = Blockchain.GoverningToken.Hash,
                 Value = service_netfee,
-                //ScriptHash = MiningParams.ServiceChargeAddressOfMainNet.ToScriptHash()
-                ScriptHash = MiningParams.ServiceChargeAddressOfTestNet.ToScriptHash()
+                ScriptHash = MiningParams.ServiceChargeAddressOfMainNet.ToScriptHash()
+                //ScriptHash = MiningParams.ServiceChargeAddressOfTestNet.ToScriptHash()
             };
         }
     }
