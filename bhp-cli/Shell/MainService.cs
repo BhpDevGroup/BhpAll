@@ -983,9 +983,9 @@ namespace Bhp.Shell
             }
             else
             {
-                BRC6Wallet nep6wallet = new BRC6Wallet(indexer, path);
-                nep6wallet.Unlock(password);
-                return nep6wallet;
+                BRC6Wallet brc6wallet = new BRC6Wallet(indexer, path);
+                brc6wallet.Unlock(password);
+                return brc6wallet;
             }
         }
     }

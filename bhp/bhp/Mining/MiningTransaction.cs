@@ -38,7 +38,7 @@ namespace Bhp.Mining
 
         private void AddMiningTransaction(Wallet wallet, uint blockIndex, List<TransactionOutput> outputs, List<TransactionAttribute> attributes)
         {
-            MiningOutputLedger miningOutput = new MiningOutputLedger
+            MiningOutput miningOutput = new MiningOutput
             {
                 AssetId = Blockchain.GoverningToken.Hash,
                 Value = MiningSubsidy.GetMiningSubsidy(blockIndex),

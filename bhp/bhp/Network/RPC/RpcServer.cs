@@ -175,7 +175,7 @@ namespace Bhp.Network.RPC
                         JObject json = new JObject();
                         switch (UIntBase.Parse(_params[0].AsString()))
                         {
-                            case UInt160 asset_id_160: //NEP-5 balance
+                            case UInt160 asset_id_160: //BRC20 balance
                                 json["balance"] = wallet.GetAvailable(asset_id_160).ToString();
                                 break;
                             case UInt256 asset_id_256: //Global Assets balance
@@ -278,8 +278,8 @@ namespace Bhp.Network.RPC
                     else
                     {
                         WalletAccount account = wallet.CreateAccount();
-                        if (wallet is BRC6Wallet nep6)
-                            nep6.Save();
+                        if (wallet is BRC6Wallet brc6)
+                            brc6.Save();
                         return account.Address;
                     }
                 case "getpeers":

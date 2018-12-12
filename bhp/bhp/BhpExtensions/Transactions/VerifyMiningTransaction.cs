@@ -54,13 +54,13 @@ namespace Bhp.BhpExtensions.Transactions
                 return false;
             }
 
-            MiningOutputLedger ledger = new MiningOutputLedger
+            MiningOutput miningOutput = new MiningOutput
             {
                 AssetId = output.AssetId,
                 Value = output.Value,
                 ScriptHash = output.ScriptHash
             };
-            byte[] message = ledger.GetHashData();
+            byte[] message = miningOutput.GetHashData();
 
             foreach (ECPoint publicKey in Blockchain.StandbyValidators)
             {
@@ -70,7 +70,7 @@ namespace Bhp.BhpExtensions.Transactions
                     return true;
                 }
             }
-            Console.WriteLine($"******MinerTransaction VerifySignature Fail.******");
+            Console.WriteLine("*** MinerTransaction VerifySignature Fail.***");
             return false;
         }
     }

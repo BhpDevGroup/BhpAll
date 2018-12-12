@@ -14,6 +14,6 @@ namespace Bhp.Network.P2P
                 writer.Flush();
                 return ms.ToArray();
             }
-        }
+        } 
     }
 }

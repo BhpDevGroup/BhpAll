@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>NEP-5 合约列表</value>
+    <value>BRC20 合约列表</value>
   </data>
   <data name="button1.Text" xml:space="preserve">
     <value>确定</value>

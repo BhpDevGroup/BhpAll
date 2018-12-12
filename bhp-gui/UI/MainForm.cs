@@ -355,19 +355,19 @@ namespace Bhp.UI
                     {
                         string path_old = path;
                         path = Path.ChangeExtension(path_old, ".json");
-                        BRC6Wallet nep6wallet;
+                        BRC6Wallet brc6wallet;
                         try
                         {
-                            nep6wallet = BRC6Wallet.Migrate(GetIndexer(), path, path_old, dialog.Password);
+                            brc6wallet = BRC6Wallet.Migrate(GetIndexer(), path, path_old, dialog.Password);
                         }
                         catch (CryptographicException)
                         {
                             MessageBox.Show(Strings.PasswordIncorrect);
                             return;
                         }
-                        nep6wallet.Save();
-                        nep6wallet.Unlock(dialog.Password);
-                        wallet = nep6wallet;
+                        brc6wallet.Save();
+                        brc6wallet.Unlock(dialog.Password);
+                        wallet = brc6wallet;
                         MessageBox.Show($"{Strings.MigrateWalletSucceedMessage}\n{path}");
                     }
                     else
@@ -385,17 +385,17 @@ namespace Bhp.UI
                 }
                 else
                 {
-                    BRC6Wallet nep6wallet = new BRC6Wallet(GetIndexer(), path);
+                    BRC6Wallet brc6wallet = new BRC6Wallet(GetIndexer(), path);
                     try
                     {
-                        nep6wallet.Unlock(dialog.Password);
+                        brc6wallet.Unlock(dialog.Password);
                     }
                     catch (CryptographicException)
                     {
                         MessageBox.Show(Strings.PasswordIncorrect);
                         return;
                     }
-                    wallet = nep6wallet;
+                    wallet = brc6wallet;
                 }
                 ChangeWallet(wallet);
                 Settings.Default.LastWalletPath = path;

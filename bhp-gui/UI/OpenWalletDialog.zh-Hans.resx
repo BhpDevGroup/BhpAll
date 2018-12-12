@@ -149,7 +149,7 @@
     <value>钱包文件位置:</value>
   </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value>NEP-6钱包文件|*.json|SQLite钱包文件|*.db3</value>
+    <value>BRC6钱包文件|*.json|SQLite钱包文件|*.db3</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>打开钱包</value>

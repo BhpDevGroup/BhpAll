@@ -238,7 +238,7 @@
     <value>$this</value>
   </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value>NEP-6 Wallet|*.json|SQLite Wallet|*.db3</value>
+    <value>BRC6 Wallet|*.json|SQLite Wallet|*.db3</value>
   </data>
   <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 12</value>

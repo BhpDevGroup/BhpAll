@@ -59,6 +59,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockContract", "SmartContra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockUTXOContract", "SmartContractApp\LockUTXOContract\LockUTXOContract.csproj", "{787B6F68-53EA-432A-8775-C60458BFA69C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B003BAD5-D783-40E3-A9B6-6E53B105F284}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTransaction", "test\TestTransaction\TestTransaction.csproj", "{6898EA1F-9445-4BBF-893C-84FFC203CD0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +157,10 @@ Global
 		{787B6F68-53EA-432A-8775-C60458BFA69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{787B6F68-53EA-432A-8775-C60458BFA69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787B6F68-53EA-432A-8775-C60458BFA69C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6898EA1F-9445-4BBF-893C-84FFC203CD0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6898EA1F-9445-4BBF-893C-84FFC203CD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6898EA1F-9445-4BBF-893C-84FFC203CD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6898EA1F-9445-4BBF-893C-84FFC203CD0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +186,7 @@ Global
 		{65842B99-81D8-4240-895E-EDA92457A1F4} = {16C5D4EA-6ACE-4C61-96E0-8325B6C19FC6}
 		{3158E63D-CB69-4237-B63C-C57F0FBF32AE} = {71A72118-71CA-4F27-BB8F-794D05172255}
 		{787B6F68-53EA-432A-8775-C60458BFA69C} = {71A72118-71CA-4F27-BB8F-794D05172255}
+		{6898EA1F-9445-4BBF-893C-84FFC203CD0D} = {B003BAD5-D783-40E3-A9B6-6E53B105F284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8B12AF2-C34F-41C1-9701-178B4320A2D4}

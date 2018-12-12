@@ -50,8 +50,4 @@
     <ProjectReference Include="..\..\bhp-vm\src\bhp-vm\bhp-vm.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mining\" />
-  </ItemGroup>
-
 </Project>

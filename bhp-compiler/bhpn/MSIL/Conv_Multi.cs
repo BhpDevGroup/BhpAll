@@ -741,7 +741,7 @@ namespace Bhp.Compiler.MSIL
             }
             if (calltype == 1)
             {
-                if (this.outModule.option.useNep8)
+                if (this.outModule.option.useBrc8)
                 {
                     byte _pcount = (byte)defs.Parameters.Count;
                     byte _rvcount = (byte)(defs.ReturnType.FullName == "System.Void" ? 0 : 1);
@@ -787,15 +787,15 @@ namespace Bhp.Compiler.MSIL
             }
             else if (calltype == 4)
             {
-                if (this.outModule.option.useNep8)
+                if (this.outModule.option.useBrc8)
                 {
                     byte _pcount = (byte)defs.Parameters.Count;
                     byte _rvcount = (byte)(defs.ReturnType.FullName == "System.Void" ? 0 : 1);
 
 
-                    if (callhash.All(v => v == 0))//empty nep4
+                    if (callhash.All(v => v == 0))//empty brc4
                     {
-                        throw new Exception("nep4 calltype==6");
+                        throw new Exception("brc4 calltype==6");
                     }
                     else
                     {
@@ -838,7 +838,7 @@ namespace Bhp.Compiler.MSIL
                 _Convert1by1(VM.OpCode.ROLL, null, to);
 
                 //dyn appcall
-                if (this.outModule.option.useNep8)
+                if (this.outModule.option.useBrc8)
                 {
                     byte _pcount = (byte)defs.Parameters.Count;
                     byte _rvcount = (byte)(defs.ReturnType.FullName == "System.Void" ? 0 : 1);

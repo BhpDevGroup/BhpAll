@@ -45,13 +45,13 @@ namespace Bhp.Compiler
             if (filename == null)
             {
                 log.Log("need one param for DLL filename.");
-                log.Log("[--compatible] disable nep8 function and disable SyscallInteropHash");
+                log.Log("[--compatible] disable brc8 function and disable SyscallInteropHash");
                 log.Log("Example:bhpn abc.dll --compatible");
                 return;
             }
             if (bCompatible)
             {
-                log.Log("use --compatible no nep8 and no SyscallInteropHash");
+                log.Log("use --compatible no brc8 and no SyscallInteropHash");
             }
             string onlyname = System.IO.Path.GetFileNameWithoutExtension(filename);
             string filepdb = onlyname + ".pdb";
@@ -107,7 +107,7 @@ namespace Bhp.Compiler
             {
                 var conv = new ModuleConverter(log);
                 ConvOption option = new ConvOption();
-                option.useNep8 = !bCompatible;
+                option.useBrc8 = !bCompatible;
                 option.useSysCallInteropHash = !bCompatible;
                 BhpModule am = conv.Convert(mod, option);
                 bytes = am.Build();

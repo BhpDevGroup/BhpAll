@@ -152,11 +152,11 @@ namespace Bhp.Wallets
             return GetCoins(GetAccounts().Select(p => p.ScriptHash));
         }
 
-        public static byte[] GetPrivateKeyFromNEP2(string nep2, string passphrase, int N = 16384, int r = 8, int p = 8)
+        public static byte[] GetPrivateKeyFromBRC2(string brc2, string passphrase, int N = 16384, int r = 8, int p = 8)
         {
-            if (nep2 == null) throw new ArgumentNullException(nameof(nep2));
+            if (brc2 == null) throw new ArgumentNullException(nameof(brc2));
             if (passphrase == null) throw new ArgumentNullException(nameof(passphrase));
-            byte[] data = nep2.Base58CheckDecode();
+            byte[] data = brc2.Base58CheckDecode();
             if (data.Length != 39 || data[0] != 0x01 || data[1] != 0x42 || data[2] != 0xe0)
                 throw new FormatException();
             byte[] addresshash = new byte[4];
@@ -217,9 +217,9 @@ namespace Bhp.Wallets
             return account;
         }
 
-        public virtual WalletAccount Import(string nep2, string passphrase)
+        public virtual WalletAccount Import(string brc2, string passphrase)
         {
-            byte[] privateKey = GetPrivateKeyFromNEP2(nep2, passphrase);
+            byte[] privateKey = GetPrivateKeyFromBRC2(brc2, passphrase);
             WalletAccount account = CreateAccount(privateKey);
             Array.Clear(privateKey, 0, privateKey.Length);
             return account;
@@ -384,9 +384,9 @@ namespace Bhp.Wallets
                     Outputs = itx.Outputs
                 };
             }
-            //By BHP
-            //tx = MakeTransaction(tx, from, change_address, fee);
-            tx = transactionContract.MakeTransaction(this, tx, from, change_address, fee);
+            
+            tx = MakeTransaction(tx, from, change_address, fee);
+            //tx = transactionContract.MakeTransaction(this, tx, from, change_address, fee);//By BHP
 
             return tx;
         }

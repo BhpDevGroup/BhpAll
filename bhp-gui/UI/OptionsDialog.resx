@@ -148,7 +148,7 @@
     <value>0</value>
   </data>
   <data name="tabPage1.Text" xml:space="preserve">
-    <value>NEP-5</value>
+    <value>BRC20</value>
   </data>
   <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
     <value>tabPage1</value>
@@ -208,7 +208,7 @@
     <value>0</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>NEP-5 Contracts List</value>
+    <value>BRC20 Contracts List</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>

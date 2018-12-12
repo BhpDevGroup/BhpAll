@@ -342,7 +342,7 @@ public virtual bool Verify(Snapshot snapshot, IEnumerable<Transaction> mempool)
             switch (Type)
             {
                 //By BHP
-                case TransactionType.MinerTransaction:
+                case TransactionType.MinerTransaction: 
                     if (VerifyMiningTransaction.Verify(Outputs,Attributes) == false)
                         return false;
                     break;

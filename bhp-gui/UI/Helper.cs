@@ -5,6 +5,7 @@ using Bhp.Properties;
 using Bhp.SmartContract;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Bhp.UI
@@ -30,6 +31,18 @@ namespace Bhp.UI
             tool_forms[t].Activate();
         }
 
+        //By BHP
+         public static byte[] GetTxHashData(IVerifiable Verifiable)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(ms))
+            {
+                Verifiable.Serialize(writer);
+                writer.Flush();
+                return ms.ToArray();
+            }
+        }
+
         public static void SignAndShowInformation(Transaction tx)
         {
             if (tx == null)
@@ -53,7 +66,9 @@ namespace Bhp.UI
                 context.Verifiable.Witnesses = context.GetWitnesses();
                 Program.CurrentWallet.ApplyTransaction(tx);
                 Program.BhpSystem.LocalNode.Tell(new LocalNode.Relay { Inventory = tx });
-                InformationBox.Show(tx.Hash.ToString(), Strings.SendTxSucceedMessage, Strings.SendTxSucceedTitle);
+                 
+                string txt = GetTxHashData(tx).ToHexString() + "\n" + tx.Hash.ToString();                
+                InformationBox.Show(txt, Strings.SendTxSucceedMessage, Strings.SendTxSucceedTitle);
             }
             else
             {

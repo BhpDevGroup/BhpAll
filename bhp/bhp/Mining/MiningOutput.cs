@@ -6,7 +6,7 @@ namespace Bhp.Mining
     /// <summary>
     /// sign script of mining output ledger
     /// </summary>
-    public class MiningOutputLedger : ISerializable
+    public class MiningOutput : ISerializable
     {
         public UInt256 AssetId;
         public Fixed8 Value;
