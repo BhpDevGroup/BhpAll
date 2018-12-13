@@ -890,10 +890,10 @@ namespace Bhp.Shell
             }
 
             //By BHP
-            //ExtensionSettings.Default.DataRPCServer.Host  = Settings.Default.DataRPC.Host;
-            //ExtensionSettings.Default.WalletConfig.Index = Settings.Default.Paths.Index;
-            //ExtensionSettings.Default.WalletConfig.Path = Settings.Default.UnlockWallet.Path;
-            //ExtensionSettings.Default.WalletConfig.AutoLock = Settings.Default.UnlockWallet.AutoLock;
+            ExtensionSettings.Default.DataRPCServer.Host = Settings.Default.DataRPC.Host;
+            ExtensionSettings.Default.WalletConfig.Index = Settings.Default.Paths.Index;
+            ExtensionSettings.Default.WalletConfig.Path = Settings.Default.UnlockWallet.Path;
+            ExtensionSettings.Default.WalletConfig.AutoLock = Settings.Default.UnlockWallet.AutoLock;
             ExtensionSettings.Default.WalletConfig.Indexer = GetIndexer();
 
             if (useRPC)

@@ -11,7 +11,8 @@ namespace Bhp
         public P2PSettings P2P { get; }
         public RPCSettings RPC { get; }
         public UnlockWalletSettings UnlockWallet { get; set; }
-       
+        public DataRPCSettings DataRPC { get; set; }
+
         public static Settings Default { get; }
 
         static Settings()
@@ -26,19 +27,7 @@ namespace Bhp
             this.P2P = new P2PSettings(section.GetSection("P2P"));
             this.RPC = new RPCSettings(section.GetSection("RPC"));
             this.UnlockWallet = new UnlockWalletSettings(section.GetSection("UnlockWallet"));
-
-            LoadExtensionSetting(section.GetSection("DataRPC"));
-        }
-
-        public static void LoadExtensionSetting(IConfigurationSection section)
-        {
-            ExtensionSettings.Default.WalletConfig.AutoLock = Default.UnlockWallet.AutoLock;
-            ExtensionSettings.Default.WalletConfig.Path = Default.UnlockWallet.Path;
-            ExtensionSettings.Default.WalletConfig.Index = Default.Paths.Index;  
-            if (section != null)
-            {         
-                ExtensionSettings.Default.DataRPCServer.Host = section.GetSection("Host").Value;
-            }
+            DataRPC = new DataRPCSettings(section.GetSection("DataRPC"));
         }
     }
 
@@ -102,5 +91,18 @@ namespace Bhp
                 this.AutoLock = bool.Parse(section.GetSection("AutoLock").Value);
             }
         }
-    } 
+    }
+
+    internal class DataRPCSettings
+    {
+        public string Host { get; } 
+
+        public DataRPCSettings(IConfigurationSection section)
+        {
+            if (section != null)
+            {
+                Host = section.GetSection("Host").Value;
+            }
+        }
+    }
 }
