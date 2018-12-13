@@ -20,6 +20,7 @@ namespace Bhp.UI
 
         public Fixed8 Fee => Fixed8.Parse(textBox1.Text);
         public UInt160 ChangeAddress => ((string)comboBox1.SelectedItem).ToScriptHash();
+        TransactionContract transactionContract = new TransactionContract();
 
         public TransferDialog()
         {
@@ -123,7 +124,8 @@ namespace Bhp.UI
             tx.Attributes = attributes.ToArray();
             tx.Outputs = txOutListBox1.Items.Where(p => p.AssetId is UInt256).Select(p => p.ToTxOutput()).ToArray();
             if (tx is ContractTransaction ctx)
-                tx = Program.CurrentWallet.MakeTransaction(ctx, change_address: ChangeAddress, fee: Fee);
+                //tx = Program.CurrentWallet.MakeTransaction(ctx, change_address: ChangeAddress, fee: Fee);
+                tx = transactionContract.MakeTransaction(Program.CurrentWallet, ctx, change_address: ChangeAddress, fee: Fee);//By BHP
             return tx;
         }
 

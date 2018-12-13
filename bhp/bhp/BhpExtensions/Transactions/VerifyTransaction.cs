@@ -37,13 +37,13 @@ namespace Bhp.BhpExtensions.Transactions
         /// <param name="snapshot"></param>
         /// <param name="mempool"></param>
         /// <returns></returns>
-        public static string Verify( Snapshot snapshot, IEnumerable<Transaction> mempool,
-            Transaction tx)
-        { 
+        public static string Verify(Snapshot snapshot, IEnumerable<Transaction> mempool,
+             Transaction tx)
+        {
             if (tx.Size > Transaction.MaxTransactionSize) return "The data is too long.";
             for (int i = 1; i < tx.Inputs.Length; i++)
                 for (int j = 0; j < i; j++)
-                    if (tx.Inputs[i].PrevHash == tx.Inputs[j].PrevHash 
+                    if (tx.Inputs[i].PrevHash == tx.Inputs[j].PrevHash
                         && tx.Inputs[i].PrevIndex == tx.Inputs[j].PrevIndex)
                         return "The transaction input is repeated.";
             if (mempool.Where(p => p != tx).SelectMany(p => p.Inputs).Intersect(tx.Inputs).Count() > 0)
@@ -71,8 +71,13 @@ namespace Bhp.BhpExtensions.Transactions
             //if (results_destroy.Length > 1) return "Transaction input is not equal output than one.";
             //if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
             //    return "The first of transaction output is not MinerTransaction.";
-
             Fixed8 SystemFee = Settings.Default.SystemFee.TryGetValue(tx.Type, out Fixed8 fee) ? fee : Fixed8.Zero;
+
+            string verifyResult = Verify(tx, results_destroy, SystemFee).Trim();
+            if (verifyResult != "success")
+            {
+                return verifyResult;
+            }
 
             if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
                 return "Transaction SystemFee is invalid.";
@@ -83,7 +88,7 @@ namespace Bhp.BhpExtensions.Transactions
             {
                 //MiningOutput
                 case TransactionType.MinerTransaction:
-                    if (VerifyMiningTransaction.Verify(tx.Outputs,tx.Attributes) == false)
+                    if (VerifyMiningTransaction.Verify(tx.Outputs, tx.Attributes) == false)
                         return "MinerTransaction is invalid.";
                     break;
                 //case TransactionType.MinerTransaction:
@@ -97,13 +102,65 @@ namespace Bhp.BhpExtensions.Transactions
                     break;
                 default:
                     if (results_issue.Length > 0)
-                        return "Transaction input must not be empty.";
+                        return "Transaction input is not equal to output.";
                     break;
             }
             if (tx.Attributes.Count(p => p.Usage == TransactionAttributeUsage.ECDH02 || p.Usage == TransactionAttributeUsage.ECDH03) > 1)
                 return "ECDH02 and ECDH03 too much.";
             if (tx.VerifyWitnesses(snapshot) == false) return "Verify Witnesses is failure.";
             return "success";
+        }
+
+        //By BHP
+        public static string Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
+        {
+            if (tx.Type == TransactionType.ContractTransaction)
+            {
+                if (results_destroy.Length == 0)
+                {
+                    return "ServiceFee is not enough!";
+                }
+                if (results_destroy.Length > 2)
+                {
+                    return "Transaction input must equal to output!";
+                }
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return "Must pay servicefee for transaction!";
+
+                if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash || p.AssetId != Blockchain.UtilityToken.Hash)) return "Transaction assetid error";
+
+                //verify gas
+                Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
+                if (SystemFee > Fixed8.Zero && amount < SystemFee) return "BHPgas is not enough!";
+
+                return CheckServiceFee(tx);
+            }
+            else
+            {
+                if (results_destroy.Length > 1) return "Transaction input is not equal to output!";
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                    return "SystemFee assetid is error";
+                if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
+                    return "SystemFee is not enough";
+                return "success";
+            }
+        }
+
+        //By BHP
+        public static string CheckServiceFee(Transaction tx)
+        {
+            if (tx.References == null) return "Transaction input must not be empty";
+            Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            decimal serviceFee = (decimal)inputSum * 0.0001m;
+            decimal payFee = (decimal)inputSum - (decimal)outputSum;
+            if (payFee >= serviceFee)
+            {
+                return "success";
+            }
+            else
+            {
+                return "ServiceFee is not enough!";
+            }
         }
     }
 }

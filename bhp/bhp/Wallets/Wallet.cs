@@ -385,8 +385,8 @@ namespace Bhp.Wallets
                 };
             }
             
-            tx = MakeTransaction(tx, from, change_address, fee);
-            //tx = transactionContract.MakeTransaction(this, tx, from, change_address, fee);//By BHP
+            //tx = MakeTransaction(tx, from, change_address, fee);
+            tx = transactionContract.MakeTransaction(this, tx, from, change_address, fee);//By BHP
 
             return tx;
         }

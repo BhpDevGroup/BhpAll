@@ -234,26 +234,26 @@ namespace Bhp.BhpExtensions.RPC
                         return json;
                     }
 
-                case "gettxs":
-                    {
-                        string from = _params[0].AsString();
-                        string position = _params[1].AsString();
-                        string count = _params[2].AsString();
-                        string jsonRes = RequestRpc("gettxs", $"address={from}&position={position}&count={count}");
+                //case "gettxs":
+                //    {
+                //        string from = _params[0].AsString();
+                //        string position = _params[1].AsString();
+                //        string count = _params[2].AsString();
+                //        string jsonRes = RequestRpc("gettxs", $"address={from}&position={position}&count={count}");
 
-                        Newtonsoft.Json.Linq.JArray jsons = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(jsonRes);
-                        json["tx"] = new JArray(jsons.Select(p =>
-                        {
-                            JObject peerJson = new JObject();
-                            peerJson["txid"] = p["txid"].ToString();
-                            peerJson["n"] = (int)p["n"];
-                            peerJson["value"] = (double)p["value"];
-                            peerJson["address"] = p["address"].ToString();
-                            peerJson["blockHeight"] = (int)p["blockHeight"];
-                            return peerJson;
-                        }));
-                        return json;
-                    }
+                //        Newtonsoft.Json.Linq.JArray jsons = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(jsonRes);
+                //        json["tx"] = new JArray(jsons.Select(p =>
+                //        {
+                //            JObject peerJson = new JObject();
+                //            peerJson["txid"] = p["txid"].ToString();
+                //            peerJson["n"] = (int)p["n"];
+                //            peerJson["value"] = (double)p["value"];
+                //            peerJson["address"] = p["address"].ToString();
+                //            peerJson["blockHeight"] = (int)p["blockHeight"];
+                //            return peerJson;
+                //        }));
+                //        return json;
+                //    }
                 default:
                     throw new RpcException(-32601, "Method not found");
             } 

@@ -286,9 +286,13 @@ namespace Bhp.Consensus
                 return false;
             Transaction tx_gen = Transactions.Values.FirstOrDefault(p => p.Type == TransactionType.MinerTransaction);
             Fixed8 amount_netfee = Block.CalculateNetFee(Transactions.Values);
+
+            Fixed8 amount_servicefee = ServiceFee.CalcuServiceFee(Transactions.Values.ToList());
             //if (tx_gen?.Outputs.Sum(p => p.Value) != amount_netfee) return false;
             //挖矿交易和手续费单独计算 By BHP
             if (tx_gen?.Outputs.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Value) != amount_netfee) return false;
+            if (tx_gen?.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value) - MiningSubsidy.GetMiningSubsidy(BlockIndex) != amount_servicefee) return false;
+
             return true;
         }
     }
