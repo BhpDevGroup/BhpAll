@@ -50,7 +50,7 @@ namespace Bhp.Consensus
         {
             State &= ConsensusState.SignatureSent;
             ViewNumber = view_number;
-            PrimaryIndex = 1;//GetPrimaryIndex(view_number);
+            PrimaryIndex = GetPrimaryIndex(view_number);
             if (State == ConsensusState.Initial)
             {
                 TransactionHashes = null;
@@ -184,7 +184,7 @@ namespace Bhp.Consensus
             ViewNumber = 0;
             Validators = snapshot.GetValidators();
             MyIndex = -1;
-            PrimaryIndex = 1;//BlockIndex % (uint)Validators.Length;
+            PrimaryIndex = BlockIndex % (uint)Validators.Length;
             TransactionHashes = null;
             Signatures = new byte[Validators.Length][];
             ExpectedView = new byte[Validators.Length];

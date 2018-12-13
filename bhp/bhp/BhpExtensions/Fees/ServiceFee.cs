@@ -58,7 +58,7 @@ namespace Bhp.BhpExtensions.Fees
                 if (results_destroy.Length == 0 || results_destroy.Length > 2) return false;
                 if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return false;
 
-                if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash || p.AssetId != Blockchain.UtilityToken.Hash)) return false;
+                if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash && p.AssetId != Blockchain.UtilityToken.Hash)) return false;
 
                 //verify gas
                 Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
