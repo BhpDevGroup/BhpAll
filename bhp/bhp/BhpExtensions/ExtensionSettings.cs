@@ -46,7 +46,7 @@ namespace Bhp.BhpExtensions
             {
                 this.Host = Host;
                 this.Port = Port;
-            } 
+            }
         }
     }
 }

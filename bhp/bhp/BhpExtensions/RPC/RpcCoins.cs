@@ -51,7 +51,7 @@ namespace Bhp.BhpExtensions.RPC
             }
         }
 
-        public ClaimTransaction Claim()
+        public ClaimTransaction Claim(UInt160 change_address = null)
         {
 
             if (this.AvailableBonus() == Fixed8.Zero)
@@ -75,8 +75,8 @@ namespace Bhp.BhpExtensions.RPC
                         new TransactionOutput
                         {
                             AssetId = Blockchain.UtilityToken.Hash,
-                            Value = snapshot.CalculateBonus(claims.Take(MAX_CLAIMS_AMOUNT)),
-                            ScriptHash = current_wallet.GetChangeAddress()
+                            Value = snapshot.CalculateBonus(claims.Take(MAX_CLAIMS_AMOUNT)),                            
+                            ScriptHash = change_address ?? current_wallet.GetChangeAddress()
                         }
                     }
 
@@ -87,7 +87,7 @@ namespace Bhp.BhpExtensions.RPC
         }
 
 
-        public ClaimTransaction[] ClaimAll()
+        public ClaimTransaction[] ClaimAll(UInt160 change_address = null)
         {
 
             if (this.AvailableBonus() == Fixed8.Zero)
@@ -124,7 +124,7 @@ namespace Bhp.BhpExtensions.RPC
                             {
                                 AssetId = Blockchain.UtilityToken.Hash,
                                 Value = snapshot.CalculateBonus(claims.Skip(i * MAX_CLAIMS_AMOUNT).Take(MAX_CLAIMS_AMOUNT)),
-                                ScriptHash = current_wallet.GetChangeAddress()
+                                ScriptHash = change_address ?? current_wallet.GetChangeAddress()
                             }
                         }
                     };

@@ -101,7 +101,7 @@ namespace Bhp.BhpExtensions.Transactions
                     break;
             }
             if (tx.Attributes.Count(p => p.Usage == TransactionAttributeUsage.ECDH02 || p.Usage == TransactionAttributeUsage.ECDH03) > 1)
-                return "ECDH02 and ECDH03 too much.";            
+                return "ECDH02 and ECDH03 too much.";
             if (tx.VerifyWitnesses(snapshot) == false) return "Verify Witnesses is failure.";
             return "success";
         }
