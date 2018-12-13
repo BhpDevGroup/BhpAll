@@ -349,7 +349,7 @@ public virtual bool Verify(Snapshot snapshot, IEnumerable<Transaction> mempool)
             if (results == null) return false;
             TransactionResult[] results_destroy = results.Where(p => p.Amount > Fixed8.Zero).ToArray();
             
-            if (ServiceFee.Verify(this, results_destroy) == false) return false; //By BHP
+            if (ServiceFee.Verify(this, results_destroy,SystemFee) == false) return false; //By BHP
 
             if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
                 return false;
