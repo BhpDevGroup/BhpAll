@@ -193,8 +193,7 @@ namespace Bhp.BhpExtensions.RPC
                             return json;
                         }
                     }
-                case "getutxoofaddress":
-                case "getaddressutxos":
+                case "getutxoofaddress":                
                     {
                         string from = _params[0].AsString();
                         string jsonRes = RequestRpc("getUtxo",$"address={from}");
@@ -214,6 +213,7 @@ namespace Bhp.BhpExtensions.RPC
                     }
 
                 case "gettransaction":
+                case "get_tx_list":
                     {
                         string from = _params[0].AsString();
                         string position = _params[1].AsString();
