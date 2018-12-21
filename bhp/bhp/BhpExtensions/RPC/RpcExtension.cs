@@ -8,6 +8,7 @@ using Bhp.Wallets;
 using Bhp.Wallets.BRC6;
 using Bhp.Wallets.SQLite;
 using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -213,14 +214,14 @@ namespace Bhp.BhpExtensions.RPC
                     }
 
                 case "gettransaction":
-                case "get_tx_list":
                     {
                         string from = _params[0].AsString();
-                        string position = _params[1].AsString();
-                        string offset = _params[2].AsString();
+                        string position = _params[1].AsString() != "" ? _params[1].AsString() :"1";
+                        string offset = _params[2].AsString() != "" ? _params[2].AsString() : "20";
                         string jsonRes = RequestRpc("findTxVout", $"address={from}&position={position}&offset={offset}");
-                        
-                        Newtonsoft.Json.Linq.JArray jsons = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(jsonRes);
+
+                        Newtonsoft.Json.Linq.JArray jsons = Newtonsoft.Json.Linq.JArray.Parse(jsonRes);
+
                         json["transaction"] = new JArray(jsons.Select(p =>
                         {
                             JObject peerJson = new JObject();
@@ -233,27 +234,43 @@ namespace Bhp.BhpExtensions.RPC
                         }));
                         return json;
                     }
-
-                //case "gettxs":
-                //    {
-                //        string from = _params[0].AsString();
-                //        string position = _params[1].AsString();
-                //        string count = _params[2].AsString();
-                //        string jsonRes = RequestRpc("gettxs", $"address={from}&position={position}&count={count}");
-
-                //        Newtonsoft.Json.Linq.JArray jsons = (Newtonsoft.Json.Linq.JArray)JsonConvert.DeserializeObject(jsonRes);
-                //        json["tx"] = new JArray(jsons.Select(p =>
-                //        {
-                //            JObject peerJson = new JObject();
-                //            peerJson["txid"] = p["txid"].ToString();
-                //            peerJson["n"] = (int)p["n"];
-                //            peerJson["value"] = (double)p["value"];
-                //            peerJson["address"] = p["address"].ToString();
-                //            peerJson["blockHeight"] = (int)p["blockHeight"];
-                //            return peerJson;
-                //        }));
-                //        return json;
-                //    }
+                case "get_tx_list":
+                    {
+                        string from = _params[0].AsString();
+                        string position = _params[1].AsString() != "" ? _params[1].AsString() : "1";
+                        string offset = _params[2].AsString() != "" ? _params[2].AsString() : "20";
+                        string jsonRes = RequestRpc("findTxAddressRecord", $"address={from}&position={position}&offset={offset}");
+                        Newtonsoft.Json.Linq.JObject jsons = Newtonsoft.Json.Linq.JObject.Parse(jsonRes);
+                        json["transaction"] = new JArray(jsons["txAddressRecord"].Select(p =>
+                        {
+                            JObject peerJson = new JObject();
+                            peerJson["txid"] = p["txid"].ToString();
+                            peerJson["blockHeight"] = p["blockHeight"].ToString();
+                            peerJson["time"] = p["time"].ToString();
+                            peerJson["bjTime"] = p["bjTime"].ToString();
+                            peerJson["type"] = p["type"].ToString();
+                            Newtonsoft.Json.Linq.JToken [] jt = p["inAddressList"].ToArray();
+                            JArray j_inaddress = new JArray();
+                            foreach (Newtonsoft.Json.Linq.JToken i in jt)
+                            {
+                                string s = i.ToString();
+                                j_inaddress.Add(s);
+                            }
+                            peerJson["inputaddress"] = j_inaddress;
+                            peerJson["outputaddress"] = new JArray(p["outAddressList"].OrderBy(g => g["n"]).Select(k =>
+                           {
+                               JObject a = new JObject();
+                               a["n"] = k["n"].ToString();
+                               a["asset"] = k["asset"].ToString();
+                               a["value"] = (double)k["value"];
+                               a["address"] = k["outAddress"].ToString();
+                               a["svalue"] = k["svalue"].ToString();
+                               return a;
+                           }));
+                            return peerJson;
+                        }));
+                        return json;
+                    }
                 default:
                     throw new RpcException(-32601, "Method not found");
             } 
