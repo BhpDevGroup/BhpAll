@@ -9,6 +9,11 @@ namespace Bhp.Plugins
 {
     public class RpcSecurity : Plugin, IRpcPlugin
     {
+        public override void Configure()
+        {
+            Settings.Load(GetConfiguration());
+        }
+
         public JObject OnProcess(HttpContext context, string method, JArray _params)
         {
             if (!CheckAuth(context) || Settings.Default.DisabledMethods.Contains(method))
@@ -41,10 +46,6 @@ namespace Bhp.Plugins
                 return false;
 
             return authvalues[0] == Settings.Default.RpcUser && authvalues[1] == Settings.Default.RpcPass;
-        }
-
-        public override void Configure()
-        {
         }
     }
 }

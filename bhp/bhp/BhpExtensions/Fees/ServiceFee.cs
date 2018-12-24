@@ -14,6 +14,8 @@ namespace Bhp.BhpExtensions.Fees
     {
         public static Fixed8 CalcuServiceFee(List<Transaction> transactions)
         {
+            return Fixed8.Zero;
+            /*
             Transaction[] ts = transactions.Where(p => p.Type == TransactionType.ContractTransaction).ToArray();
             Fixed8 inputsum = Fixed8.Zero;
             Fixed8 outputsum = Fixed8.Zero;
@@ -29,15 +31,16 @@ namespace Bhp.BhpExtensions.Fees
                 }
             }
             return inputsum - outputsum;
+            */
         }
 
-        //public static bool Verify(Transaction tx, TransactionResult[] results_destroy)
-        //{
-        //    if (results_destroy.Length > 1) return false;
-        //    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-        //        return false;
-        //    return true;
-        //}
+        public static bool Verify(Transaction tx, TransactionResult[] results_destroy,Fixed8 systemFee)
+        {
+            if (results_destroy.Length > 1) return false;
+            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                return false;
+            return true;
+        }
 
 
         //By BHP
@@ -51,6 +54,7 @@ namespace Bhp.BhpExtensions.Fees
             return payFee >= serviceFee;
         }
 
+        /*
         public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
         {
             if (tx.Type == TransactionType.ContractTransaction)
@@ -76,6 +80,7 @@ namespace Bhp.BhpExtensions.Fees
                 return true;
             }
         }
+        */
 
         /* public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
          {  

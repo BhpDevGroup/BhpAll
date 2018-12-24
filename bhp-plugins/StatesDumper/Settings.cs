@@ -23,14 +23,9 @@ namespace Bhp.Plugins
         /// </summary>
         public PersistActions PersistAction { get; }
 
-        public static Settings Default { get; }
+        public static Settings Default { get; private set; }
 
-        static Settings()
-        {
-            Default = new Settings(Assembly.GetExecutingAssembly().GetConfiguration());
-        }
-
-        public Settings(IConfigurationSection section)
+        private Settings(IConfigurationSection section)
         {
             /// Geting settings for storage changes state dumper
             this.BlockCacheSize = GetValueOrDefault(section.GetSection("BlockCacheSize"), 1000u, p => uint.Parse(p));
@@ -43,6 +38,11 @@ namespace Bhp.Plugins
         {
             if (section.Value == null) return defaultValue;
             return selector(section.Value);
+        }
+
+        public static void Load(IConfigurationSection section)
+        {
+            Default = new Settings(section);
         }
     }
 }

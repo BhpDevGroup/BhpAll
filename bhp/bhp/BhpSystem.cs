@@ -14,6 +14,9 @@ namespace Bhp
 {
     public class BhpSystem : IDisposable
     {
+        private Peer.Start start_message = null;
+        private bool suspend = false;
+
         public ActorSystem ActorSystem { get; } = ActorSystem.Create(nameof(BhpSystem),
             $"akka {{ log-dead-letters = off }}" +
             $"blockchain-mailbox {{ mailbox-type: \"{typeof(BlockchainMailbox).AssemblyQualifiedName}\" }}" +
@@ -40,6 +43,16 @@ namespace Bhp
             RpcServer?.Dispose();
             ActorSystem.Stop(LocalNode);
             ActorSystem.Dispose();
+        }
+
+        internal void ResumeNodeStartup()
+        {
+            suspend = false;
+            if (start_message != null)
+            {
+                LocalNode.Tell(start_message);
+                start_message = null;
+            }
         }
 
         /*
@@ -82,13 +95,19 @@ namespace Bhp
         public void StartNode(int port = 0, int wsPort = 0, int minDesiredConnections = Peer.DefaultMinDesiredConnections,
             int maxConnections = Peer.DefaultMaxConnections)
         {
-            LocalNode.Tell(new Peer.Start
+            start_message = new Peer.Start
             {
                 Port = port,
                 WsPort = wsPort,
                 MinDesiredConnections = minDesiredConnections,
                 MaxConnections = maxConnections
-            });
+            };
+
+            if (suspend==false)
+            {
+                LocalNode.Tell(start_message);
+                start_message = null;
+            } 
         }
 
         public void StartRpc(IPAddress bindAddress, int port, Wallet wallet = null, string sslCert = null, string password = null,
@@ -96,6 +115,11 @@ namespace Bhp
         {
             RpcServer = new RpcServer(this, wallet, maxGasInvoke);
             RpcServer.Start(bindAddress, port, sslCert, password, trustedAuthorities);
+        }
+
+        internal void SuspendNodeStartup()
+        {
+            suspend = true;
         }
     }
 }

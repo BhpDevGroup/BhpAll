@@ -14,6 +14,11 @@ namespace Bhp.Plugins
     {
         private readonly JArray bs_cache = new JArray();
 
+        public override void Configure()
+        {
+            Settings.Load(GetConfiguration());
+        }
+
         private static void Dump<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>> states)
             where TKey : ISerializable
             where TValue : ISerializable
@@ -135,10 +140,6 @@ namespace Bhp.Plugins
             string dirPathWithBlock = $"{dirPath}/BlockStorage_{folder}";
             Directory.CreateDirectory(dirPathWithBlock);
             return dirPathWithBlock;
-        }
-
-        public override void Configure()
-        {
         }
     }
 }

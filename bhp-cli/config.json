@@ -5,25 +5,25 @@
       "Index": "Index_{0}"
     },
     "P2P": {
-      "Port": 10555,
-      "WsPort": 10556
+      "Port": 20555,
+      "WsPort": 20556
     },
     "RPC": {
       "BindAddress": "127.0.0.1",
-      "Port": 10557,
+      "Port": 20557,
       "SslCert": "",
       "SslCertPassword": ""
     },
     "UnlockWallet": {
-      "Path": "1.json",
-      "Password": "123456",
+      "Path": "",
+      "Password": "",
       "StartConsensus": false,
       "IsActive": false,
       "AutoLock": false
     },
 
     "DataRPC": {
-      "Host": "http://192.168.1.136:6060/"
+      "Host": "https://exp.bhpa.io/"
     }
   }
 }

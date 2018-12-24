@@ -71,7 +71,7 @@ namespace Bhp.BhpExtensions.Transactions
             //if (results_destroy.Length > 1) return "Transaction input is not equal output than one.";
             //if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
             //    return "The first of transaction output is not MinerTransaction.";
-            Fixed8 SystemFee = Settings.Default.SystemFee.TryGetValue(tx.Type, out Fixed8 fee) ? fee : Fixed8.Zero;
+            Fixed8 SystemFee = ProtocolSettings.Default.SystemFee.TryGetValue(tx.Type, out Fixed8 fee) ? fee : Fixed8.Zero;
 
             string verifyResult = Verify(tx, results_destroy, SystemFee).Trim();
             if (verifyResult != "success")

@@ -28,12 +28,12 @@ namespace Bhp.Ledger
         public class Import { public IEnumerable<Block> Blocks; }
         public class ImportCompleted { }
 
-        public static readonly uint SecondsPerBlock = Settings.Default.SecondsPerBlock;
+        public static readonly uint SecondsPerBlock = ProtocolSettings.Default.SecondsPerBlock;
         public const uint DecrementInterval = 2000000;
         public const uint MaxValidators = 1024;
         public static readonly uint[] GenerationAmount = { 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         public static readonly TimeSpan TimePerBlock = TimeSpan.FromSeconds(SecondsPerBlock);
-        public static readonly ECPoint[] StandbyValidators = Settings.Default.StandbyValidators.OfType<string>().Select(p => ECPoint.DecodePoint(p.HexToBytes(), ECCurve.Secp256r1)).ToArray();
+        public static readonly ECPoint[] StandbyValidators = ProtocolSettings.Default.StandbyValidators.OfType<string>().Select(p => ECPoint.DecodePoint(p.HexToBytes(), ECCurve.Secp256r1)).ToArray();
 
         //By BHP
         public const uint AmountOfGoverningToken = 100000000;//BHP 总量

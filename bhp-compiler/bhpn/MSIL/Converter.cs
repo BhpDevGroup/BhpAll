@@ -150,7 +150,7 @@ namespace Bhp.Compiler.MSIL
                             nm.paramtypes.Add(new BhpParam(src.name, src.type));
                         }
 
-                        byte[] outcall; string name; VM.OpCode[] opcodes; string[] opdata;
+                        byte[] outcall;  VM.OpCode[] opcodes; string[] opdata;
                         if (IsAppCall(m.Value.method, out outcall))
                             continue;
                         if (IsNonCall(m.Value.method))
@@ -535,7 +535,7 @@ namespace Bhp.Compiler.MSIL
                     break;
                 case CodeEx.Switch:
                     {
-                        throw new Exception("need neo.VM update.");
+                        throw new Exception("need Bhp.VM update.");
                         //var addrdata = new byte[src.tokenAddr_Switch.Length * 2 + 2];
                         //var shortaddrcount = (UInt16)src.tokenAddr_Switch.Length;
                         //var data = BitConverter.GetBytes(shortaddrcount);
@@ -847,7 +847,7 @@ namespace Bhp.Compiler.MSIL
                             _Convert1by1(VM.OpCode.SETITEM, null, to);          // stack: [ result, pushz, array , ... ]
                         }
                         else
-                            throw new Exception("neomachine currently supports only variable indexed bytearray attribution, example: byte[] source; int index = 0; byte b = 1; source[index] = b;");
+                            throw new Exception("bhpmachine currently supports only variable indexed bytearray attribution, example: byte[] source; int index = 0; byte b = 1; source[index] = b;");
                     } // end case
                     break;
                 case CodeEx.Stelem_Any:

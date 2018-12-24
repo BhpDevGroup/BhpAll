@@ -317,6 +317,7 @@ namespace Bhp.SmartContract
                     case OpCode.CALL_EDT:
                         stackitem_count -= 1;
                         break;
+                    case OpCode.RET:
                     case OpCode.APPCALL:
                     case OpCode.TAILCALL:
                     case OpCode.NOT:
@@ -460,11 +461,9 @@ namespace Bhp.SmartContract
 
         protected virtual long GetPrice(OpCode nextInstruction)
         {
-            if (nextInstruction <= OpCode.PUSH16) return 0;
+            if (nextInstruction <= OpCode.NOP) return 0;
             switch (nextInstruction)
             {
-                case OpCode.NOP:
-                    return 0;
                 case OpCode.APPCALL:
                 case OpCode.TAILCALL:
                     return 10;
@@ -513,7 +512,7 @@ namespace Bhp.SmartContract
             if (api_hash == "Bhp.Asset.Renew".ToInteropMethodHash())
                 return (byte)CurrentContext.EvaluationStack.Peek(1).GetBigInteger() * 5000L * 100000000L / ratio;
             if (api_hash == "Bhp.Contract.Create".ToInteropMethodHash() ||
-                api_hash == "Bhp.Contract.Migrate".ToInteropMethodHash() )
+                api_hash == "Bhp.Contract.Migrate".ToInteropMethodHash())
             {
                 long fee = 100L;
 

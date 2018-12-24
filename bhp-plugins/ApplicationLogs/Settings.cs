@@ -8,16 +8,16 @@ namespace Bhp.Plugins
     {
         public string Path { get; }
 
-        public static Settings Default { get; }
+        public static Settings Default { get; private set; }
 
-        static Settings()
-        {
-            Default = new Settings(Assembly.GetExecutingAssembly().GetConfiguration());
-        }
-
-        public Settings(IConfigurationSection section)
+        private Settings(IConfigurationSection section)
         {
             this.Path = string.Format(section.GetSection("Path").Value, Message.Magic.ToString("X8"));
+        }
+
+        public static void Load(IConfigurationSection section)
+        {
+            Default = new Settings(section);
         }
     }
 }

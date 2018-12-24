@@ -3,6 +3,7 @@ using Bhp.Network.P2P.Payloads;
 using Bhp.Persistence;
 using Bhp.VM;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,8 @@ namespace Bhp.SmartContract
 {
     public static class Helper
     {
-        private static readonly Dictionary<string, uint> method_hashes = new Dictionary<string, uint>();
+        private static readonly ConcurrentDictionary<string, uint> MethodHashes
+            = new ConcurrentDictionary<string, uint>();
 
         public static bool IsMultiSigContract(this byte[] script)
         {
@@ -75,11 +77,7 @@ namespace Bhp.SmartContract
 
         public static uint ToInteropMethodHash(this string method)
         {
-            if (method_hashes.TryGetValue(method, out uint hash))
-                return hash;
-            hash = BitConverter.ToUInt32(Encoding.ASCII.GetBytes(method).Sha256(), 0);
-            method_hashes[method] = hash;
-            return hash;
+            return MethodHashes.GetOrAdd(method, p => BitConverter.ToUInt32(Encoding.ASCII.GetBytes(p).Sha256(), 0));
         }
 
         public static UInt160 ToScriptHash(this byte[] script)

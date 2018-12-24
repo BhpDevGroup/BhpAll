@@ -69,6 +69,11 @@ namespace Bhp.Plugins
             return false;
         }
 
+        public override void Configure()
+        {
+            Settings.Load(GetConfiguration());
+        }
+
         private static IEnumerable<Block> GetBlocks(Stream stream, bool read_start = false)
         {
             using (BinaryReader r = new BinaryReader(stream))
@@ -188,10 +193,6 @@ namespace Bhp.Plugins
                     return OnExport(args);
             }
             return false;
-        }
-
-        public override void Configure()
-        {
         }
     }
 }

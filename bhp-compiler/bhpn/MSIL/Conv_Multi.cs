@@ -386,7 +386,7 @@ namespace Bhp.Compiler.MSIL
                 opdata = null;
 
                 // OpCodeAttribute/SyscallAttribute together with different attributes, cannot mix!
-                throw new Exception("neomachine Cannot mix OpCode/Syscall/Script attributes with others!");
+                throw new Exception("bhpmachine Cannot mix OpCode/Syscall/Script attributes with others!");
                 
             }
         }
@@ -744,7 +744,7 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.String System.String::Substring(System.Int32)")
                 {
-                    throw new Exception("neomachine cant use this call,please use  .SubString(1,2) with 2 params.");
+                    throw new Exception("bhpmachine cant use this call,please use  .SubString(1,2) with 2 params.");
                 }
                 else if (src.tokenMethod == "System.String System.Char::ToString()")
                 {
@@ -766,8 +766,8 @@ namespace Bhp.Compiler.MSIL
                 }
                 else if (src.tokenMethod == "System.UInt32 <PrivateImplementationDetails>::ComputeStringHash(System.String)")
                 {
-                    throw new Exception("not supported on neovm now.");
-                    // 需要neo.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
+                    throw new Exception("not supported on bhpvm now.");
+                    // 需要bhp.vm nuget更新以后，这个才可以放开，就可以处理 string switch了。");
 
                     //_Convert1by1(VM.OpCode.CSHARPSTRHASH32, src, to);
                     //return 0;
@@ -884,7 +884,7 @@ namespace Bhp.Compiler.MSIL
                             byte[] bytes = null;
                             if (this.outModule.option.useSysCallInteropHash)
                             {
-                                //now neovm use ineropMethod hash for syscall.
+                                //now bhpvm use ineropMethod hash for syscall.
                                 bytes = BitConverter.GetBytes(callname.ToInteropMethodHash());
                             }
                             else
@@ -909,7 +909,7 @@ namespace Bhp.Compiler.MSIL
                     {
                         //if(isHex)
                         //{
-                        //    throw new Exception("neomachine OpCodeAttribute field OpData currently supports SYSCALL only with plain non-empty text (not hex)!");
+                        //    throw new Exception("bhpmachine OpCodeAttribute field OpData currently supports SYSCALL only with plain non-empty text (not hex)!");
                         //}
 
                         byte[] bytes = null;
@@ -975,7 +975,7 @@ namespace Bhp.Compiler.MSIL
 
                 //a syscall
                 {
-                    var bytes = Encoding.UTF8.GetBytes("Neo.Runtime.Notify");
+                    var bytes = Encoding.UTF8.GetBytes("Bhp.Runtime.Notify");
                     byte[] outbytes = new byte[bytes.Length + 1];
                     outbytes[0] = (byte)bytes.Length;
                     Array.Copy(bytes, 0, outbytes, 1, bytes.Length);
