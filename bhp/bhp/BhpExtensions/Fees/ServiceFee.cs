@@ -14,8 +14,7 @@ namespace Bhp.BhpExtensions.Fees
     {
         public static Fixed8 CalcuServiceFee(List<Transaction> transactions)
         {
-            return Fixed8.Zero;
-            /*
+            //return Fixed8.Zero;
             Transaction[] ts = transactions.Where(p => p.Type == TransactionType.ContractTransaction).ToArray();
             Fixed8 inputsum = Fixed8.Zero;
             Fixed8 outputsum = Fixed8.Zero;
@@ -23,38 +22,70 @@ namespace Bhp.BhpExtensions.Fees
             {
                 foreach (CoinReference coin in tr.Inputs)
                 {
-                    inputsum += Blockchain.Singleton.GetTransaction(coin.PrevHash).Outputs[coin.PrevIndex].Value;
+                    if (Blockchain.Singleton.GetTransaction(coin.PrevHash).Outputs[coin.PrevIndex].AssetId == Blockchain.GoverningToken.Hash)
+                    {
+                       inputsum += Blockchain.Singleton.GetTransaction(coin.PrevHash).Outputs[coin.PrevIndex].Value;
+                    }
                 }
-                foreach (TransactionOutput output in tr.Outputs)
+                foreach (TransactionOutput output in tr.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash))
                 {
                     outputsum += output.Value;
                 }
             }
             return inputsum - outputsum;
-            */
+
         }
 
-        public static bool Verify(Transaction tx, TransactionResult[] results_destroy,Fixed8 systemFee)
-        {
-            if (results_destroy.Length > 1) return false;
-            if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                return false;
-            return true;
-        }
+        //public static bool Verify(Transaction tx, TransactionResult[] results_destroy,Fixed8 systemFee)
+        //{
+        //    if (results_destroy.Length > 1) return false;
+        //    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+        //        return false;
+        //    return true;
+        //}
 
 
         //By BHP
         public static bool CheckServiceFee(Transaction tx)
         {
+            /* 万分之一手续费验证
             if (tx.References == null) return false;
             Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             decimal serviceFee = (decimal)inputSum * 0.0001m;
             decimal payFee = (decimal)inputSum - (decimal)outputSum;
+            return payFee >= serviceFee;*/
+
+            if (tx.References == null) return false;
+            Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            decimal serviceFee = 0.0001m;
+            int tx_size = tx.Size;
+            if (tx_size <= 500)
+            {
+                serviceFee = 0.0001m;
+            }
+            else if (tx_size > 500 && tx_size <= 1000)
+            {
+                serviceFee = 0.0002m;
+            }
+            else if (tx_size > 1000 && tx_size <= 1500)
+            {
+                serviceFee = 0.0003m;
+            }
+            else if (tx_size > 1500 && tx_size <= 2000)
+            {
+                serviceFee = 0.0004m;
+            }
+            else
+            {
+                serviceFee = 0.0005m;
+            }
+            decimal payFee = (decimal)inputSum - (decimal)outputSum;
             return payFee >= serviceFee;
         }
 
-        /*
+        
         public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
         {
             if (tx.Type == TransactionType.ContractTransaction)
@@ -80,7 +111,7 @@ namespace Bhp.BhpExtensions.Fees
                 return true;
             }
         }
-        */
+        
 
         /* public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
          {  

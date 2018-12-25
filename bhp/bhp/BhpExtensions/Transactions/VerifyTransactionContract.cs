@@ -16,17 +16,17 @@ namespace Bhp.BhpExtensions.Transactions
     /// </summary>
     public class VerifyTransactionContract
     {        
-        public static bool Verify(Snapshot snapshot, Transaction tx)
-        {
-            return true;
-        }
+        //public static bool Verify(Snapshot snapshot, Transaction tx)
+        //{
+        //    return true;
+        //}
 
-        public static Coin[] checkUtxo(Coin[] unspentsAsset)
-        {
-            return unspentsAsset;
-        }
+        //public static Coin[] checkUtxo(Coin[] unspentsAsset)
+        //{
+        //    return unspentsAsset;
+        //}
 
-      /*
+  
         public static bool Verify(Snapshot snapshot, Transaction tx)
         {
             foreach (CoinReference item in tx.Inputs)
@@ -154,6 +154,6 @@ namespace Bhp.BhpExtensions.Transactions
             }
             return unspents.ToArray();
         }
-        */
+        
     }
 }

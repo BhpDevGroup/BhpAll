@@ -106,18 +106,49 @@ namespace Bhp.BhpExtensions.Transactions
             tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
             tx.Outputs = outputs_new.ToArray();
 
-            decimal Rate = 0.0001m;
+            decimal ServiceFee = 0.0001m;
+            int tx_size = tx.Size;
+            if (tx_size <= 500)
+            {
+                ServiceFee = 0.0001m;
+            }
+            else if (tx_size > 500 && tx_size <= 1000)
+            {
+                ServiceFee = 0.0002m;
+            }
+            else if (tx_size > 1000 && tx_size <= 1500)
+            {
+                ServiceFee = 0.0003m;
+            }
+            else if (tx_size > 1500 && tx_size <= 2000)
+            {
+                ServiceFee = 0.0004m;
+            }
+            else 
+            {
+                ServiceFee = 0.0005m;
+            }
             if (tx.Type == TransactionType.ContractTransaction)
             {
-                foreach (TransactionOutput txo in tx.Outputs)
+                TransactionOutput[] tx_changeout = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash && p.ScriptHash == change_address).OrderByDescending(p => p.Value).ToArray();
+                //exist changeaddress
+                if (tx_changeout.Count() > 0 && (decimal)tx_changeout[0].Value > ServiceFee)
                 {
-                    if ((decimal)txo.Value < 0.0001m)
+                    tx_changeout[0].Value = Fixed8.FromDecimal((decimal)tx_changeout[0].Value - ServiceFee);
+                }
+                else
+                {
+                    TransactionOutput[] tx_out = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).OrderByDescending(p => p.Value).ToArray();
+                    if (tx_out.Count() > 0)
                     {
-                        throw new Exception("-500, TransactionFee not Enough");
-                    }
-                    else
-                    {
-                        txo.Value = Fixed8.FromDecimal((decimal)txo.Value - ((decimal)txo.Value * Rate));
+                        if ((decimal)tx_out[0].Value > ServiceFee)
+                        {
+                            tx_out[0].Value = Fixed8.FromDecimal((decimal)tx_out[0].Value - ServiceFee);
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                 }
             }

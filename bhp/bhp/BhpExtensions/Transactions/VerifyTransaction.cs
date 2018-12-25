@@ -148,10 +148,37 @@ namespace Bhp.BhpExtensions.Transactions
         //By BHP
         public static string CheckServiceFee(Transaction tx)
         {
+            //if (tx.References == null) return "Transaction input must not be empty";
+            //Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            //Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
+            //decimal serviceFee = (decimal)inputSum * 0.0001m;
+            //decimal payFee = (decimal)inputSum - (decimal)outputSum;
+
             if (tx.References == null) return "Transaction input must not be empty";
             Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
-            decimal serviceFee = (decimal)inputSum * 0.0001m;
+            decimal serviceFee = 0.0001m;
+            int tx_size = tx.Size;
+            if (tx_size <= 500)
+            {
+                serviceFee = 0.0001m;
+            }
+            else if (tx_size > 500 && tx_size <= 1000)
+            {
+                serviceFee = 0.0002m;
+            }
+            else if (tx_size > 1000 && tx_size <= 1500)
+            {
+                serviceFee = 0.0003m;
+            }
+            else if (tx_size > 1500 && tx_size <= 2000)
+            {
+                serviceFee = 0.0004m;
+            }
+            else
+            {
+                serviceFee = 0.0005m;
+            }
             decimal payFee = (decimal)inputSum - (decimal)outputSum;
             if (payFee >= serviceFee)
             {
