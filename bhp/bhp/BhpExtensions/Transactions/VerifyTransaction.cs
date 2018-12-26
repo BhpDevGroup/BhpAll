@@ -116,23 +116,40 @@ namespace Bhp.BhpExtensions.Transactions
         {
             if (tx.Type == TransactionType.ContractTransaction)
             {
-                if (results_destroy.Length == 0)
+                Fixed8 otherInput = Fixed8.Zero;
+                otherInput = tx.References.Values.Where(p => p.AssetId != Blockchain.UtilityToken.Hash).Sum(p => p.Value);
+                //输入存在不是gas的资产
+                if (otherInput == Fixed8.Zero)
                 {
-                    return "ServiceFee is not enough!";
+                    if (results_destroy.Length == 0) return "success";
+                    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash) return "Transaction is error";
+                    if (results_destroy.Length > 1) return "Transaction is error";
+
+                    Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
+                    if (SystemFee > Fixed8.Zero && amount < SystemFee) return "SystemFee is not enough";
+
+                    return "success";
                 }
-                if (results_destroy.Length > 2)
+                else
                 {
-                    return "Transaction input must equal to output!";
+
+                    if (results_destroy.Length == 0)
+                    {
+                        return "ServiceFee is not enough!";
+                    }
+                    if (results_destroy.Length > 2)
+                    {
+                        return "Transaction input must equal to output!";
+                    }
+                    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return "Must pay servicefee for transaction!";
+                    if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash || p.AssetId != Blockchain.UtilityToken.Hash)) return "Transaction assetid error";
+
+                    //verify gas
+                    Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
+                    if (SystemFee > Fixed8.Zero && amount < SystemFee) return "BHPgas is not enough!";
+
+                    return CheckServiceFee(tx);
                 }
-                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return "Must pay servicefee for transaction!";
-
-                if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash || p.AssetId != Blockchain.UtilityToken.Hash)) return "Transaction assetid error";
-
-                //verify gas
-                Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
-                if (SystemFee > Fixed8.Zero && amount < SystemFee) return "BHPgas is not enough!";
-
-                return CheckServiceFee(tx);
             }
             else
             {
@@ -157,37 +174,41 @@ namespace Bhp.BhpExtensions.Transactions
             if (tx.References == null) return "Transaction input must not be empty";
             Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
-            decimal serviceFee = 0.0001m;
-            int tx_size = tx.Size;
-            if (tx_size <= 500)
+            if (inputSum != Fixed8.Zero)
             {
-                serviceFee = 0.0001m;
+                decimal serviceFee = 0.0001m;
+                int tx_size = tx.Size;
+                if (tx_size <= 500)
+                {
+                    serviceFee = 0.0001m;
+                }
+                else if (tx_size > 500 && tx_size <= 1000)
+                {
+                    serviceFee = 0.0002m;
+                }
+                else if (tx_size > 1000 && tx_size <= 1500)
+                {
+                    serviceFee = 0.0003m;
+                }
+                else if (tx_size > 1500 && tx_size <= 2000)
+                {
+                    serviceFee = 0.0004m;
+                }
+                else
+                {
+                    serviceFee = 0.0005m;
+                }
+                decimal payFee = (decimal)inputSum - (decimal)outputSum;
+                if (payFee >= serviceFee)
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "ServiceFee is not enough!";
+                }
             }
-            else if (tx_size > 500 && tx_size <= 1000)
-            {
-                serviceFee = 0.0002m;
-            }
-            else if (tx_size > 1000 && tx_size <= 1500)
-            {
-                serviceFee = 0.0003m;
-            }
-            else if (tx_size > 1500 && tx_size <= 2000)
-            {
-                serviceFee = 0.0004m;
-            }
-            else
-            {
-                serviceFee = 0.0005m;
-            }
-            decimal payFee = (decimal)inputSum - (decimal)outputSum;
-            if (payFee >= serviceFee)
-            {
-                return "success";
-            }
-            else
-            {
-                return "ServiceFee is not enough!";
-            }
+            return "success";
         }
     }
 }

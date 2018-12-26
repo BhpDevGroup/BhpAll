@@ -43,7 +43,47 @@ namespace Bhp.BhpExtensions.Fees
         //        return false;
         //    return true;
         //}
+        
+        public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
+        {
+            if (tx.Type == TransactionType.ContractTransaction)
+            {
+                Fixed8 otherInput = Fixed8.Zero;
+                otherInput = tx.References.Values.Where(p => p.AssetId != Blockchain.UtilityToken.Hash).Sum(p => p.Value);
+                //输入存在不是gas的资产
+                if (otherInput == Fixed8.Zero)
+                {
+                    if (results_destroy.Length == 0) return true;
+                    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash) return false;
+                    if (results_destroy.Length > 1) return false;
 
+                    Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
+                    if (SystemFee > Fixed8.Zero && amount < SystemFee) return false;
+                    
+                    return true;
+                }
+                else
+                {
+                    if (results_destroy.Length == 0 || results_destroy.Length > 2) return false;
+                    if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return false;
+                    if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash && p.AssetId != Blockchain.UtilityToken.Hash)) return false;
+
+                    //verify gas
+                    Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
+                    if (SystemFee > Fixed8.Zero && amount < SystemFee) return false;
+                    return CheckServiceFee(tx);
+                }
+            }
+            else
+            {
+                if (results_destroy.Length > 1) return false;
+                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
+                    return false;
+                if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
+                    return false;
+                return true;
+            }
+        }
 
         //By BHP
         public static bool CheckServiceFee(Transaction tx)
@@ -59,98 +99,34 @@ namespace Bhp.BhpExtensions.Fees
             if (tx.References == null) return false;
             Fixed8 inputSum = tx.References.Values.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
-            decimal serviceFee = 0.0001m;
-            int tx_size = tx.Size;
-            if (tx_size <= 500)
+            if (inputSum != Fixed8.Zero)
             {
-                serviceFee = 0.0001m;
+                decimal serviceFee = 0.0001m;
+                int tx_size = tx.Size;
+                if (tx_size <= 500)
+                {
+                    serviceFee = 0.0001m;
+                }
+                else if (tx_size > 500 && tx_size <= 1000)
+                {
+                    serviceFee = 0.0002m;
+                }
+                else if (tx_size > 1000 && tx_size <= 1500)
+                {
+                    serviceFee = 0.0003m;
+                }
+                else if (tx_size > 1500 && tx_size <= 2000)
+                {
+                    serviceFee = 0.0004m;
+                }
+                else
+                {
+                    serviceFee = 0.0005m;
+                }
+                decimal payFee = (decimal)inputSum - (decimal)outputSum;
+                return payFee >= serviceFee;
             }
-            else if (tx_size > 500 && tx_size <= 1000)
-            {
-                serviceFee = 0.0002m;
-            }
-            else if (tx_size > 1000 && tx_size <= 1500)
-            {
-                serviceFee = 0.0003m;
-            }
-            else if (tx_size > 1500 && tx_size <= 2000)
-            {
-                serviceFee = 0.0004m;
-            }
-            else
-            {
-                serviceFee = 0.0005m;
-            }
-            decimal payFee = (decimal)inputSum - (decimal)outputSum;
-            return payFee >= serviceFee;
+            return true;
         }
-
-        
-        public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
-        {
-            if (tx.Type == TransactionType.ContractTransaction)
-            {
-                if (results_destroy.Length == 0 || results_destroy.Length > 2) return false;
-                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return false;
-
-                if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash && p.AssetId != Blockchain.UtilityToken.Hash)) return false;
-
-                //verify gas
-                Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
-                if (SystemFee > Fixed8.Zero && amount < SystemFee) return false;
-
-                return CheckServiceFee(tx);
-            }
-            else
-            {
-                if (results_destroy.Length > 1) return false;
-                if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                    return false;
-                if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
-                    return false;
-                return true;
-            }
-        }
-        
-
-        /* public static bool Verify(Transaction tx, TransactionResult[] results_destroy, Fixed8 SystemFee)
-         {  
-             if (tx.Type == TransactionType.ContractTransaction)
-             {
-                 if (results_destroy.Length == 0 || results_destroy.Length > 2) return false;
-                 if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return false;
-                 if (results_destroy.Length == 2)
-                 {
-                     if (((results_destroy[0].AssetId == Blockchain.GoverningToken.Hash)
-                         || (results_destroy[1].AssetId == Blockchain.GoverningToken.Hash)) &&
-                             ((results_destroy[0].AssetId == Blockchain.UtilityToken.Hash)
-                         || (results_destroy[1].AssetId == Blockchain.UtilityToken.Hash)))
-                     { }
-                     else
-                     {
-                         return false;
-                     }
-                     if (results_destroy[0].AssetId == Blockchain.UtilityToken.Hash)
-                     {
-                         if (SystemFee > Fixed8.Zero && results_destroy[0].Amount < SystemFee)
-                             return false;
-                     }
-                     else
-                     {
-                         if (SystemFee > Fixed8.Zero && results_destroy[1].Amount < SystemFee)
-                             return false;
-                     }
-                 }
-             }
-             else
-             {
-                 if (results_destroy.Length > 1) return false;
-                 if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.UtilityToken.Hash)
-                     return false;
-                 if (SystemFee > Fixed8.Zero && (results_destroy.Length == 0 || results_destroy[0].Amount < SystemFee))
-                     return false;
-             }
-             return true;
-         }*/
     }
 }

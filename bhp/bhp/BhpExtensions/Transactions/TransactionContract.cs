@@ -106,30 +106,30 @@ namespace Bhp.BhpExtensions.Transactions
             tx.Inputs = pay_coins.Values.SelectMany(p => p.Unspents).Select(p => p.Reference).ToArray();
             tx.Outputs = outputs_new.ToArray();
 
-            decimal ServiceFee = 0.0001m;
-            int tx_size = tx.Size;
-            if (tx_size <= 500)
-            {
-                ServiceFee = 0.0001m;
-            }
-            else if (tx_size > 500 && tx_size <= 1000)
-            {
-                ServiceFee = 0.0002m;
-            }
-            else if (tx_size > 1000 && tx_size <= 1500)
-            {
-                ServiceFee = 0.0003m;
-            }
-            else if (tx_size > 1500 && tx_size <= 2000)
-            {
-                ServiceFee = 0.0004m;
-            }
-            else 
-            {
-                ServiceFee = 0.0005m;
-            }
             if (tx.Type == TransactionType.ContractTransaction)
             {
+                decimal ServiceFee = 0.0001m;
+                int tx_size = tx.Size;
+                if (tx_size <= 500)
+                {
+                    ServiceFee = 0.0001m;
+                }
+                else if (tx_size > 500 && tx_size <= 1000)
+                {
+                    ServiceFee = 0.0002m;
+                }
+                else if (tx_size > 1000 && tx_size <= 1500)
+                {
+                    ServiceFee = 0.0003m;
+                }
+                else if (tx_size > 1500 && tx_size <= 2000)
+                {
+                    ServiceFee = 0.0004m;
+                }
+                else
+                {
+                    ServiceFee = 0.0005m;
+                }
                 TransactionOutput[] tx_changeout = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash && p.ScriptHash == change_address).OrderByDescending(p => p.Value).ToArray();
                 //exist changeaddress
                 if (tx_changeout.Count() > 0 && (decimal)tx_changeout[0].Value > ServiceFee)

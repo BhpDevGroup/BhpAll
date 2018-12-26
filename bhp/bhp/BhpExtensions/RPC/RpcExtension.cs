@@ -225,11 +225,24 @@ namespace Bhp.BhpExtensions.RPC
                         json["transaction"] = new JArray(jsons.Select(p =>
                         {
                             JObject peerJson = new JObject();
+                            peerJson["blockHeight"] = p["blockHeight"].ToString();
                             peerJson["txid"] = p["txid"].ToString();
+                            peerJson["type"] = p["type"].ToString();
+                            Newtonsoft.Json.Linq.JToken[] jt = p["inAddress"].ToArray();
+                            JArray j_inaddress = new JArray();
+                            foreach (Newtonsoft.Json.Linq.JToken i in jt)
+                            {
+                                string s = i.ToString();
+                                j_inaddress.Add(s);
+                            }
+                            peerJson["inputaddress"] = j_inaddress;
+                            peerJson["asset"] = p["asset"].ToString();
                             peerJson["n"] = (int)p["n"];
                             peerJson["value"] = (double)p["value"];
-                            peerJson["address"] = p["address"].ToString();
-                            peerJson["asset"] = p["asset"].ToString();
+                            peerJson["outputaddress"] = p["address"].ToString();
+                            peerJson["time"] = p["time"].ToString();
+                            peerJson["bjTime"] = p["bjTime"].ToString();
+                            peerJson["confirmations"] = p["confirmations"].ToString();
                             return peerJson;
                         }));
                         return json;
