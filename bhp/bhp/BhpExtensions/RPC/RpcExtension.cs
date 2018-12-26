@@ -241,6 +241,7 @@ namespace Bhp.BhpExtensions.RPC
                             peerJson["value"] = (double)p["value"];
                             peerJson["outputaddress"] = p["address"].ToString();
                             peerJson["time"] = p["time"].ToString();
+                            peerJson["utctime"] = (int)p["utcTime"];
                             peerJson["confirmations"] = p["confirmations"].ToString();
                             return peerJson;
                         }));
