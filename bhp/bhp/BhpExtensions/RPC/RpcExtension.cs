@@ -241,7 +241,6 @@ namespace Bhp.BhpExtensions.RPC
                             peerJson["value"] = (double)p["value"];
                             peerJson["outputaddress"] = p["address"].ToString();
                             peerJson["time"] = p["time"].ToString();
-                            peerJson["bjTime"] = p["bjTime"].ToString();
                             peerJson["confirmations"] = p["confirmations"].ToString();
                             return peerJson;
                         }));
@@ -260,7 +259,6 @@ namespace Bhp.BhpExtensions.RPC
                             peerJson["txid"] = p["txid"].ToString();
                             peerJson["blockHeight"] = p["blockHeight"].ToString();
                             peerJson["time"] = p["time"].ToString();
-                            peerJson["bjTime"] = p["bjTime"].ToString();
                             peerJson["type"] = p["type"].ToString();
                             Newtonsoft.Json.Linq.JToken [] jt = p["inAddressList"].ToArray();
                             JArray j_inaddress = new JArray();
