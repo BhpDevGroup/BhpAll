@@ -102,7 +102,7 @@ namespace Bhp.BhpExtensions.Fees
             if (inputSum != Fixed8.Zero)
             {
                 decimal serviceFee = 0.0001m;
-                int tx_size = tx.Size;
+                int tx_size = tx.Size - tx.Witnesses.Sum(p => p.Size);
                 if (tx_size <= 500)
                 {
                     serviceFee = 0.0001m;
