@@ -123,6 +123,7 @@ namespace Bhp.UI
                 });
             tx.Attributes = attributes.ToArray();
             tx.Outputs = txOutListBox1.Items.Where(p => p.AssetId is UInt256).Select(p => p.ToTxOutput()).ToArray();
+            tx.Witnesses = new Witness[0];
             if (tx is ContractTransaction ctx)
                 //tx = Program.CurrentWallet.MakeTransaction(ctx, change_address: ChangeAddress, fee: Fee);
                 tx = transactionContract.MakeTransaction(Program.CurrentWallet, ctx, change_address: ChangeAddress, fee: Fee);//By BHP
