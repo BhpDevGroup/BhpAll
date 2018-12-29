@@ -101,28 +101,10 @@ namespace Bhp.BhpExtensions.Fees
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             if (inputSum != Fixed8.Zero)
             {
-                decimal serviceFee = 0.0001m;
+                decimal serviceFee = ConstantClass.MinServiceFee;
                 int tx_size = tx.Size - tx.Witnesses.Sum(p => p.Size);
-                if (tx_size <= 500)
-                {
-                    serviceFee = 0.0001m;
-                }
-                else if (tx_size > 500 && tx_size <= 1000)
-                {
-                    serviceFee = 0.0002m;
-                }
-                else if (tx_size > 1000 && tx_size <= 1500)
-                {
-                    serviceFee = 0.0003m;
-                }
-                else if (tx_size > 1500 && tx_size <= 2000)
-                {
-                    serviceFee = 0.0004m;
-                }
-                else
-                {
-                    serviceFee = 0.0005m;
-                }
+                serviceFee = (tx_size / ConstantClass.SizeRadix + (tx_size % ConstantClass.SizeRadix == 0 ? 0:1)) * ConstantClass.MinServiceFee; ;
+                serviceFee = serviceFee <= ConstantClass.MaxServceFee ? serviceFee : ConstantClass.MaxServceFee ;
                 decimal payFee = (decimal)inputSum - (decimal)outputSum;
                 return payFee >= serviceFee;
             }

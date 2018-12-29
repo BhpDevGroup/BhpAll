@@ -23,7 +23,10 @@ namespace Bhp.BhpExtensions.Transactions
             if (tx.Inputs.Length == 0) return "Input is empty.";
             foreach (var group in tx.Inputs.GroupBy(p => p.PrevHash))
             {
-                UnspentCoinState state = snapshot.UnspentCoins.TryGet(group.Key);
+                //Blockchain.Singleton.Store
+                //UnspentCoinState state = snapshot.UnspentCoins.TryGet(group.Key);
+                UnspentCoinState state = Blockchain.Singleton.GetSnapshot().UnspentCoins.TryGet(group.Key);
+                
                 if (state == null) return "utxo is not exists.";
                 if (group.Any(p => p.PrevIndex >= state.Items.Length || state.Items[p.PrevIndex].HasFlag(CoinState.Spent)))
                     return "utox was spent.";
@@ -176,28 +179,10 @@ namespace Bhp.BhpExtensions.Transactions
             Fixed8 outputSum = tx.Outputs.Where(p => p.AssetId == Blockchain.GoverningToken.Hash).Sum(p => p.Value);
             if (inputSum != Fixed8.Zero)
             {
-                decimal serviceFee = 0.0001m;
+                decimal serviceFee = ConstantClass.MinServiceFee;
                 int tx_size = tx.Size - tx.Witnesses.Sum(p => p.Size);
-                if (tx_size <= 500)
-                {
-                    serviceFee = 0.0001m;
-                }
-                else if (tx_size > 500 && tx_size <= 1000)
-                {
-                    serviceFee = 0.0002m;
-                }
-                else if (tx_size > 1000 && tx_size <= 1500)
-                {
-                    serviceFee = 0.0003m;
-                }
-                else if (tx_size > 1500 && tx_size <= 2000)
-                {
-                    serviceFee = 0.0004m;
-                }
-                else
-                {
-                    serviceFee = 0.0005m;
-                }
+                serviceFee = (tx_size / ConstantClass.SizeRadix + (tx_size % ConstantClass.SizeRadix == 0 ? 0 : 1)) * ConstantClass.MinServiceFee; ;
+                serviceFee = serviceFee <= ConstantClass.MaxServceFee ? serviceFee : ConstantClass.MaxServceFee;
                 decimal payFee = (decimal)inputSum - (decimal)outputSum;
                 if (payFee >= serviceFee)
                 {
