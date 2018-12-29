@@ -24,9 +24,7 @@ namespace Bhp.BhpExtensions.Transactions
             foreach (var group in tx.Inputs.GroupBy(p => p.PrevHash))
             {
                 //Blockchain.Singleton.Store
-                //UnspentCoinState state = snapshot.UnspentCoins.TryGet(group.Key);
-                UnspentCoinState state = Blockchain.Singleton.GetSnapshot().UnspentCoins.TryGet(group.Key);
-                
+                UnspentCoinState state = snapshot.UnspentCoins.TryGet(group.Key);
                 if (state == null) return "utxo is not exists.";
                 if (group.Any(p => p.PrevIndex >= state.Items.Length || state.Items[p.PrevIndex].HasFlag(CoinState.Spent)))
                     return "utox was spent.";
