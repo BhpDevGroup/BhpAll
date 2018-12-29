@@ -23,7 +23,6 @@ namespace Bhp.BhpExtensions.Transactions
             if (tx.Inputs.Length == 0) return "Input is empty.";
             foreach (var group in tx.Inputs.GroupBy(p => p.PrevHash))
             {
-                //Blockchain.Singleton.Store
                 UnspentCoinState state = snapshot.UnspentCoins.TryGet(group.Key);
                 if (state == null) return "utxo is not exists.";
                 if (group.Any(p => p.PrevIndex >= state.Items.Length || state.Items[p.PrevIndex].HasFlag(CoinState.Spent)))
@@ -143,7 +142,7 @@ namespace Bhp.BhpExtensions.Transactions
                         return "Transaction input must equal to output!";
                     }
                     if (results_destroy.Length == 1 && results_destroy[0].AssetId != Blockchain.GoverningToken.Hash) return "Must pay servicefee for transaction!";
-                    if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash || p.AssetId != Blockchain.UtilityToken.Hash)) return "Transaction assetid error";
+                    if (results_destroy.Any(p => p.AssetId != Blockchain.GoverningToken.Hash && p.AssetId != Blockchain.UtilityToken.Hash)) return "Transaction assetid error";
 
                     //verify gas
                     Fixed8 amount = results_destroy.Where(p => p.AssetId == Blockchain.UtilityToken.Hash).Sum(p => p.Amount);
