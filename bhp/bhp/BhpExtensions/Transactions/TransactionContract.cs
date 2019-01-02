@@ -16,7 +16,7 @@ namespace Bhp.BhpExtensions.Transactions
             using (ScriptBuilder sb = new ScriptBuilder())
             {
                 sb.EmitPush(timestamp);
-                sb.EmitAppCall(UInt160.Parse("0xc3f09bca040d40714130795121ff7e8477a42690"));// utxo time lock hash
+                sb.EmitAppCall(UInt160.Parse("0xe69a2241c0629210c44e37fb03eb786d88a0af21"));// utxo time lock hash
                 return new TransactionAttribute
                 {
                     Usage = TransactionAttributeUsage.SmartContractScript,
